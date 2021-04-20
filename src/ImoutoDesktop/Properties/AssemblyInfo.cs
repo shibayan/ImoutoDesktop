@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("いもうとデスクトップ")]
-[assembly: AssemblyCopyright("Copyright(C) 2008,2009 ImoutoDesktop Project")]
+[assembly: AssemblyCopyright("Copyright(C) 2008-2021 ImoutoDesktop Project")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

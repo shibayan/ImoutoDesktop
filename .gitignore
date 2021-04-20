@@ -332,3 +332,8 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+
+# ImoutoDesktop file
+profile.xml
+settings.xml
+imouto_vars.txt

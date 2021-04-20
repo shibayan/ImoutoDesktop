@@ -21,7 +21,7 @@ namespace ImoutoDesktop
                 if (_topmost != value)
                 {
                     _topmost = value;
-                    OnPropertyChanged("Topmost");
+                    OnPropertyChanged(nameof(Topmost));
                 }
             }
         }
@@ -36,7 +36,7 @@ namespace ImoutoDesktop
                 if (_userName != value)
                 {
                     _userName = value;
-                    OnPropertyChanged("UserName");
+                    OnPropertyChanged(nameof(UserName));
                 }
             }
         }
@@ -64,14 +64,16 @@ namespace ImoutoDesktop
             }
             catch
             {
-                Default = new Settings();
-                Default.PortNumber = 1024;
-                Default.Topmost = false;
-                Default.UserName = "お兄ちゃん";
-                Default.Honorific = string.Empty;
-                Default.AutoDetectDirectoryType = false;
-                Default.AllowImoutoAllOperation = false;
-                Default.ShowFileList = false;
+                Default = new Settings
+                {
+                    PortNumber = 1024,
+                    Topmost = false,
+                    UserName = "お兄ちゃん",
+                    Honorific = string.Empty,
+                    AutoDetectDirectoryType = false,
+                    AllowImoutoAllOperation = false,
+                    ShowFileList = false
+                };
             }
         }
 
