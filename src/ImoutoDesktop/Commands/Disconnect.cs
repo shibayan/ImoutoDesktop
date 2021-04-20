@@ -7,24 +7,13 @@
         {
         }
 
-        public override Priority Priority
-        {
-            get { return Priority.Highest; }
-        }
+        public override Priority Priority => Priority.Highest;
 
-        public override bool PreExecute(string input)
+        public override CommandResult Execute(string input)
         {
-            return true;
-        }
-
-        public override bool Execute(string input, out string result)
-        {
-            result = null;
-            EventID = null;
-
             ConnectionPool.Disconnect();
 
-            return true;
+            return Succeeded();
         }
     }
 }

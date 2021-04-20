@@ -10,9 +10,9 @@ namespace ImoutoDesktop.Server
 {
     public class RemoteServiceImpl : Remoting.RemoteService.RemoteServiceBase
     {
-        public override async Task<GenericResponse> Login(LoginRequest request, ServerCallContext context)
+        public override Task<GenericResponse> Login(LoginRequest request, ServerCallContext context)
         {
-            return new GenericResponse { Succeeded = true };
+            return Task.FromResult(new GenericResponse { Succeeded = true });
         }
 
         public override Task<GenericResponse> Heartbeat(Empty request, ServerCallContext context)

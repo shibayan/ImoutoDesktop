@@ -11,37 +11,30 @@ namespace ImoutoDesktop.Commands
 
         private string _path;
 
-        public override bool PreExecute(string input)
+        public override CommandResult PreExecute(string input)
         {
             var match = Pattern.Match(input);
             var target = match.Groups[1].Value;
             var directory = ConnectionPool.Connection.CurrentDirectory;
 
             _path = AbsolutePath(directory, target);
-            Parameters = new[] { Escape(_path) };
 
-            return true;
+            return Succeeded(new[] { Escape(_path) });
         }
 
-        public override bool Execute(string input, out string result)
+        public override CommandResult Execute(string input)
         {
-            result = null;
-
             if (ConnectionPool.Connection.Exists(_path) != Exists.File)
             {
-                Parameters = new[] { Escape(_path), "not exist" };
-                return false;
+                return Failed(new[] { Escape(_path), "not exist" });
             }
 
             if (!ConnectionPool.Connection.DeleteFile(_path))
             {
-                Parameters = new[] { Escape(_path), "unknown" };
-                return false;
+                return Failed(new[] { Escape(_path), "unknown" });
             }
 
-            Parameters = new[] { Escape(_path) };
-
-            return true;
+            return Succeeded(new[] { Escape(_path) });
         }
     }
 }

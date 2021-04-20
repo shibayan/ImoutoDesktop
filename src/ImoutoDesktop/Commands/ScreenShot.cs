@@ -11,12 +11,7 @@ namespace ImoutoDesktop.Commands
         {
         }
 
-        public override bool PreExecute(string input)
-        {
-            return true;
-        }
-
-        public override bool Execute(string input, out string result)
+        public override CommandResult Execute(string input)
         {
             try
             {
@@ -36,14 +31,11 @@ namespace ImoutoDesktop.Commands
                     encoder.Save(fileStream);
                 }
 
-                result = $@"\_i[{path}]";
-
-                return true;
+                return Succeeded($@"\_i[{path}]");
             }
             catch
             {
-                result = null;
-                return false;
+                return Failed();
             }
         }
     }

@@ -7,40 +7,31 @@
         {
         }
 
-        public override Priority Priority
+        public override Priority Priority => Priority.Highest;
+
+        public override CommandResult PreExecute(string input)
         {
-            get { return Priority.Highest; }
+            return Succeeded(new[] { Settings.Default.ServerAddress });
         }
 
-        public override bool PreExecute(string input)
+        public override CommandResult Execute(string input)
         {
-            EventID = "Logined";
-            Parameters = new[] { Settings.Default.ServerAddress };
-
-            return true;
-        }
-
-        public override bool Execute(string input, out string result)
-        {
-            result = null;
-            EventID = null;
-
             if (!ConnectionPool.IsConnected)
             {
                 var ret = ConnectionPool.Connect(Settings.Default.ServerAddress, Settings.Default.PortNumber, Settings.Default.Password);
 
                 if (!ret.HasValue)
                 {
-                    return false;
+                    return Failed();
                 }
 
                 if (!ret.Value)
                 {
-                    EventID = "IncorrectPassword";
+                    return Failed();
                 }
             }
 
-            return true;
+            return Succeeded();
         }
     }
 }

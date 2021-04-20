@@ -109,7 +109,7 @@ namespace ImoutoDesktop
 
         public List<string> CommandHistory { get; } = new();
 
-        private Commands.ICommand _callCommand;
+        private Commands.CommandBase _callCommand;
 
         private Remoting.RemoteService.RemoteServiceClient _remoteServiceClient;
 
@@ -160,54 +160,68 @@ namespace ImoutoDesktop
         public void PlayInvoke(string id)
         {
             var result = ScriptEngine.Invoke(id);
+
             var script = CreateScript();
-            result = Commands.CommandManager.ExecuteTranslator(result);
+
             script.AppendLine(Script.Scope.Character, result);
+
             if (id == "OnClose")
             {
                 script.AppendLine(Script.Scope.System, @"\-");
             }
+
             ScriptPlayer.Play(script);
         }
 
         public void ExecCommand(string input)
         {
             var script = CreateScript();
+
             script.AppendLine(Script.Scope.User, input.Replace(@"\", @"\\"));
+
             ScriptEngine.Connecting = Remoting.ConnectionPool.IsConnected;
+
             var command = Commands.CommandManager.Get(input);
+
             // コマンドが見つかったか調べる
             if (command != null)
             {
                 // コマンド実行前準備
-                var canExecute = command.PreExecute(input);
-                // スクリプトを実行
-                var id = "On" + (command.EventID ?? command.GetType().Name) + (!canExecute ? "Failure" : "");
-                string message = null;
-                var result = ScriptEngine.Invoke(id, command.Parameters);
+                var canExecuteResult = command.PreExecute(input);
+
+                // 事前イベントのスクリプトを実行
+                var preEventResult = ScriptEngine.Invoke($"OnPre{canExecuteResult.EventId}", canExecuteResult.Arguments);
+
+                // スクリプトの実行結果を追加する
+                if (!string.IsNullOrEmpty(preEventResult))
+                {
+                    script.AppendLine(Script.Scope.Character, preEventResult);
+                }
+
                 // 実際にコマンドを実行するか判別
-                if (!ScriptEngine.Reject && canExecute)
+                if (!ScriptEngine.Reject)
                 {
                     // コマンドを実行する
-                    if (!command.Execute(input, out message))
+                    var executeResult = command.Execute(input);
+
+                    // イベントのスクリプトを実行
+                    var eventResult = ScriptEngine.Invoke($"On{executeResult.EventId}", executeResult.Arguments);
+
+                    // スクリプトの実行結果を追加する
+                    if (!string.IsNullOrEmpty(eventResult))
                     {
-                        id = "On" + ((command.EventID ?? command.GetType().Name) + "Failure");
-                        result = ScriptEngine.Invoke(id, command.Parameters);
+                        script.AppendLine(Script.Scope.Character, eventResult);
+                    }
+
+                    // 実行結果が存在すれば追加する
+                    if (!string.IsNullOrEmpty(executeResult.Message))
+                    {
+                        script.AppendLine(Script.Scope.System, executeResult.Message);
                     }
                 }
-                // いもうとの反応を追加する
-                if (!string.IsNullOrEmpty(result))
-                {
-                    result = Commands.CommandManager.ExecuteTranslator(result);
-                    script.AppendLine(Script.Scope.Character, result);
-                }
-                // 実行結果が存在すれば追加する
-                if (!string.IsNullOrEmpty(message))
-                {
-                    script.AppendLine(Script.Scope.System, message);
-                }
+
                 // 終了コマンドなら終了する
-                if (id == "OnClose")
+                if (canExecuteResult.EventId == "Close")
                 {
                     script.AppendLine(Script.Scope.System, @"\-");
                 }
@@ -216,13 +230,14 @@ namespace ImoutoDesktop
             {
                 // コマンドが存在しない
                 var result = ScriptEngine.Invoke("OnUnknownCommand", input);
-                // いもうとの反応を追加する
+
+                // スクリプトの実行結果を追加する
                 if (!string.IsNullOrEmpty(result))
                 {
-                    result = Commands.CommandManager.ExecuteTranslator(result);
                     script.AppendLine(Script.Scope.Character, result);
                 }
             }
+
             // スクリプトを再生
             ScriptPlayer.Play(script);
         }

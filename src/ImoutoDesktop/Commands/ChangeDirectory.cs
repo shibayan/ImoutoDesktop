@@ -24,10 +24,10 @@ namespace ImoutoDesktop.Commands
             { "ドキュメント", Environment.SpecialFolder.MyDocuments },
             { "マイドキュメント", Environment.SpecialFolder.MyDocuments },
             { "ピクチャ", Environment.SpecialFolder.MyPictures },
-            { "マイピクチャ", Environment.SpecialFolder.MyPictures },
+            { "マイピクチャ", Environment.SpecialFolder.MyPictures }
         };
 
-        public override bool PreExecute(string input)
+        public override CommandResult PreExecute(string input)
         {
             var match = Pattern.Match(input);
             var target = match.Groups[1].Value;
@@ -48,19 +48,14 @@ namespace ImoutoDesktop.Commands
                 type = ConnectionPool.Connection.GetDirectoryType(_directory);
             }
 
-            Parameters = new[] { Escape(_directory), Enum.GetName(typeof(DirectoryType), type) };
-
-            return true;
+            return Succeeded(Escape(_directory), Enum.GetName(typeof(DirectoryType), type));
         }
 
-        public override bool Execute(string input, out string result)
+        public override CommandResult Execute(string input)
         {
-            result = null;
-
             if (ConnectionPool.Connection.Exists(_directory) != Exists.Directory)
             {
-                Parameters = new[] { Escape(_directory), "not exist" };
-                return false;
+                return Failed(new[] {Escape(_directory), "not exist"});
             }
 
             try
@@ -88,16 +83,15 @@ namespace ImoutoDesktop.Commands
                         ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
                     }
 
-                    result = ret.ToString();
+                    return Succeeded(ret.ToString());
                 }
+
+                return Succeeded();
             }
             catch
             {
-                Parameters = new[] { Escape(_directory), "unknown" };
-                return false;
+                return Failed(new[] { Escape(_directory), "unknown" });
             }
-
-            return true;
         }
     }
 }

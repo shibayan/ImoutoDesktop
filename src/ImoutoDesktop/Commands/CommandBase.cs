@@ -4,39 +4,81 @@ using System.Text.RegularExpressions;
 
 namespace ImoutoDesktop.Commands
 {
-    public abstract class CommandBase : ICommand
+    public abstract class CommandBase
     {
         protected CommandBase(string pattern)
         {
             Pattern = new Regex(pattern);
         }
 
-        protected Regex Pattern { get; }
-
-        #region ICommand メンバ
-
-        public virtual Priority Priority
-        {
-            get { return Priority.Normal; }
-        }
-
-        public string EventID { get; set; }
-
-        public string[] Parameters { get; set; }
+        public virtual Priority Priority => Priority.Normal;
 
         public virtual bool IsExecute(string input)
         {
             return Pattern.IsMatch(input);
         }
 
-        public virtual bool PreExecute(string input)
+        public virtual CommandResult PreExecute(string input)
         {
-            return true;
+            return Succeeded();
         }
 
-        public abstract bool Execute(string input, out string result);
+        public virtual CommandResult Execute(string input)
+        {
+            return Succeeded();
+        }
 
-        #endregion
+        protected Regex Pattern { get; }
+
+        protected CommandResult Failed()
+        {
+            return Failed(null, null);
+        }
+
+        protected CommandResult Failed(string message)
+        {
+            return Failed(message, null);
+        }
+
+        protected CommandResult Failed(string[] arguments)
+        {
+            return Failed(null, arguments);
+        }
+
+        protected CommandResult Failed(string message, string[] arguments)
+        {
+            return new()
+            {
+                EventId = GetType().Name + "Failure",
+                Arguments = arguments,
+                Message = message
+            };
+        }
+
+        protected CommandResult Succeeded()
+        {
+            return Succeeded(null, null);
+        }
+
+        protected CommandResult Succeeded(string message)
+        {
+            return Succeeded(message, null);
+        }
+
+        protected CommandResult Succeeded(string[] arguments)
+        {
+            return Succeeded(null, arguments);
+        }
+
+        protected CommandResult Succeeded(string message, string[] arguments)
+        {
+            return new()
+            {
+                EventId = GetType().Name,
+                Arguments = arguments,
+                Message = message
+            };
+        }
 
         protected string Escape(string str)
         {
