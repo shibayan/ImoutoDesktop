@@ -20,7 +20,10 @@ namespace ImoutoDesktop.Commands
 
         private static readonly Dictionary<string, string> _replace = new()
         {
-            { "chdir", "cd" }, { "ls", "dir" }, { "rm", "del" }, { "cp", "copy" }
+            { "chdir", "cd" },
+            { "ls", "dir" },
+            { "rm", "del" },
+            { "cp", "copy" }
         };
 
         public override Priority Priority => Priority.BelowNormal;
