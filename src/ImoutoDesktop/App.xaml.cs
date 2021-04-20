@@ -25,8 +25,7 @@ namespace ImoutoDesktop
 #if DEBUG
             RootDirectory = @"C:\Users\shibayan\Documents\GitHub\ImoutoDesktop\resource";
 #else
-            var assembly = Assembly.GetEntryAssembly();
-            RootDirectory = Path.GetDirectoryName(assembly.Location);
+            RootDirectory = Path.GetDirectoryName(typeof(App).Assembly.Location);
 #endif
 
             // 設定ファイルを読み込む
