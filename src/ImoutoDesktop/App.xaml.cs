@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows;
 
-using ImoutoDesktop.Commands;
 using ImoutoDesktop.IO;
 
 namespace ImoutoDesktop
@@ -27,8 +25,7 @@ namespace ImoutoDesktop
 #if DEBUG
             RootDirectory = @"C:\Users\shibayan\Documents\GitHub\ImoutoDesktop\resource";
 #else
-            var assembly = Assembly.GetEntryAssembly();
-            RootDirectory = Path.GetDirectoryName(assembly.Location);
+            RootDirectory = Path.GetDirectoryName(typeof(App).Assembly.Location);
 #endif
 
             // 設定ファイルを読み込む
@@ -37,11 +34,8 @@ namespace ImoutoDesktop
             // インストールされているいもうとを読み込む
             CharacterManager.Rebuild(Path.Combine(RootDirectory, "characters"));
 
-            // インストールされているバルーンを読み込む
+            // インストールされている吹き出しを読み込む
             BalloonManager.Rebuild(Path.Combine(RootDirectory, "balloons"));
-
-            // コマンドライブラリを読み込む
-            CommandManager.Rebuild(Path.Combine(RootDirectory, "commands"));
 
             // テンポラリディレクトリを作成
             if (!Directory.Exists(Path.Combine(RootDirectory, "temp")))
@@ -52,8 +46,8 @@ namespace ImoutoDesktop
             // 起動条件を満たしているか確認する
             if (CharacterManager.Characters.Count == 0 || BalloonManager.Balloons.Count == 0)
             {
-                // いもうと、バルーンが存在しない
-                MessageBox.Show("いもうと、バルーンがインストールされていません。");
+                // いもうと、吹き出しが存在しない
+                MessageBox.Show("いもうとや吹き出しがインストールされていません。");
                 // シャットダウン
                 Shutdown();
                 return;
@@ -67,24 +61,18 @@ namespace ImoutoDesktop
                 context = Context.Create(Settings.Default.LastCharacter.Value);
             }
 
-            if (context == null)
-            {
-                // デフォルト「さくら」がいるか確認する
-                context = Context.Create(_default) ?? Context.Create(CharacterManager.Characters.ElementAt(0).Key);
-            }
+            context ??= Context.Create(_default) ?? Context.Create(CharacterManager.Characters.First().Key);
 
             context.Run();
         }
 
-        private static readonly Mutex _mutex = new Mutex(false, "ImoutoDesktop");
-        private static readonly Guid _default = new Guid("{F3EC60A3-C5FB-443a-B05E-C3345AB37269}");
+        private static readonly Mutex _mutex = new(false, "ImoutoDesktop");
+        private static readonly Guid _default = new("{F3EC60A3-C5FB-443a-B05E-C3345AB37269}");
 
         public string RootDirectory { get; private set; }
 
         private void App_Exit(object sender, ExitEventArgs e)
         {
-            CommandManager.Shutdown();
-
             if (!string.IsNullOrEmpty(RootDirectory))
             {
                 Settings.Save(Path.Combine(RootDirectory, "settings.xml"));

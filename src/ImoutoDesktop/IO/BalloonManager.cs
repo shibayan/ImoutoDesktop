@@ -9,7 +9,7 @@ namespace ImoutoDesktop.IO
     {
         public static string RootDirectory { get; private set; }
 
-        public static Dictionary<Guid, Balloon> Balloons { get; } = new Dictionary<Guid, Balloon>();
+        public static Dictionary<Guid, Balloon> Balloons { get; } = new();
 
         public static Balloon GetBalloon(Guid id)
         {

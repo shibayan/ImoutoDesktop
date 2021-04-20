@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  NUGET_CLI_VERSION: 5.x
+  DOTNET_VERSION: 5.0.x
 
 jobs:
   build:
@@ -15,16 +15,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Use NuGet CLI ${{ env.NUGET_CLI_VERSION }}
-      uses: nuget/setup-nuget@v1
+    - name: Use .NET Core ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
       with:
-        nuget-version: ${{ env.NUGET_CLI_VERSION }}
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Use MSBuild
-      uses: microsoft/setup-msbuild@v1
+    - name: Install .NET Core format tool
+      run: dotnet tool update -g dotnet-format
 
     - name: Restore NuGet packages
-      run: nuget restore
+      run: dotnet restore
 
     - name: Build application
-      run: msbuild .\ImoutoDesktop.sln /p:Configuration=Release /verbosity:minimal
+      run: dotnet build -c Release
+
+    - name: Lint C# code
+      run: dotnet format --check --verbosity detailed

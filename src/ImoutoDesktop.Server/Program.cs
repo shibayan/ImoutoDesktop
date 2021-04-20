@@ -1,27 +1,26 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Threading.Tasks;
+
+using Grpc.Core;
 
 namespace ImoutoDesktop.Server
 {
     static class Program
     {
-        /// <summary>
-        /// アプリケーションのメイン エントリ ポイントです。
-        /// </summary>
-        [STAThread]
-        static void Main()
+        static async Task Main()
         {
-            var mutex = new System.Threading.Mutex(false, "ImoutoDesktop.Server");
-            if (!mutex.WaitOne(0, false))
+            var server = new Grpc.Core.Server
             {
-                MessageBox.Show("既に起動しています");
-                return;
-            }
-            GC.KeepAlive(mutex);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            mutex.Close();
+                Services = { Remoting.RemoteService.BindService(new RemoteServiceImpl()) },
+                Ports = { new ServerPort("0.0.0.0", 1024, ServerCredentials.Insecure) }
+            };
+
+            server.Start();
+
+            Console.WriteLine("Started");
+            Console.ReadKey();
+
+            await server.ShutdownAsync();
         }
     }
 }

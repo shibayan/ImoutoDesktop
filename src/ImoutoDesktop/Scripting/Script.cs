@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
 
@@ -9,7 +8,7 @@ namespace ImoutoDesktop.Scripting
     {
         private string _script;
 
-        private StringBuilder _buffer = new StringBuilder();
+        private readonly StringBuilder _buffer = new();
 
         public string UserName { get; set; }
         public string ImoutoName { get; set; }
@@ -30,7 +29,7 @@ namespace ImoutoDesktop.Scripting
             {
                 return;
             }
-            if (scope == Scope.Imouto)
+            if (scope == Scope.Character)
             {
                 foreach (var item in Split(text))
                 {
@@ -53,7 +52,7 @@ namespace ImoutoDesktop.Scripting
             {
                 return;
             }
-            if (scope == Scope.Imouto)
+            if (scope == Scope.Character)
             {
                 foreach (var item in Split(string.Format(text, args)))
                 {
@@ -155,61 +154,55 @@ namespace ImoutoDesktop.Scripting
 
         private FontOperation ParseFontOperation(string str)
         {
-            switch (str)
+            return str switch
             {
-                case "color":
-                    return FontOperation.Color;
-                case "family":
-                    return FontOperation.FontFamily;
-                case "size":
-                    return FontOperation.Size;
-                case "bold":
-                    return FontOperation.Weight;
-                default:
-                    return FontOperation.Color;
-            }
+                "color" => FontOperation.Color,
+                "family" => FontOperation.FontFamily,
+                "size" => FontOperation.Size,
+                "bold" => FontOperation.Weight,
+                _ => FontOperation.Color
+            };
         }
 
         private static MediaOperation ParseMediaOperation(string str)
         {
-            switch (str)
+            return str switch
             {
-                case "play":
-                    return MediaOperation.Play;
-                case "stop":
-                    return MediaOperation.Stop;
-                case "pause":
-                    return MediaOperation.Pause;
-                case "wait":
-                    return MediaOperation.Wait;
-                default:
-                    return MediaOperation.Play;
-            }
+                "play" => MediaOperation.Play,
+                "stop" => MediaOperation.Stop,
+                "pause" => MediaOperation.Pause,
+                "wait" => MediaOperation.Wait,
+                _ => MediaOperation.Play
+            };
         }
+
         public enum Scope
         {
             User,
-            Imouto,
-            System,
+            Character,
+            System
         }
 
         #region IEnumerable<Token> メンバ
 
         public IEnumerator<Token> GetEnumerator()
         {
-            string[] param;
             var isQuickSession = false;
+
             _script = _buffer.ToString();
+
             if (_script.EndsWith(@"\n"))
             {
                 _script = _script.Substring(0, _script.Length - 2);
             }
+
             for (var i = 0; i < _script.Length; ++i)
             {
                 if (_script[i] == '\\')
                 {
                     // タグ
                     i += 1;
+                    string[] param;
                     switch (_script[i])
                     {
                         case 'c':
@@ -259,8 +252,6 @@ namespace ImoutoDesktop.Scripting
                                         break;
                                     case FontOperation.Weight:
                                         yield return Token.Font(operation, bool.Parse(param[1]));
-                                        break;
-                                    default:
                                         break;
                                 }
                             }
@@ -416,11 +407,7 @@ namespace ImoutoDesktop.Scripting
                                         yield return Token.Sleep(int.Parse(param[0]));
                                     }
                                     break;
-                                default:
-                                    break;
                             }
-                            break;
-                        default:
                             break;
                     }
                 }
@@ -448,7 +435,6 @@ namespace ImoutoDesktop.Scripting
                     i = end - 1;
                 }
             }
-            yield break;
         }
 
         #endregion
@@ -457,7 +443,7 @@ namespace ImoutoDesktop.Scripting
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
 
         #endregion

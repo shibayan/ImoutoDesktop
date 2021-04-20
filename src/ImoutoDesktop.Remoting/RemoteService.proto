@@ -1,0 +1,109 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ImoutoDesktop.Remoting";
+
+import "google/protobuf/empty.proto";
+
+service RemoteService {
+    rpc Login (LoginRequest) returns (GenericResponse) {}
+    rpc Heartbeat (google.protobuf.Empty) returns (GenericResponse) {}
+    rpc Grep (GrepRequest) returns (GrepResponse) {}
+    rpc Exists (ExistsRequest) returns (ExistsResponse) {}
+    rpc Delete (DeleteRequest) returns (GenericResponse) {}
+    rpc Execute (ExecuteRequest) returns (GenericResponse) {}
+    rpc RunShell (RunShellRequest) returns (RunShellResponse) {}
+    rpc GetDirectoryPath (GetDirectoryPathRequest) returns (GetDirectoryPathResponse) {}
+    rpc GetDirectoryType (GetDirectoryTypeRequest) returns (GetDirectoryTypeResponse) {}
+    rpc GetCurrentDirectory (google.protobuf.Empty) returns (GetCurrentDirectoryResponse) {}
+    rpc SetCurrentDirectory (SetCurrentDirectoryRequest) returns (google.protobuf.Empty) {}
+}
+
+message LoginRequest {
+    string password = 1;
+}
+
+message GenericResponse {
+    bool succeeded = 1;
+}
+
+message GrepRequest {
+    string path = 1;
+    string searchPattern = 2;
+    Kind kind = 3;
+}
+
+message GrepResponse {
+    repeated string files = 1;
+}
+
+message ExistsRequest {
+    string path = 1;
+}
+
+message ExistsResponse {
+    bool exists = 1;
+    Kind kind = 2;
+}
+
+message DeleteRequest {
+    string path = 1;
+}
+
+message ExecuteRequest {
+    string path = 1;
+}
+
+message RunShellRequest {
+    string command = 1;
+}
+
+message RunShellResponse {
+    string result = 1;
+}
+
+message GetDirectoryPathRequest {
+    SpecialDirectory specialDirectory = 1;
+}
+
+message GetDirectoryPathResponse {
+    string path = 1;
+}
+
+message GetDirectoryTypeRequest {
+    string path = 1;
+}
+
+message GetDirectoryTypeResponse {
+    DirectoryType directoryType = 1;
+}
+
+message GetCurrentDirectoryResponse {
+    string path = 1;
+}
+
+message SetCurrentDirectoryRequest {
+    string path = 1;
+}
+
+enum Kind {
+    Unknown = 0;
+    File = 1;
+    Directory = 2;
+}
+
+enum DirectoryType {
+    Empty = 0;
+    Picture = 1;
+    Video = 2;
+    Music = 3;
+    Document = 4;
+    Mixed = 5;
+}
+
+enum SpecialDirectory {
+    Desktop = 0;
+    MyPictures = 1;
+    MyVideos = 2;
+    MyMusic = 3;
+    MyDocuments = 4;
+}

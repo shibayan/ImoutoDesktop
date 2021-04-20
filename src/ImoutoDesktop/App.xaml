@@ -12,7 +12,7 @@
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="{x:Type MenuItem}">
                         <Setter Property="IsEnabled" Value="{Binding Path=Value.CanSelect}" />
-                        <Setter Property="Command" Value="{x:Static ii:Commands.Character}" />
+                        <Setter Property="Command" Value="{x:Static ii:DefaultCommands.Character}" />
                         <Setter Property="CommandParameter" Value="{Binding Path=Key}" />
                     </Style>
                 </MenuItem.ItemContainerStyle>
@@ -26,7 +26,7 @@
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="{x:Type MenuItem}">
                         <Setter Property="IsEnabled" Value="{Binding Path=Value.CanSelect}" />
-                        <Setter Property="Command" Value="{x:Static ii:Commands.Balloon}" />
+                        <Setter Property="Command" Value="{x:Static ii:DefaultCommands.Balloon}" />
                         <Setter Property="CommandParameter" Value="{Binding Path=Key}" />
                     </Style>
                 </MenuItem.ItemContainerStyle>
@@ -41,15 +41,15 @@
                 <MenuItem Header="常に前面に表示(_T)" IsCheckable="True"
                           IsChecked="{Binding Path=Topmost, Source={x:Static i:Settings.Default}}" />
                 <Separator />
-                <MenuItem Header="オプション(_O)" Command="ii:Commands.Option" />
+                <MenuItem Header="オプション(_O)" Command="ii:DefaultCommands.Option" />
             </MenuItem>
             <Separator />
-            <MenuItem Header="バージョン情報(_V)" Command="ii:Commands.Version"/>
+            <MenuItem Header="バージョン情報(_V)" Command="ii:DefaultCommands.Version"/>
             <Separator />
             <MenuItem Header="閉じる(_C)" Command="ApplicationCommands.Close" />
         </ContextMenu>
-        
-        <Style x:Key="ImoutoWindowStyleKey" TargetType="{x:Type Window}">
+
+        <Style x:Key="CharacterWindowStyleKey" TargetType="{x:Type Window}">
             <Setter Property="AllowsTransparency" Value="True"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="WindowStyle" Value="None"/>

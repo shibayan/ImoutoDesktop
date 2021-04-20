@@ -1,0 +1,17 @@
+﻿<Window x:Class="ImoutoDesktop.Windows.CharacterWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:imoutoDesktop="clr-namespace:ImoutoDesktop"
+    DataContext="{Binding RelativeSource={RelativeSource self}, Path=Surface}"
+    Topmost="{Binding Path=Topmost, Source={x:Static imoutoDesktop:Settings.Default}}"
+    Style="{StaticResource CharacterWindowStyleKey}"
+    Loaded="CharacterWindow_Loaded" Closing="CharacterWindow_Closing"
+    MouseLeftButtonDown="CharacterWindow_MouseLeftButtonDown" MouseLeftButtonUp="CharacterWindow_MouseLeftButtonUp"
+    MouseMove="CharacterWindow_MouseMove" LocationChanged="CharacterWindow_LocationChanged">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommand_Executed" />
+    </Window.CommandBindings>
+    <Grid>
+        <Image Stretch="None" Source="{Binding Path=Image}" SizeChanged="CharacterWindow_SizeChanged" />
+    </Grid>
+</Window>

@@ -15,7 +15,7 @@
         /// </summary>
         Font,
         /// <summary>
-        /// バルーンテキストクリア
+        /// 吹き出しテキストクリア
         /// </summary>
         Clear,
         /// <summary>
@@ -73,22 +73,6 @@
         /// <summary>
         /// サーバとの接続を切断
         /// </summary>
-        Disconnection,
-    }
-
-    public enum FontOperation
-    {
-        Color,
-        FontFamily,
-        Size,
-        Weight,
-    }
-
-    public enum MediaOperation
-    {
-        Play,
-        Stop,
-        Pause,
-        Wait,
+        Disconnection
     }
 }

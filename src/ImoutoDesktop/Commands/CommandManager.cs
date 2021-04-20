@@ -1,104 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.Linq;
 
+using ImoutoDesktop.IO;
 using ImoutoDesktop.Remoting;
 
 namespace ImoutoDesktop.Commands
 {
-    public static class CommandManager
+    public class CommandManager
     {
-        private static readonly List<ICommand> _registedCommands = new List<ICommand>();
-        private static readonly List<ITranslate> _registedTranslators = new List<ITranslate>();
-
-        public static void Rebuild(string directory)
+        public CommandManager(Character character, RemoteConnectionManager remoteConnectionManager)
         {
-            _registedCommands.Clear();
-            _registedTranslators.Clear();
-
-            // システムコマンドを登録
-            _registedCommands.AddRange(new ICommand[]
+            _commands = new CommandBase[]
             {
-                new Connect(),
-                new ChangeDirectory(),
-                new DosCommand(),
-                new ExecuteFile(),
-                new OpenFile(),
-                new DeleteFile(),
-                new ScreenShot(),
-                new ExitCommand()
-            });
-
-            // 外部コマンドを登録
-            foreach (var file in Directory.GetFiles(directory, "*.dll"))
-            {
-                var assembly = Assembly.LoadFile(file);
-                var types = assembly.GetExportedTypes();
-
-                foreach (var type in types.Where(p => p.GetInterface(typeof(ICommand).FullName) != null))
-                {
-                    var command = (ICommand)Activator.CreateInstance(type);
-
-                    if (command == null)
-                    {
-                        continue;
-                    }
-
-                    command.Initialize(directory);
-
-                    _registedCommands.Add(command);
-                }
-
-                foreach (var type in types.Where(p => p.GetInterface(typeof(ITranslate).FullName) != null))
-                {
-                    var translate = (ITranslate)Activator.CreateInstance(type);
-
-                    if (translate == null)
-                    {
-                        continue;
-                    }
-
-                    translate.Initialize(directory);
-
-                    _registedTranslators.Add(translate);
-                }
-            }
+                new CallName(character.Name, remoteConnectionManager),
+                new Connect(remoteConnectionManager),
+                new Disconnect(remoteConnectionManager),
+                new ChangeDirectory(remoteConnectionManager),
+                new DosCommand(remoteConnectionManager),
+                new ExecuteFile(remoteConnectionManager),
+                new OpenFile(remoteConnectionManager),
+                new DeleteFile(remoteConnectionManager),
+                new ScreenShot(remoteConnectionManager),
+                new Close(remoteConnectionManager)
+            };
         }
 
-        public static void Shutdown()
-        {
-            foreach (var command in _registedCommands)
-            {
-                command.Uninitialize();
-            }
-        }
+        private readonly CommandBase[] _commands;
 
-        public static ICommand Get(string input)
+        public CommandBase Get(string input)
         {
-            return _registedCommands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.IsExecute(input));
-        }
-
-        public static void Add(ICommand command)
-        {
-            _registedCommands.Add(command);
-        }
-
-        public static void Remove(ICommand command)
-        {
-            _registedCommands.Remove(command);
-        }
-
-        public static void ExecuteTranslate(ref string text)
-        {
-            foreach (var translator in _registedTranslators.OrderByDescending(p => p.Priority))
-            {
-                if (translator.Execute(text, out var result))
-                {
-                    text = result;
-                }
-            }
+            return _commands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.IsExecute(input));
         }
     }
 }

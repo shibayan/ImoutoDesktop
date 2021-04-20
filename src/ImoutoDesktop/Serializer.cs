@@ -5,7 +5,7 @@ namespace ImoutoDesktop
 {
     public static class Serializer<T> where T : new()
     {
-        private static readonly XmlSerializer xs = new XmlSerializer(typeof(T));
+        private static readonly XmlSerializer xs = new(typeof(T));
 
         public static T Deserialize(Stream stream)
         {
