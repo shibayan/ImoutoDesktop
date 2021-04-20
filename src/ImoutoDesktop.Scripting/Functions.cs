@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     class Functions
     {
@@ -66,7 +66,7 @@ namespace ImoutoDesktop.MisakaSharp
             functions[name].Add(function);
         }
 
-        public Value ExecFunction(MisakaVM vm, string name, params Value[] values)
+        public Value ExecFunction(ExecutionContext vm, string name, params Value[] values)
         {
             // ローカル変数を作成
             var lv = new LocalVariables();
@@ -101,7 +101,7 @@ namespace ImoutoDesktop.MisakaSharp
             }
         }
 
-        public Value SearchFunction(MisakaVM vm, params string[] patterns)
+        public Value SearchFunction(ExecutionContext vm, params string[] patterns)
         {
             // ローカル変数を作成
             var lv = new LocalVariables();

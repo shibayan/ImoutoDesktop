@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 using ImoutoDesktop.IO;
-using ImoutoDesktop.MisakaSharp;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Windows;
 
@@ -34,7 +33,7 @@ namespace ImoutoDesktop
             BalloonWindow = new BalloonWindow { Context = this, Balloon = Balloon, LocationOffset = Profile.BalloonOffset };
             ImoutoWindow = new ImoutoWindow { Context = this, BalloonWindow = BalloonWindow };
             // スクリプトエンジンを作成する
-            ScriptEngine = new MisakaEngine(Path.Combine(RootDirectory, "scripts"));
+            ScriptEngine = new ScriptEngine(Path.Combine(RootDirectory, "scripts"));
             InitializeScriptEngine();
             // スクリプトプレイヤーを作成
             ScriptPlayer = new ScriptPlayer(this);
@@ -78,53 +77,43 @@ namespace ImoutoDesktop
             }
         }
 
-        public string RootDirectory { get; private set; }
+        public string RootDirectory { get; }
 
         public Balloon Balloon { get; private set; }
 
-        public Character Character { get; private set; }
+        public Character Character { get; }
 
-        public Profile Profile { get; private set; }
+        public Profile Profile { get; }
 
-        public SurfaceLoader SurfaceLoader { get; private set; }
+        public SurfaceLoader SurfaceLoader { get; }
 
-        public ImoutoWindow ImoutoWindow { get; private set; }
+        public ImoutoWindow ImoutoWindow { get; }
 
-        public BalloonWindow BalloonWindow { get; private set; }
+        public BalloonWindow BalloonWindow { get; }
 
-        public MisakaEngine ScriptEngine { get; private set; }
+        public ScriptEngine ScriptEngine { get; }
 
-        public ScriptPlayer ScriptPlayer { get; private set; }
+        public ScriptPlayer ScriptPlayer { get; }
 
-        private int historyIndex = -1;
-        private readonly List<string> commandHistory = new List<string>();
+        public int HistoryIndex { get; set; } = -1;
 
-        private Commands.ICommand callCommand;
+        public List<string> CommandHistory { get; } = new();
 
-        public int HistoryIndex
-        {
-            get { return historyIndex; }
-            set { historyIndex = value; }
-        }
-
-        public List<string> CommandHistory
-        {
-            get { return commandHistory; }
-        }
+        private Commands.ICommand _callCommand;
 
         public void Run()
         {
             // メニューのコマンドを定義する
             var contextMenu = (ContextMenu)Application.Current.Resources["ContextMenuKey"];
             contextMenu.CommandBindings.Clear();
-            contextMenu.CommandBindings.Add(new CommandBinding(ImoutoDesktop.Input.Commands.Character, CharacterCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(ImoutoDesktop.Input.Commands.Balloon, BalloonCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(ImoutoDesktop.Input.Commands.Option, OptionCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(ImoutoDesktop.Input.Commands.Version, VersionCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Character, CharacterCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Balloon, BalloonCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Option, OptionCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Version, VersionCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseCommand_Executed));
             // コマンド追加
-            callCommand = new Remoting.CallName(Character.Name);
-            Commands.CommandManager.Add(callCommand);
+            _callCommand = new Remoting.CallName(Character.Name);
+            Commands.CommandManager.Add(_callCommand);
             // 初期サーフェスを表示して起動
             ImoutoWindow.ChangeSurface(0);
             BalloonWindow.Show();
@@ -142,7 +131,7 @@ namespace ImoutoDesktop
             var contextMenu = (ContextMenu)Application.Current.Resources["ContextMenuKey"];
             contextMenu.CommandBindings.Clear();
             // コマンド削除
-            Commands.CommandManager.Remove(callCommand);
+            Commands.CommandManager.Remove(_callCommand);
             // リソースを破棄する
             ImoutoWindow.Close();
             BalloonWindow.Close();
@@ -173,8 +162,8 @@ namespace ImoutoDesktop
         {
             var script = CreateScript();
             script.AppendLine(Script.Scope.User, input.Replace(@"\", @"\\"));
-            ScriptEngine.Connecting = ImoutoDesktop.Remoting.ConnectionPool.IsConnected;
-            var command = ImoutoDesktop.Commands.CommandManager.Get(input);
+            ScriptEngine.Connecting = Remoting.ConnectionPool.IsConnected;
+            var command = Commands.CommandManager.Get(input);
             // コマンドが見つかったか調べる
             if (command != null)
             {
@@ -228,12 +217,15 @@ namespace ImoutoDesktop
 
         public Script CreateScript()
         {
-            var script = new Script();
-            script.UserName = Settings.Default.UserName;
-            script.ImoutoName = Character.Name;
-            script.Honorific = Settings.Default.Honorific;
-            script.UserColor = Balloon.UserColor;
-            script.ImoutoColor = Balloon.ImoutoColor;
+            var script = new Script
+            {
+                UserName = Settings.Default.UserName,
+                ImoutoName = Character.Name,
+                Honorific = Settings.Default.Honorific,
+                UserColor = Balloon.UserColor,
+                ImoutoColor = Balloon.ImoutoColor
+            };
+
             return script;
         }
 
@@ -248,7 +240,7 @@ namespace ImoutoDesktop
         private void CharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var id = (Guid)e.Parameter;
-            var context = Context.Create(id);
+            var context = Create(id);
             if (context == null)
             {
                 return;
@@ -260,13 +252,15 @@ namespace ImoutoDesktop
         private void BalloonCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var id = (Guid)e.Parameter;
-            Balloon balloon;
-            if (!BalloonManager.TryGetBalloon(id, out balloon))
+
+            if (!BalloonManager.TryGetBalloon(id, out var balloon))
             {
                 return;
             }
+
             Balloon.CanSelect = true;
             balloon.CanSelect = false;
+
             Balloon = balloon;
             BalloonWindow.Balloon = balloon;
         }
@@ -278,6 +272,7 @@ namespace ImoutoDesktop
                 Age = Profile.Age,
                 TsundereLevel = Profile.TsundereLevel
             };
+
             if (dialog.ShowDialog() ?? false)
             {
                 Profile.Age = dialog.Age;
@@ -290,7 +285,8 @@ namespace ImoutoDesktop
         {
             var assembly = Assembly.GetEntryAssembly();
             var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-            if (attributes != null && attributes.Length > 0)
+
+            if (attributes.Length > 0)
             {
                 var title = ((AssemblyTitleAttribute)attributes[0]).Title;
                 MessageBox.Show(

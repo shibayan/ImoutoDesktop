@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     /// <summary>
-    /// 美坂文法の構文解析器です。
+    /// 文法の構文解析器です。
     /// </summary>
     class Parser
     {
@@ -39,7 +39,7 @@ namespace ImoutoDesktop.MisakaSharp
         public void ParseDictionary(string path, Functions functions)
         {
             var dicname = Path.GetFileName(path);
-            using (var reader = new MisakaReader(path, encoding))
+            using (var reader = new DictionaryReader(path, encoding))
             {
                 var isCommonBody = false;
                 Function function = null;
@@ -114,7 +114,7 @@ namespace ImoutoDesktop.MisakaSharp
             }
         }
 
-        private static string CombineInBrace(MisakaReader reader)
+        private static string CombineInBrace(DictionaryReader reader)
         {
             var depth = 1;
             var result = new StringBuilder();

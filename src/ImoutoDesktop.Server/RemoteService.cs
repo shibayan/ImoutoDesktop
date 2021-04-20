@@ -11,9 +11,9 @@ using ImoutoDesktop.Remoting;
 
 namespace ImoutoDesktop.Server
 {
-    public class RemoteService : MarshalByRefObject, IRemoteService
+    public class RemoteService : IRemoteService
     {
-        private bool isLogined;
+        private bool _isLogined;
 
         public bool Login(string password)
         {
@@ -23,7 +23,7 @@ namespace ImoutoDesktop.Server
             var masterPassword = BitConverter.ToString(hash).Replace("-", "").ToLower();
             if (masterPassword == password)
             {
-                isLogined = true;
+                _isLogined = true;
                 return true;
             }
             return false;
@@ -34,11 +34,11 @@ namespace ImoutoDesktop.Server
             get { return true; }
         }
 
-        private object syncLock = new object();
+        private object _syncLock = new();
 
         public FileStream OpenFile(string path, FileMode mode)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return null;
             }
@@ -54,7 +54,7 @@ namespace ImoutoDesktop.Server
 
         public string[] GetFiles(string path, string searchPattern)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return null;
             }
@@ -63,7 +63,7 @@ namespace ImoutoDesktop.Server
 
         public string[] GetDirectories(string path, string searchPattern)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return null;
             }
@@ -72,7 +72,7 @@ namespace ImoutoDesktop.Server
 
         public bool DeleteFile(string path)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return false;
             }
@@ -93,10 +93,11 @@ namespace ImoutoDesktop.Server
 
         public bool CopyFile(string sourcePath, string destPath)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return false;
             }
+
             try
             {
                 File.Copy(sourcePath, destPath);
@@ -110,10 +111,11 @@ namespace ImoutoDesktop.Server
 
         public bool MoveFile(string sourcePath, string destPath)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return false;
             }
+
             try
             {
                 File.Move(sourcePath, destPath);
@@ -127,10 +129,11 @@ namespace ImoutoDesktop.Server
 
         public string GetFolderPath(Environment.SpecialFolder folder)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return null;
             }
+
             return Environment.GetFolderPath(folder);
         }
 
@@ -138,54 +141,59 @@ namespace ImoutoDesktop.Server
 
         public string ExecuteCommand(string command)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return null;
             }
+
             return (string)Form1.Form.Invoke((RemoteInvoker)delegate
             {
-                var psi = new ProcessStartInfo();
-                psi.FileName = Environment.GetEnvironmentVariable("ComSpec");
-                psi.RedirectStandardInput = false;
-                psi.RedirectStandardOutput = true;
-                psi.UseShellExecute = false;
-                psi.CreateNoWindow = true;
-                psi.WorkingDirectory = Environment.CurrentDirectory;
-                psi.Arguments = $"/c {command}";
+                var psi = new ProcessStartInfo
+                {
+                    FileName = Environment.GetEnvironmentVariable("ComSpec"),
+                    RedirectStandardInput = false,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WorkingDirectory = Environment.CurrentDirectory,
+                    Arguments = $"/c {command}"
+                };
+
                 var process = Process.Start(psi);
                 var result = process.StandardOutput.ReadToEnd();
+
                 process.WaitForExit();
+
                 return result;
             });
         }
 
-        private Dictionary<string, Process> processes = new Dictionary<string, Process>();
+        private Dictionary<string, Process> _processes = new();
 
         public bool ExecuteProcess(string fileName, string argument)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return false;
             }
             try
             {
-                var process = (Process)Form1.Form.Invoke((RemoteInvoker)delegate
-                {
-                    return Process.Start(fileName, argument);
-                });
-                lock (syncLock)
+                var process = (Process)Form1.Form.Invoke((RemoteInvoker)(() => Process.Start(fileName, argument)));
+
+                lock (_syncLock)
                 {
                     if (process != null)
                     {
                         process.EnableRaisingEvents = true;
-                        process.Exited += new EventHandler(Process_Exited);
+                        process.Exited += Process_Exited;
                         process.SynchronizingObject = Form1.Form;
-                        if (!processes.ContainsKey(fileName))
+                        if (!_processes.ContainsKey(fileName))
                         {
-                            processes.Add(fileName, process);
+                            _processes.Add(fileName, process);
                         }
                     }
                 }
+
                 return true;
             }
             catch
@@ -196,10 +204,10 @@ namespace ImoutoDesktop.Server
 
         private void Process_Exited(object sender, EventArgs e)
         {
-            lock (syncLock)
+            lock (_syncLock)
             {
                 string key = null;
-                foreach (var item in processes)
+                foreach (var item in _processes)
                 {
                     if (item.Value == (Process)sender)
                     {
@@ -211,19 +219,19 @@ namespace ImoutoDesktop.Server
                 {
                     return;
                 }
-                processes.Remove(key);
+                _processes.Remove(key);
             }
         }
 
         public bool CloseProcess(string name)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return false;
             }
-            lock (syncLock)
+            lock (_syncLock)
             {
-                foreach (var item in processes)
+                foreach (var item in _processes)
                 {
                     try
                     {
@@ -259,7 +267,7 @@ namespace ImoutoDesktop.Server
         {
             get
             {
-                if (!isLogined)
+                if (!_isLogined)
                 {
                     return null;
                 }
@@ -267,7 +275,7 @@ namespace ImoutoDesktop.Server
             }
             set
             {
-                if (!isLogined)
+                if (!_isLogined)
                 {
                     return;
                 }
@@ -277,36 +285,36 @@ namespace ImoutoDesktop.Server
 
         public void Shutdown()
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return;
             }
             NativeMethods.ExitWindows(NativeMethods.Shutdown);
         }
 
-        public ImoutoDesktop.Remoting.Exists Exists(string path)
+        public Exists Exists(string path)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
-                return ImoutoDesktop.Remoting.Exists.None;
+                return Remoting.Exists.None;
             }
+
             if (File.Exists(path))
             {
-                return ImoutoDesktop.Remoting.Exists.File;
+                return Remoting.Exists.File;
             }
-            else if (Directory.Exists(path))
+
+            if (Directory.Exists(path))
             {
-                return ImoutoDesktop.Remoting.Exists.Directory;
+                return Remoting.Exists.Directory;
             }
-            else
-            {
-                return ImoutoDesktop.Remoting.Exists.None;
-            }
+
+            return Remoting.Exists.None;
         }
 
         public Stream GetScreenshot(int width)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return null;
             }
@@ -326,7 +334,7 @@ namespace ImoutoDesktop.Server
             return stream;
         }
 
-        private static readonly Dictionary<string, DirectoryType> ext2type = new Dictionary<string, DirectoryType>()
+        private static readonly Dictionary<string, DirectoryType> ext2type = new()
         {
             { ".bmp", DirectoryType.Picture }, { ".png", DirectoryType.Picture },
             { ".gif", DirectoryType.Picture }, { ".jpg", DirectoryType.Picture },
@@ -344,21 +352,23 @@ namespace ImoutoDesktop.Server
 
         public DirectoryType GetDirectoryType(string directory)
         {
-            if (!isLogined)
+            if (!_isLogined)
             {
                 return DirectoryType.None;
             }
+
             if (!Directory.Exists(directory))
             {
                 return DirectoryType.None;
             }
+
             var count = 0;
             var filecount = 0;
             var types = new Dictionary<DirectoryType, int>();
+
             foreach (var item in Directory.GetFiles(directory))
             {
-                DirectoryType type;
-                if (ext2type.TryGetValue(Path.GetExtension(item).ToLower(), out type))
+                if (ext2type.TryGetValue(Path.GetExtension(item).ToLower(), out var type))
                 {
                     if (!types.ContainsKey(type))
                     {
@@ -372,32 +382,29 @@ namespace ImoutoDesktop.Server
                 }
                 filecount++;
             }
+
             if (filecount == 0)
             {
                 var temp = Directory.GetDirectories(directory);
-                if (temp.Length == 0)
-                {
-                    return DirectoryType.Empty;
-                }
-                else
-                {
-                    return DirectoryType.Mixed;
-                }
+
+                return temp.Length == 0 ? DirectoryType.Empty : DirectoryType.Mixed;
             }
-            else if (count < 10 || types.Count == 0)
+
+            if (count < 10 || types.Count == 0)
             {
                 return DirectoryType.Mixed;
             }
-            else
+
+            var values = new List<KeyValuePair<int, DirectoryType>>();
+
+            foreach (var item in types)
             {
-                var values = new List<KeyValuePair<int, DirectoryType>>();
-                foreach (var item in types)
-                {
-                    values.Add(new KeyValuePair<int, DirectoryType>(item.Value, item.Key));
-                }
-                values.Sort(delegate (KeyValuePair<int, DirectoryType> left, KeyValuePair<int, DirectoryType> right) { return Comparer<int>.Default.Compare(right.Key, left.Key); });
-                return values[0].Value;
+                values.Add(new KeyValuePair<int, DirectoryType>(item.Value, item.Key));
             }
+
+            values.Sort((left, right) => Comparer<int>.Default.Compare(right.Key, left.Key));
+
+            return values[0].Value;
         }
     }
 }

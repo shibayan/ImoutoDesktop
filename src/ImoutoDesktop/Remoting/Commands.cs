@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 using ImoutoDesktop.Commands;
 
@@ -553,10 +554,20 @@ namespace ImoutoDesktop.Remoting
             {
                 var path = Path.Combine(((App)Application.Current).RootDirectory, $@"temp\{Path.GetRandomFileName()}.png");
                 var stream = ConnectionPool.Connection.GetScreenshot(480);
-                var bitmap = new Bitmap(stream);
 
-                bitmap.Save(path);
-                bitmap.Dispose();
+                var bitmap = new BitmapImage();
+
+                bitmap.BeginInit();
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+
+                using (var fileStream = File.OpenWrite(path))
+                {
+                    var encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                    encoder.Save(fileStream);
+                }
+
                 result = $@"\_i[{path}]";
 
                 return true;

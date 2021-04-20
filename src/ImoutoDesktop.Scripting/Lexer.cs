@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     //interface ILexer
     //{

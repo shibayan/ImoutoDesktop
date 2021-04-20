@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImoutoDesktop", "src\ImoutoDesktop\ImoutoDesktop.csproj", "{4D7A9FCC-55DF-4029-BB47-BA5165F7B99D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImoutoDesktop", "src\ImoutoDesktop\ImoutoDesktop.csproj", "{4D7A9FCC-55DF-4029-BB47-BA5165F7B99D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImoutoDesktop.Commands", "src\ImoutoDesktop.Commands\ImoutoDesktop.Commands.csproj", "{3086F9D0-7114-4AE5-BDE1-2417B21E78B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImoutoDesktop.Commands", "src\ImoutoDesktop.Commands\ImoutoDesktop.Commands.csproj", "{3086F9D0-7114-4AE5-BDE1-2417B21E78B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImoutoDesktop.MisakaSharp", "src\ImoutoDesktop.MisakaSharp\ImoutoDesktop.MisakaSharp.csproj", "{8A55FFCE-4AE4-4C32-9717-23E557AE46DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImoutoDesktop.Scripting", "src\ImoutoDesktop.Scripting\ImoutoDesktop.Scripting.csproj", "{8A55FFCE-4AE4-4C32-9717-23E557AE46DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImoutoDesktop.Remoting", "src\ImoutoDesktop.Remoting\ImoutoDesktop.Remoting.csproj", "{5DD2AE5C-2E7C-46CF-B400-7ADBCE691997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImoutoDesktop.Remoting", "src\ImoutoDesktop.Remoting\ImoutoDesktop.Remoting.csproj", "{5DD2AE5C-2E7C-46CF-B400-7ADBCE691997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImoutoDesktop.Server", "src\ImoutoDesktop.Server\ImoutoDesktop.Server.csproj", "{1138B41B-DF87-4AEB-A36C-9A5BC29129B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImoutoDesktop.Server", "src\ImoutoDesktop.Server\ImoutoDesktop.Server.csproj", "{1138B41B-DF87-4AEB-A36C-9A5BC29129B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginSample", "sample\PluginSample\PluginSample.csproj", "{6C06B6E9-C1D8-4F14-8B30-66C2965812BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginSample", "sample\PluginSample\PluginSample.csproj", "{6C06B6E9-C1D8-4F14-8B30-66C2965812BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorSample", "sample\TranslatorSample\TranslatorSample.csproj", "{99EDA349-8E67-4603-9B47-72699F43BEE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslatorSample", "sample\TranslatorSample\TranslatorSample.csproj", "{99EDA349-8E67-4603-9B47-72699F43BEE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

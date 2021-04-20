@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     /// <summary>
-    /// 美坂暗号化の種類。
+    /// 暗号化の種類。
     /// </summary>
     enum CryptType
     {
@@ -15,80 +15,81 @@ namespace ImoutoDesktop.MisakaSharp
         /// </summary>
         None,
         /// <summary>
-        /// オリジナルの美坂互換暗号化。
+        /// オリジナルの互換暗号化。
         /// </summary>
         Original,
         /// <summary>
-        /// 美坂標準暗号化。
+        /// 標準暗号化。
         /// </summary>
         Standard,
     }
 
     /// <summary>
-    /// 美坂暗号化されているファイルを読み込みます。
+    /// 暗号化されているファイルを読み込みます。
     /// </summary>
-    class MisakaReader : IDisposable
+    class DictionaryReader : IDisposable
     {
         /// <summary>
         /// 指定されたファイルパスと文字エンコーディングに基づき、インスタンスを初期化します。
         /// </summary>
         /// <param name="path">読み込むファイルパス。</param>
         /// <param name="encoding">読み込むファイルの文字エンコーディング。</param>
-        public MisakaReader(string path, Encoding encoding)
+        public DictionaryReader(string path, Encoding encoding)
         {
-            this.encoding = encoding;
+            this._encoding = encoding;
             // ファイルストリームを作成
-            baseStream = File.Open(path, FileMode.Open);
+            _baseStream = File.Open(path, FileMode.Open);
             // 暗号化ファイルかどうかを判別
             var extension = Path.GetExtension(path);
             switch (extension)
             {
                 case ".__1":
-                    cryptType = CryptType.Original;
-                    binaryReader = new BinaryReader(baseStream, encoding);
+                    _cryptType = CryptType.Original;
+                    _binaryReader = new BinaryReader(_baseStream, encoding);
                     break;
                 case ".___":
-                    cryptType = CryptType.Standard;
-                    cryptKey = (byte)(baseStream.Length % 255);
-                    binaryReader = new BinaryReader(baseStream, encoding);
+                    _cryptType = CryptType.Standard;
+                    _cryptKey = (byte)(_baseStream.Length % 255);
+                    _binaryReader = new BinaryReader(_baseStream, encoding);
                     break;
                 default:
-                    cryptType = CryptType.None;
-                    streamReader = new StreamReader(baseStream, encoding);
+                    _cryptType = CryptType.None;
+                    _streamReader = new StreamReader(_baseStream, encoding);
                     break;
             }
         }
 
-        private int currentLine;
+        private int _currentLine;
 
         /// <summary>
         /// 現在読み込んでいる行数を取得します。
         /// </summary>
         public int CurrentLine
         {
-            get { return currentLine; }
+            get { return _currentLine; }
         }
 
-        private Stream baseStream;
-        private Encoding encoding;
-        private byte cryptKey;
-        private CryptType cryptType;
-        private BinaryReader binaryReader;
-        private StreamReader streamReader;
+        private byte _cryptKey;
+
+        private readonly Stream _baseStream;
+        private readonly Encoding _encoding;
+        private readonly CryptType _cryptType;
+        private readonly BinaryReader _binaryReader;
+        private readonly StreamReader _streamReader;
 
         public void Dispose()
         {
-            switch (cryptType)
+            switch (_cryptType)
             {
                 case CryptType.None:
-                    streamReader.Dispose();
+                    _streamReader.Dispose();
                     break;
                 case CryptType.Original:
                 case CryptType.Standard:
-                    ((IDisposable)binaryReader).Dispose();
+                    ((IDisposable)_binaryReader).Dispose();
                     break;
             }
-            baseStream.Dispose();
+            _baseStream.Dispose();
         }
 
         /// <summary>
@@ -97,13 +98,13 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns></returns>
         public int Peek()
         {
-            switch (cryptType)
+            switch (_cryptType)
             {
                 case CryptType.None:
-                    return streamReader.Peek();
+                    return _streamReader.Peek();
                 case CryptType.Original:
                 case CryptType.Standard:
-                    return binaryReader.PeekChar();
+                    return _binaryReader.PeekChar();
             }
             return -1;
         }
@@ -114,33 +115,33 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns></returns>
         public string ReadLine()
         {
-            ++currentLine;
-            switch (cryptType)
+            ++_currentLine;
+            switch (_cryptType)
             {
                 case CryptType.None:
-                    return streamReader.ReadLine();
+                    return _streamReader.ReadLine();
                 case CryptType.Original:
                     {
                         var bytes = new List<byte>();
                         while (true)
                         {
-                            var c = (byte)((int)binaryReader.ReadByte() ^ 0xff);
+                            var c = (byte)((int)_binaryReader.ReadByte() ^ 0xff);
                             if (c == '\n')
                             {
                                 break;
                             }
                             bytes.Add(c);
                         }
-                        return encoding.GetString(bytes.ToArray());
+                        return _encoding.GetString(bytes.ToArray());
                     }
                 case CryptType.Standard:
                     {
                         var bytes = new List<byte>();
                         while (true)
                         {
-                            var c = (byte)((int)binaryReader.ReadByte() ^ cryptKey);
+                            var c = (byte)((int)_binaryReader.ReadByte() ^ _cryptKey);
                             // 復号キーの更新
-                            cryptKey = c;
+                            _cryptKey = c;
                             // 改行の検出
                             if (c == '\n')
                             {
@@ -148,7 +149,7 @@ namespace ImoutoDesktop.MisakaSharp
                             }
                             bytes.Add(c);
                         }
-                        return encoding.GetString(bytes.ToArray());
+                        return _encoding.GetString(bytes.ToArray());
                     }
             }
             return string.Empty;

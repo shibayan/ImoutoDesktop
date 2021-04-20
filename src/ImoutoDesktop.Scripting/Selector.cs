@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     enum SelectType
     {
@@ -32,7 +32,7 @@ namespace ImoutoDesktop.MisakaSharp
             values[blocknum].Add(line);
         }
 
-        public int[] Output(MisakaVM vm)
+        public int[] Output(ExecutionContext vm)
         {
             if (blocknum == 0 && values[0].Count == 0)
             {
@@ -53,7 +53,7 @@ namespace ImoutoDesktop.MisakaSharp
             }
         }
 
-        private int[] ChoiceRandom(MisakaVM vm)
+        private int[] ChoiceRandom(ExecutionContext vm)
         {
             var result = new int[blocknum + 1];
             for (var i = 0; i <= blocknum; i++)
@@ -68,7 +68,7 @@ namespace ImoutoDesktop.MisakaSharp
             return result;
         }
 
-        private int[] ChoiceFromRoundOrder(MisakaVM vm)
+        private int[] ChoiceFromRoundOrder(ExecutionContext vm)
         {
             if (UpdateNums())
             {
@@ -136,7 +136,7 @@ namespace ImoutoDesktop.MisakaSharp
             return isChanged;
         }
 
-        private void UpdateRoundOrder(MisakaVM vm)
+        private void UpdateRoundOrder(ExecutionContext vm)
         {
             c_index = 0;
             roundorder.Clear();
@@ -162,7 +162,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// 配列に対してランダムシャッフルを行います。
         /// </summary>
         /// <param name="shuffle">ランダムシャッフルする対象の配列。</param>
-        private static void RandomShuffle<T>(ref List<T> shuffle, MisakaVM vm)
+        private static void RandomShuffle<T>(ref List<T> shuffle, ExecutionContext vm)
         {
             if (shuffle.Count < 2)
             {

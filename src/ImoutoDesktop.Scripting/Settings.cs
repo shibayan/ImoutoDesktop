@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     class Settings
     {

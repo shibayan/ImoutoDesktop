@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     interface IExpression
     {
-        Value Evaluate(MisakaVM vm, LocalVariables lv);
+        Value Evaluate(ExecutionContext vm, LocalVariables lv);
     }
 
     class UnaryExpression : IExpression
@@ -16,7 +16,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.expression = expression;
         }
 
-        public virtual Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public virtual Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             return null;
         }
@@ -31,7 +31,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             return expression.Evaluate(vm, lv);
         }
@@ -44,7 +44,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var value = expression.Evaluate(vm, lv);
             if (value.ValueType == ValueType.Double)
@@ -62,7 +62,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var value = expression.Evaluate(vm, lv);
             return new Value(!value.ToBoolean());
@@ -76,7 +76,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var value = expression.Evaluate(vm, lv);
             return new Value(~value.ToInt32());
@@ -91,7 +91,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.rightExpression = rhs;
         }
 
-        public virtual Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public virtual Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             return null;
         }
@@ -115,7 +115,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -144,7 +144,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -164,7 +164,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -184,7 +184,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -216,7 +216,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -236,7 +236,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -256,7 +256,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -286,7 +286,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -316,7 +316,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -345,7 +345,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -371,7 +371,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -397,7 +397,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -423,7 +423,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             if (lhs.ToBoolean())
@@ -442,7 +442,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             if (!lhs.ToBoolean())
@@ -461,7 +461,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -477,7 +477,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             Value value;
             var lhs = leftExpression.Evaluate(vm, lv);
@@ -510,7 +510,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             Value value;
             var lhs = leftExpression.Evaluate(vm, lv);
@@ -544,7 +544,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             Value value;
             var lhs = leftExpression.Evaluate(vm, lv);
@@ -570,7 +570,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             Value value;
             var lhs = leftExpression.Evaluate(vm, lv);
@@ -605,7 +605,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -620,7 +620,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -635,7 +635,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -650,7 +650,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -665,7 +665,7 @@ namespace ImoutoDesktop.MisakaSharp
         {
         }
 
-        public override Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public override Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var lhs = leftExpression.Evaluate(vm, lv);
             var rhs = rightExpression.Evaluate(vm, lv);
@@ -680,7 +680,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.value = value;
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             if (value.ValueType == ValueType.String)
             {
@@ -714,7 +714,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.statements = Lexer.SplitStatement(statement);
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var length = statements.Length;
             var result = new StringBuilder();
@@ -785,7 +785,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.statements = Lexer.SplitStatement(statement);
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var length = statements.Length;
             var result = new StringBuilder();
@@ -850,7 +850,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.statements = Lexer.SplitStatement(statement.Substring(1));
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var length = statements.Length;
             var result = new StringBuilder();
@@ -893,7 +893,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.expressions = expressions;
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var length = expressions.Length;
             if (length == 1 && !expressions[0].IsHaveStatements())
@@ -922,7 +922,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.statements = statements;
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var length = statements.Length;
             if (length == 1)
@@ -946,7 +946,7 @@ namespace ImoutoDesktop.MisakaSharp
             return statements.Length != 0;
         }
 
-        public bool IsExecutable(MisakaVM vm, LocalVariables lv)
+        public bool IsExecutable(ExecutionContext vm, LocalVariables lv)
         {
             return expression.Evaluate(vm, lv).ToBoolean();
         }
@@ -963,7 +963,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.statements = statements;
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var length = statements.Length;
             var result = new StringBuilder();
@@ -993,7 +993,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.statements = statements;
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var length = statements.Length;
             var result = new StringBuilder();
@@ -1023,7 +1023,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.statements = statements;
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             var var = expressions[0].Evaluate(vm, lv);
             var Array = expressions[1].Evaluate(vm, lv).ToArray();
@@ -1055,7 +1055,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.text = text;
         }
 
-        public Value Evaluate(MisakaVM vm, LocalVariables lv)
+        public Value Evaluate(ExecutionContext vm, LocalVariables lv)
         {
             return new Value(text);
         }

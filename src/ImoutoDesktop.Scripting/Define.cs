@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
     /// <summary>
     /// プリプロセッサでの置き換え文字列を保持します。

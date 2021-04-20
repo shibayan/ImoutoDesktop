@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 
-namespace ImoutoDesktop.MisakaSharp
+namespace ImoutoDesktop.Scripting
 {
-    public class MisakaEngine : IDisposable
+    public class ScriptEngine : IDisposable
     {
-        public MisakaEngine(string path)
+        public ScriptEngine(string path)
         {
             // 現在のディレクトリを保存
             _vm.RootDirectory = path;
@@ -66,7 +66,7 @@ namespace ImoutoDesktop.MisakaSharp
             set { _vm.Variables.Connecting = value; }
         }
 
-        private readonly MisakaVM _vm = new MisakaVM();
+        private readonly ExecutionContext _vm = new ExecutionContext();
 
         #region IDisposable メンバ
 
