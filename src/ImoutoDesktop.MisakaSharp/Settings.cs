@@ -8,7 +8,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public Settings()
         {
-            encoding = Encoding.Default;
+            encoding = Encoding.UTF8;
             dictionaries = new List<string>();
         }
 

@@ -1,101 +1,101 @@
-// «‘ - —c—
+// è¾æ›¸ - å¹¼å¥³
 
 #Common
 {$if ({$age} < 6 && {$hour} >= 6 && {$hour} < 20)}
 
 
 
-// ‹N“®
+// èµ·å‹•æ™‚
 $OnBoot_default
-‚È‚É‚©‚²‚æ‚¤H
+ãªã«ã‹ã”ã‚ˆã†ï¼Ÿ
 
 
-// I—¹
+// çµ‚äº†æ™‚
 $OnClose
-‚¶‚á‚ ‚ËB
+ã˜ã‚ƒã‚ã­ã€‚
 
 
-// ƒƒOƒCƒ“
+// ãƒ­ã‚°ã‚¤ãƒ³æ™‚
 $OnLogin_default
 //none
 
-//‚·‚Å‚ÉÚ‘±‚³‚ê‚Ä‚¢‚é
+//ã™ã§ã«æ¥ç¶šã•ã‚Œã¦ã„ã‚‹
 $alreadyConnected
-{$reject = true}‚à‚¤‚Â‚È‚ª‚Á‚Ä‚é‚æH
-{$reject = true}‚à‚¤‚¹‚Â‚¼‚­‚³‚ê‚Ä‚é‚æH
+{$reject = true}ã‚‚ã†ã¤ãªãŒã£ã¦ã‚‹ã‚ˆï¼Ÿ
+{$reject = true}ã‚‚ã†ã›ã¤ããã•ã‚Œã¦ã‚‹ã‚ˆï¼Ÿ
 
 
-// ƒƒOƒCƒ“
+// ãƒ­ã‚°ã‚¤ãƒ³æ™‚
 $OnLogined
-{$parameter(0)}‚É‚¹‚Â‚¼‚­‚µ‚½‚æB
-‚Ş‚±‚¤‚É‚Â‚È‚ª‚Á‚½‚æB
+{$parameter(0)}ã«ã›ã¤ããã—ãŸã‚ˆã€‚
+ã‚€ã“ã†ã«ã¤ãªãŒã£ãŸã‚ˆã€‚
 
 
-// Ú‘±¸”s
+// æ¥ç¶šå¤±æ•—
 $OnConnectFailure
-c‚ ‚Á‚¿‚É‚Â‚È‚ª‚ç‚È‚©‚Á‚½‚İ‚½‚¢B
-ƒT[ƒo‚É‚Â‚È‚ª‚ç‚È‚©‚Á‚½‚İ‚½‚¢B
+â€¦ã‚ã£ã¡ã«ã¤ãªãŒã‚‰ãªã‹ã£ãŸã¿ãŸã„ã€‚
+ã‚µãƒ¼ãƒã«ã¤ãªãŒã‚‰ãªã‹ã£ãŸã¿ãŸã„ã€‚
 
 
-// I‚ÆÚ‘±‚µ‚Ä‚È‚¢
+// é¯–ã¨æ¥ç¶šã—ã¦ãªã„
 $OnDisconnecting
-‚¢‚Ü‚ÍƒT[ƒo‚Æ‚¹‚Â‚¼‚­‚³‚ê‚Ä‚È‚¢‚æH
-‚ ‚Á‚¿‚Æ‚Â‚È‚ª‚Á‚Ä‚È‚¢‚æH
+ã„ã¾ã¯ã‚µãƒ¼ãƒã¨ã›ã¤ããã•ã‚Œã¦ãªã„ã‚ˆï¼Ÿ
+ã‚ã£ã¡ã¨ã¤ãªãŒã£ã¦ãªã„ã‚ˆï¼Ÿ
 
 
-// I‚Æ‚ÌÚ‘±‚ªØ‚ê‚½
+// é¯–ã¨ã®æ¥ç¶šãŒåˆ‡ã‚ŒãŸ
 $OnDisconnected
-‚¹‚Â‚¼‚­‚ª‚«‚ê‚¿‚á‚Á‚½B
-‚ cc\w5‚¹‚Â‚¼‚­‚ª‚«‚ê‚¿‚á‚Á‚½B
+ã›ã¤ãããŒãã‚Œã¡ã‚ƒã£ãŸã€‚
+ã‚â€¦â€¦\w5ã›ã¤ãããŒãã‚Œã¡ã‚ƒã£ãŸã€‚
 
 
-// ƒpƒXƒ[ƒhŠÔˆá‚¢
+// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰é–“é•ã„
 $OnIncorrectPassword
-ƒƒOƒCƒ“‚É‚µ‚Á‚Ï‚¢‚µ‚¿‚á‚Á‚½B
-ƒpƒXƒ[ƒh‚ª‚¿‚ª‚¤‚æH
+ãƒ­ã‚°ã‚¤ãƒ³ã«ã—ã£ã±ã„ã—ã¡ã‚ƒã£ãŸã€‚
+ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒã¡ãŒã†ã‚ˆï¼Ÿ
 
 
 
-// DOS ƒRƒ}ƒ“ƒhÀs
+// DOS ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
 $OnDosCommand
 {$OnCommandDisabled}
 
 
-// DOS ƒRƒ}ƒ“ƒh¸”s
+// DOS ã‚³ãƒãƒ³ãƒ‰å¤±æ•—
 $OnDosCommandFailure
 //none
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•
 $OnChangeDirectory
 {$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_empty} } else { {$OnChangeDirectory_default} }}
 
 $OnChangeDirectory_empty
-‚¢‚Ç‚¤‚Å‚«‚½‚æB\n\w5cc‚©‚ç‚Á‚Û‚¾‚ËB
+ã„ã©ã†ã§ããŸã‚ˆã€‚\n\w5â€¦â€¦ã‹ã‚‰ã£ã½ã ã­ã€‚
 
 $OnChangeDirectory_default
-‚¢‚Ç‚¤‚Å‚«‚½‚æB
-‚¢‚í‚ê‚½‚Æ‚±‚ë‚Ö‚¢‚Ç‚¤‚µ‚½‚æB
+ã„ã©ã†ã§ããŸã‚ˆã€‚
+ã„ã‚ã‚ŒãŸã¨ã“ã‚ã¸ã„ã©ã†ã—ãŸã‚ˆã€‚
 
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®¸”s
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•å¤±æ•—
 $NoSuchDirectory_normal
-‚İ‚Â‚©‚ç‚È‚¢‚æccB
-‚»‚ñ‚È‚Æ‚±‚ë‚È‚©‚Á‚½‚æB
+ã¿ã¤ã‹ã‚‰ãªã„ã‚ˆâ€¦â€¦ã€‚
+ãã‚“ãªã¨ã“ã‚ãªã‹ã£ãŸã‚ˆã€‚
 
 
 $OnChangeDirectoryFailure_normal_default
-‚µ‚Á‚Ï‚¢‚µ‚¿‚á‚Á‚½B
+ã—ã£ã±ã„ã—ã¡ã‚ƒã£ãŸã€‚
 
 
 
-// ƒtƒ@ƒCƒ‹•\¦EŠJ‚­
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºãƒ»é–‹ã
 $OnOpenFile
 {$OnCommandDisabled}
 
 
-// ƒtƒ@ƒCƒ‹•\¦¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºå¤±æ•—
 $OnOpenFileFailure_normal_default
 //none
 
@@ -105,49 +105,49 @@ $NoSuchFile_normal
 
 
 
-// ƒtƒ@ƒCƒ‹Às
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œ
 $OnExecuteFile
 {$OnCommandDisabled}
 
 
-// ƒtƒ@ƒCƒ‹Às¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œå¤±æ•—
 $OnExecuteFileFailure_normal_default
 //none
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 $OnCloseFile
 {$OnCommandDisabled}
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹å¤±æ•—
 $OnCloseFileFailure_normal
 //none
 
 
 
-// ƒtƒ@ƒCƒ‹íœ
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤
 $OnDeleteFile
 {$OnCommandDisabled}
 
 
-// ƒtƒ@ƒCƒ‹íœ¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤å¤±æ•—
 $OnDeleteFileFailure_normal_default
 //none
 
 
 
-//ƒtƒ@ƒCƒ‹óMŠJn
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡é–‹å§‹
 $OnDownloading
 //none
 
 
-// ƒtƒ@ƒCƒ‹óMŠ®—¹
+// ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å®Œäº†
 $OnDownloaded
 {$OnCommandDisabled}
 
 
-//ƒtƒ@ƒCƒ‹óM¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å¤±æ•—
 $OnDownloadFailure_normal_default
 //none
 
@@ -157,50 +157,50 @@ $OnDownloadFailure_normal_cancel
 
 
 
-//ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒgB‰e
+//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆæ’®å½±
 $OnScreenShot
 {$OnCommandDisabled}
 
 
-//ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒgB‰e¸”s
+//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆæ’®å½±å¤±æ•—
 $OnScreenShotFailure
 //none
 
 
 
-// —‰ğ‚Å‚«‚È‚¢ƒRƒ}ƒ“ƒh
+// ç†è§£ã§ããªã„ã‚³ãƒãƒ³ãƒ‰
 $OnUnknownCommand
 {$parsePrivateCommand}
 
 
 
 $OnUnknownCommand_default
-‚¦H‚È‚ÉH
-\w5c‚æ‚­‚í‚©‚ñ‚È‚¢B
-\w5ccH
+ãˆï¼Ÿãªã«ï¼Ÿ
+\w5â€¦ã‚ˆãã‚ã‹ã‚“ãªã„ã€‚
+\w5â€¦â€¦ï¼Ÿ
 
 
-//Às•s”\ƒRƒ}ƒ“ƒh
+//å®Ÿè¡Œä¸èƒ½ã‚³ãƒãƒ³ãƒ‰
 $OnCommandDisabled
 {$reject = true}{$OnUnknownCommand_default}
-{$reject = true}‚Ş‚¸‚©‚µ‚¢‚æccB
-{$reject = true}‚Å‚«‚È‚¢‚æ‚§ccB
+{$reject = true}ã‚€ãšã‹ã—ã„ã‚ˆâ€¦â€¦ã€‚
+{$reject = true}ã§ããªã„ã‚ˆã‰â€¦â€¦ã€‚
 
 
-// ˜b‚µ‚©‚¯H
+// è©±ã—ã‹ã‘ï¼Ÿ
 $OnCallName
-‚È‚Ÿ‚ÉH
-\w5ccH
+ãªãã«ï¼Ÿ
+\w5â€¦â€¦ï¼Ÿ
 
 
-//"help" - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
-//"help -dos"‚Ö“]‘—
+//"help" - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
+//"help -dos"ã¸è»¢é€
 $help
 {$help_dos}
 
 
-//"help -dos" - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//"help -dos" - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $help_dos
-‚²‚ß‚ñ‚È‚³‚¢A‚¢‚Á‚±‚à‚Å‚«‚È‚¢‚ÌccB
+ã”ã‚ã‚“ãªã•ã„ã€ã„ã£ã“ã‚‚ã§ããªã„ã®â€¦â€¦ã€‚
 {$OnDosCommand}
 

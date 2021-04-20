@@ -1,9 +1,9 @@
-// ���� - �v���g�^�C�v
+// 辞書 - プロトタイプ
 
 #Common
 
 
-// �N����
+// 起動時
 $OnBoot_dafault; {$if ({$hour} < 6 || {$hour} >= 23)}
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnBoot_night_dere} } else { {$OnBoot_night_tsun} } }
 
@@ -11,24 +11,24 @@ $OnBoot_dafault
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnBoot_dere} } else { {$OnBoot_tsun} } }
 
 $OnBoot_tsun
-%username�A�ǂ��������H
-�c�c�����p�H
+%username、どうかした？
+……何か用？
 
 $OnBoot_dere
-%username�A�ǂ������́H
-�ǂ������́H�������������Ƃł��������H
+%username、どうしたの？
+どうしたの？何か困ったことでもあった？
 
 
 $OnBoot_night_tsun
-%username�A�ǂ��������H
-��X�����͊��S���Ȃ���ˁB\n\w5�c�c�ŁA�����p�H
+%username、どうかした？
+夜更かしは感心しないわね。\n\w5……で、何か用？
 
 $OnBoot_night_dere
-%username�A�����p���H�������Ⴂ���Ȃ�������H
-����Ȏ��Ԃɂǂ������́H��X�����͂����Ȃ����H
+%username、何か用事？明日じゃいけないかしら？
+こんな時間にどうしたの？夜更かしはいけないわよ？
 
 
-// �I����
+// 終了時
 $OnClose; {$if ({$hour} < 6 || {$hour} >= 23)}
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnClose_night_dere} } else { {$OnClose_night_tsun} } }
 
@@ -36,94 +36,94 @@ $OnClose
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnClose_dere} } else { {$OnClose_tsun} } }
 
 $OnClose_tsun
-���ꂶ��B
-���Ⴀ�ˁB
+それじゃ。
+じゃあね。
 
 $OnClose_dere
-���ꂶ�Ⴀ�A�܂��ˁ�
-����A���͖߂邯�ǁA��l�ő��v�H
+それじゃあ、またね♪
+じゃ、私は戻るけど、一人で大丈夫？
 
 $OnClose_night_tsun
-���₷�݂Ȃ����B
-�����Q�Ȃ�����H
+おやすみなさい。
+早く寝なさいよ？
 
 $OnClose_night_dere
-���ꂶ�Ⴀ�A���₷�݂Ȃ����B
-���܂��X�������Ȃ��ق����������H
-���͐Q�邯�ǁA%username�������Q���ق����������H
+それじゃあ、おやすみなさい。
+あまり夜更かししないほうがいいわよ？
+私は寝るけど、%usernameも早く寝たほうがいいわよ？
 
 
 
-// ���O�C����
+// ログイン時
 $OnLogin
 
 
-// ����Ƀ��O�C������
+// 正常にログインした
 $OnLogined
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnLogined_dere} } else { {$OnLogined_tsun} } }
 
 $OnLogined_tsun
-���O�C�������݂����B
-�ڑ��ł����݂����B
+ログインしたみたい。
+接続できたみたい。
 
 $OnLogined_dere
-�T�[�o�ɐڑ��ł������B
-�T�[�o�ɐڑ��ł������B\n����ŏ����I�b�P�[�ˁB
+サーバに接続できたわよ。
+サーバに接続できたわよ。\nこれで準備オッケーね。
 
 
-// �ڑ����s
+// 接続失敗
 $OnConnectFailure
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnConnectFailure_dere} } else { {$OnConnectFailure_tsun} } }
 
 $OnConnectFailure_tsun
-�ڑ��ł��Ȃ��݂����B
-���܂������Ȃ���ˁB�ǂ������̂�����H
+接続できないみたい。
+うまくいかないわね。どうしたのかしら？
 
 $OnConnectFailure_dere
-����H���܂��ڑ��ł��Ȃ��݂����ˁB
-����H���܂��ڑ��ł��Ȃ��݂����ˁB\n�ǂ����悤���c�c�B
+あれ？うまく接続できないみたいね。
+あれ？うまく接続できないみたいね。\nどうしようか……。
 
 
-// �I�Ɛڑ����ĂȂ�
+// 鯖と接続してない
 $OnDisconnecting
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDisconnecting_dere} } else { {$OnDisconnecting_tsun} } }
 
 $OnDisconnecting_tsun
-�T�[�o�Ɛڑ�����ĂȂ��݂����B
-���܂͐ڑ����ĂȂ�����Ȃ��́B
+サーバと接続されてないみたい。
+いまは接続してないじゃないの。
 
 $OnDisconnecting_dere
-���܂̓T�[�o�Ɛڑ�����ĂȂ����H
-���܂̓T�[�o�Ɛڑ�����ĂȂ����H\n��ɐڑ����Ă���łȂ��ƁA�ˁB
+いまはサーバと接続されてないわよ？
+いまはサーバと接続されてないわよ？\n先に接続してからでないと、ね。
 
 
 
-// �I�Ƃ̐ڑ����؂ꂽ
+// 鯖との接続が切れた
 $OnDisconnected
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDisconnected_dere} } else { {$OnDisconnected_tsun} } }
 
 $OnDisconnected_tsun
-�ڑ����؂ꂽ�݂����B
+接続が切れたみたい。
 
 $OnDisconnected_dere
-�T�[�o�Ƃ̐ڑ����؂ꂽ��ˁB
-�T�[�o�Ƃ̐ڑ����؂ꂽ��ˁB\n�Đڑ����Ă݂�����H
+サーバとの接続が切れたわね。
+サーバとの接続が切れたわね。\n再接続してみよっか？
 
 
-// �p�X���[�h�ԈႢ
+// パスワード間違い
 $OnIncorrectPassword
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnIncorrectPassword_dere} } else { {$OnIncorrectPassword_tsun} } }
 
 $OnIncorrectPassword_tsun
-���O�C���ł��Ȃ��݂����B
-�p�X���[�h���Ⴄ����Ȃ��́B
+ログインできないみたい。
+パスワードが違うじゃないの。
 
 $OnIncorrectPassword_dere
-���O�C���ł��Ȃ���ˁB\n�p�X���[�h���Ⴄ�݂�����B
-�p�X���[�h���Ⴄ�݂�����H\n������x���������Ċm�F���Ă݂ĂˁB
+ログインできないわね。\nパスワードが違うみたいよ。
+パスワードが違うみたいよ？\nもう一度落ち着いて確認してみてね。
 
 
-// DOS �R�}���h���s
+// DOS コマンド実行
 $OnDosCommand
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDosCommand_dere} } else { {$OnDosCommand_tsun} } }
 
@@ -131,27 +131,27 @@ $OnDosCommand_tsun; {$if ({$random(3)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnDosCommand_tsun
-{$ExtractCommandName} �R�}���h�����s������B
+{$ExtractCommandName} コマンドを実行したわ。
 
 $OnDosCommand_dere
-{$ExtractCommandName} �R�}���h�����s�������B{$appendMessage}
-{$ExtractCommandName} �R�}���h�����s�������B\n���ꂪ���ʁB{$appendMessage}
+{$ExtractCommandName} コマンドを実行したわよ。{$appendMessage}
+{$ExtractCommandName} コマンドを実行したわよ。\nこれが結果。{$appendMessage}
 
 
 
-// DOS �R�}���h���s
+// DOS コマンド失敗
 $OnDosCommandFailure
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDosCommandFailure_dere} } else { {$OnDosCommandFailure_tsun} } }
 
 $OnDosCommandFailure_tsun
-{$ExtractCommandName} �R�}���h�Ɏ��s�����݂����B
+{$ExtractCommandName} コマンドに失敗したみたい。
 
 $OnDosCommandFailure_dere
-���߂�Ȃ����B\n{$ExtractCommandName} �R�}���h�̎��s�Ɏ��s�����݂����B
-���߂�Ȃ����B\n�R�}���h�̎��s�Ɏ��s�����݂����B
+ごめんなさい。\n{$ExtractCommandName} コマンドの実行に失敗したみたい。
+ごめんなさい。\nコマンドの実行に失敗したみたい。
 
 
-// �f�B���N�g���ړ�
+// ディレクトリ移動
 $OnChangeDirectory
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnChangeDirectory_dere} } else { {$OnChangeDirectory_tsun} } }
 
@@ -162,36 +162,36 @@ $OnChangeDirectory_tsun
 {$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_tsun_empty} } else { {$OnChangeDirectory_tsun_default} }}
 
 $OnChangeDirectory_tsun_empty
-�w�肳�ꂽ�ꏊ�ֈړ�������B\n\w5�c�c�Ȃɂ��Ȃ���ˁB
+指定された場所へ移動したわ。\n\w5……なにもないわね。
 
 $OnChangeDirectory_tsun_default
-�w�肳�ꂽ�ꏊ�ֈړ�������B
+指定された場所へ移動したわ。
 
 $OnChangeDirectory_dere
-�w�肳�ꂽ�ꏊ�ֈړ��������B{$appendMessage}
-�f�B���N�g�����ړ��������B{$appendMessage}
+指定された場所へ移動したわよ。{$appendMessage}
+ディレクトリを移動したわよ。{$appendMessage}
 
 
-// �f�B���N�g���ړ����s
+// ディレクトリ移動失敗
 $NoSuchDirectory_tsun
-�f�B���N�g�����Ȃ��݂����B
-�f�B���N�g�����Ȃ���ˁB
-�f�B���N�g�����݂���Ȃ��݂����B
+ディレクトリがないみたい。
+ディレクトリがないわね。
+ディレクトリがみつからないみたい。
 
 $NoSuchDirectory_dere
-�f�B���N�g�����Ȃ��݂�����H�ꏊ��������x�m�F���ĂˁB
-�f�B���N�g�����݂���Ȃ���H
+ディレクトリがないみたいよ？場所をもう一度確認してね。
+ディレクトリがみつからないよ？
 
 
 $OnChangeDirectoryFailure_tsun_default
-�ړ��ł��Ȃ������݂����B
+移動できなかったみたい。
 
 $OnChangeDirectoryFailure_dere_default
-���߂�Ȃ����B\n�w�肳�ꂽ�ꏊ�Ɉړ��ł��Ȃ������݂����ˁB
-���߂�Ȃ����B\n�f�B���N�g�����ړ��ł��Ȃ������݂�����B
+ごめんなさい。\n指定された場所に移動できなかったみたいね。
+ごめんなさい。\nディレクトリを移動できなかったみたいよ。
 
 
-// �t�@�C���\���E�J��
+// ファイル表示・開く
 $OnOpenFile
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnOpenFile_dere} } else { {$OnOpenFile_tsun} } }
 
@@ -199,35 +199,35 @@ $OnOpenFile_tsun; {$if ({$random(4)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnOpenFile_tsun
-{$ExtractFileName} ���J������B
-{$ExtractFileName} ��\��������B
+{$ExtractFileName} を開いたわ。
+{$ExtractFileName} を表示したわ。
 
 $OnOpenFile_dere
-{$ExtractFileName} ���J�������B{$appendMessage}
-{$ExtractFileName} ��\���������B{$appendMessage}
+{$ExtractFileName} を開いたわよ。{$appendMessage}
+{$ExtractFileName} を表示したわよ。{$appendMessage}
 
 
-// �t�@�C���\�����s
+// ファイル表示失敗
 $OnOpenFileFailure_tsun_default
-{$ExtractFileName} ���J���Ȃ������݂����B
-{$ExtractFileName} �̕\���Ɏ��s�����݂����B
+{$ExtractFileName} が開けなかったみたい。
+{$ExtractFileName} の表示に失敗したみたい。
 
 $OnOpenFileFailure_dere_default
-���߂�Ȃ����B\n{$ExtractFileName} ���J���Ȃ������݂�����B
-���߂�Ȃ����B\n{$ExtractFileName} ���\���ł��Ȃ������悤�ˁB
+ごめんなさい。\n{$ExtractFileName} が開けなかったみたいよ。
+ごめんなさい。\n{$ExtractFileName} が表示できなかったようね。
 
 
 $NoSuchFile_tsun
-�t�@�C�����Ȃ��݂����B
-�t�@�C�����Ȃ���ˁB
+ファイルがないみたい。
+ファイルがないわね。
 
 $NoSuchFile_dere
-�t�@�C�����Ȃ��݂�����H�ꏊ��������x�m�F���ĂˁB
-�t�@�C�����݂���Ȃ���H
+ファイルがないみたいよ？場所をもう一度確認してね。
+ファイルがみつからないよ？
 
 
 
-// �t�@�C�����s
+// ファイル実行
 $OnExecuteFile
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnExecuteFile_dere} } else { {$OnExecuteFile_tsun} } }
 
@@ -235,23 +235,23 @@ $OnExecuteFile_tsun; {$if ({$random(4)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnExecuteFile_tsun
-{$ExtractFileName} �����s������B
+{$ExtractFileName} を実行したわ。
 
 $OnExecuteFile_dere
-{$ExtractFileName} �����s�������B{$appendMessage}
+{$ExtractFileName} を実行したわよ。{$appendMessage}
 
 
-// �t�@�C�����s���s
+// ファイル実行失敗
 $OnExecuteFileFailure_tsun_default
-{$ExtractFileName} �����s�ł��Ȃ������݂����B
-���s�����݂����ˁB
+{$ExtractFileName} が実行できなかったみたい。
+失敗したみたいね。
 
 $OnExecuteFileFailure_dere_default
-���߂�Ȃ����B\n{$ExtractFileName} �����s�ł��Ȃ������݂����ˁB
-���߂�Ȃ����B\n{$ExtractFileName} �̎��s�Ɏ��s����������B
+ごめんなさい。\n{$ExtractFileName} を実行できなかったみたいね。
+ごめんなさい。\n{$ExtractFileName} の実行に失敗しちゃった。
 
 
-//�t�@�C�������
+//ファイルを閉じる
 $OnCloseFile
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnCloseFile_dere} } else { {$OnCloseFile_tsun} } }
 
@@ -259,21 +259,21 @@ $OnCloseFile_tsun; {$if ({$random(4)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnCloseFile_tsun
-{$ExtractFileName} ���I��������B
+{$ExtractFileName} を終了したわ。
 
 $OnCloseFile_dere
-{$ExtractFileName} ���I���������B{$appendMessage}
+{$ExtractFileName} を終了したわよ。{$appendMessage}
 
 
-//�t�@�C������鎸�s
+//ファイルを閉じる失敗
 $OnCloseFileFailure_tsun
-{$ExtractFileName} ���I���ł��Ȃ��݂����B
+{$ExtractFileName} が終了できないみたい。
 
 $OnCloseFileFailure_dere
-���߂�Ȃ����B\n{$ExtractFileName} �̏I���Ɏ��s����������B
+ごめんなさい。\n{$ExtractFileName} の終了に失敗しちゃった。
 
 
-// �t�@�C���폜
+// ファイル削除
 $OnDeleteFile
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDeleteFile_dere} } else { {$OnDeleteFile_tsun} } }
 
@@ -281,22 +281,22 @@ $OnDeleteFile_tsun; {$if ({$random(4)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnDeleteFile_tsun
-{$ExtractFileName} ���폜������B
+{$ExtractFileName} を削除したわ。
 
 $OnDeleteFile_dere
-{$ExtractFileName} ���폜�������B{$appendMessage}
+{$ExtractFileName} を削除したわよ。{$appendMessage}
 
 
-// �t�@�C���폜���s
+// ファイル削除失敗
 $OnDeleteFileFailure_tsun_default
-{$ExtractFileName} ���폜�ł��Ȃ������݂����B
+{$ExtractFileName} を削除できなかったみたい。
 
 $OnDeleteFileFailure_dere_default
-���߂�Ȃ����B\n{$ExtractFileName} ���폜�ł��Ȃ�������B
+ごめんなさい。\n{$ExtractFileName} を削除できなかったわ。
 
 
 
-//�t�@�C����M�J�n
+//ファイル受信開始
 $OnDownloading
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDownloading_dere} } else { {$OnDownloading_tsun} } }
 
@@ -309,36 +309,36 @@ $OnDownloaded_dere
 
 
 
-// �t�@�C����M����
+// ファイル受信完了
 $OnDownloaded
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDownloaded_dere} } else { {$OnDownloaded_tsun} } }
 
 $OnDownloaded_tsun
-��M�ł����݂����B
+受信できたみたい。
 
 
 $OnDownloaded_dere
-��M���I��������B{$appendMessage}
-��M�ł����݂����ˁB{$appendMessage}
+受信が終わったわよ。{$appendMessage}
+受信できたみたいね。{$appendMessage}
 
 
-//�t�@�C����M���s
+//ファイル受信失敗
 $OnDownloadFailure_tsun_default
-��M�Ɏ��s�����݂����B
+受信に失敗したみたい。
 
 $OnDownloadFailure_dere_default
-���߂�Ȃ����B\n��M�ł��Ȃ������݂����ˁB
+ごめんなさい。\n受信できなかったみたいね。
 
 
 $OnDownloadFailure_tsun_cancel
-���f�������H
+中断したわよ？
 
 $OnDownloadFailure_dere_cancel
-����H��߂��Ⴄ�́H
-���f�������ǂق�Ƃɂ����̂ˁH
+あれ？やめちゃうの？
+中断したけどほんとにいいのね？
 
 
-//�X�N���[���V���b�g�B�e
+//スクリーンショット撮影
 $OnScreenShot
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnScreenShot_dere} } else { {$OnScreenShot_tsun} } }
 
@@ -346,24 +346,24 @@ $OnScreenShot_tsun; {$if ({$random(4)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnScreenShot_tsun
-�X�N���[���V���b�g���B������B
+スクリーンショットを撮ったわ。
 
 $OnScreenShot_dere
-�X�N���[���V���b�g�B�ꂽ���B{$appendMessage}
+スクリーンショット撮れたわよ。{$appendMessage}
 
 
-//�X�N���[���V���b�g�B�e���s
+//スクリーンショット撮影失敗
 $OnScreenShotFailure
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnScreenShotFailure_dere} } else { {$OnScreenShotFailure_tsun} } }
 
 $OnScreenShotFailure_tsun
-�X�N���[���V���b�g���B��Ȃ������݂����B
+スクリーンショットが撮れなかったみたい。
 
 $OnScreenShotFailure_dere
-���߂�Ȃ����B\n�X�N���[���V���b�g�B��̎��s�����������B
+ごめんなさい。\nスクリーンショット撮るの失敗しちゃったわ。
 
 
-// �����ł��Ȃ��R�}���h
+// 理解できないコマンド
 $OnUnknownCommand
 {$parsePrivateCommand}
 
@@ -371,37 +371,37 @@ $OnUnknownCommand_default
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnUnknownCommand_dere} } else { {$OnUnknownCommand_tsun} } }
 
 $OnUnknownCommand_tsun
-���߂�A�킩��Ȃ��B
+ごめん、わかんない。
 
 $OnUnknownCommand_dere
-%username�A�Ȃ�Ă������́H
-%username�A�Ȃ�Ă������́H\n������񂢂��āH
-���߂�Ȃ����A�����ĂȂ������B
+%username、なんていったの？
+%username、なんていったの？\nもう一回いって？
+ごめんなさい、聞いてなかった。
 
 
 
-// �b������
+// 話しかけ
 $OnCallName
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnCallName_dere} } else { {$OnCallName_tsun} } }
 
 $OnCallName_tsun
-�Ă񂾁H
-�Ȃɂ悢���Ȃ�B
+呼んだ？
+なによいきなり。
 
 $OnCallName_dere
-�Ȃ��ɁH%username�B
-�Ă񂾂�����H%username�B
+なぁに？%username。
+呼んだかしら？%username。
 
 
 
-//�R�}���h���ێ��̃��A�N�V����
+//コマンド拒否時のリアクション
 $OnCommandReject_tsun
-{$reject = true}��[��B�����ł��Ȃ����B
-{$reject = true}�����g�����Ȃ�Ă����x���ˁB
+{$reject = true}やーよ。自分でやんなさい。
+{$reject = true}私を使おうなんていい度胸ね。
 
 
 
-//�f���̂Ƃ��̒ǉ����b�Z�[�W
+//デレのときの追加メッセージ
 $appendMessage; {$if ({$random(4)} == 0)}
-�ӂӁB
-���������B
+ふふ。
+くすくす。

@@ -1,7 +1,7 @@
-// ‹¤’Ê«‘
+// å…±é€šè¾æ›¸
 
 
-// ‹N“®
+// èµ·å‹•æ™‚
 $OnBoot
 {
 {$OnBoot_dafault}
@@ -9,7 +9,7 @@ $OnBoot
 }
 
 
-//DOSƒRƒ}ƒ“ƒhŒn‚Ì{$parameter(0)}‚©‚çDOSƒRƒ}ƒ“ƒh–¼‚ğ’Šo
+//DOSã‚³ãƒãƒ³ãƒ‰ç³»ã®{$parameter(0)}ã‹ã‚‰DOSã‚³ãƒãƒ³ãƒ‰åã‚’æŠ½å‡º
 $ExtractCommandName
 {
 {@idx = {$index(" ",{$parameter(0)})}}
@@ -17,8 +17,8 @@ $ExtractCommandName
 }
 
 
-//ƒtƒ@ƒCƒ‹ƒpƒX‚ğˆø”‚É‚Æ‚éƒRƒ}ƒ“ƒh‚Ì{$parameter(0)}‚©‚çƒtƒ@ƒCƒ‹–¼‚ğ’Šo
-//ƒpƒX‚ª\‚ÅI‚í‚é‚ÆƒoƒO‚é‚©‚à
+//ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å¼•æ•°ã«ã¨ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®{$parameter(0)}ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŠ½å‡º
+//ãƒ‘ã‚¹ãŒ\ã§çµ‚ã‚ã‚‹ã¨ãƒã‚°ã‚‹ã‹ã‚‚
 $ExtractFileName
 {
 {@idx1 = {$lastindex(\\,{$parameter(0)})}}
@@ -27,7 +27,7 @@ $ExtractFileName
 }
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®¸”s
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•å¤±æ•—
 $OnChangeDirectoryFailure
 {
 {@value = {$getValue}}
@@ -35,7 +35,7 @@ $OnChangeDirectoryFailure
 }
 
 
-// ƒtƒ@ƒCƒ‹•\¦¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºå¤±æ•—
 $OnOpenFileFailure
 {
 {@value = {$getValue}}
@@ -43,7 +43,7 @@ $OnOpenFileFailure
 }
 
 
-// ƒtƒ@ƒCƒ‹Às¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œå¤±æ•—
 $OnExecuteFileFailure
 {
 {@value = {$getValue}}
@@ -51,12 +51,12 @@ $OnExecuteFileFailure
 }
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹å¤±æ•—
 $OnCloseFileFailure
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnCloseFileFailure_dere} } else { {$OnCloseFileFailure_tsun} } }
 
 
-// ƒtƒ@ƒCƒ‹íœ¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤å¤±æ•—
 $OnDeleteFileFailure
 {
 {@value = {$getValue}}
@@ -64,7 +64,7 @@ $OnDeleteFileFailure
 }
 
 
-//ƒtƒ@ƒCƒ‹óM¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å¤±æ•—
 $OnDownloadFailure
 {
 {@value = {$getValue}}
@@ -72,9 +72,9 @@ $OnDownloadFailure
 }
 
 
-//ƒRƒ}ƒ“ƒh¸”s‚ÌƒŠƒAƒNƒVƒ‡ƒ“‚Ì•ª—ŞŒvZ
+//ã‚³ãƒãƒ³ãƒ‰å¤±æ•—æ™‚ã®ãƒªã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®åˆ†é¡è¨ˆç®—
 //@value = 1:tsun, 9:dere
-//         10:not exist, 0:unknown, 20:cancel(OnDownloadFailure‚Ì‚İ)
+//         10:not exist, 0:unknown, 20:cancel(OnDownloadFailureã®ã¿)
 $getValue
 {
 {$if ({$tsunderelevel} > {$random(8)} + 1) { {@value = 1} } else { {@value = 9} } }
@@ -83,67 +83,67 @@ $getValue
 }
 
 
-//$OnUnknownCommand‚Ìˆø”‚©‚çPrivateCommand‚ğU‚è•ª‚¯‚é
+//$OnUnknownCommandã®å¼•æ•°ã‹ã‚‰PrivateCommandã‚’æŒ¯ã‚Šåˆ†ã‘ã‚‹
 $parsePrivateCommand
 {
 {@param = {$tolower({$parameter(0)})}}
-{$if ({@param} == "I—¹" || {@param} == "exit") {{$Exit}} elseif ({$connecting} != true) {{$OnDisconnecting}} elseif ({$isReserveCommand({@param})} == true) {{$reserveNotify({@param})}} else {{$OnUnknownCommand_default}}}
+{$if ({@param} == "çµ‚äº†" || {@param} == "exit") {{$Exit}} elseif ({$connecting} != true) {{$OnDisconnecting}} elseif ({$isReserveCommand({@param})} == true) {{$reserveNotify({@param})}} else {{$OnUnknownCommand_default}}}
 }
 
-//¡“ú‚ª‚¨’m‚ç‚¹‚Ì“ú‚ÅC‚©‚ÂC‚Ü‚¾‚¨’m‚ç‚¹‚µ‚Ä‚¢‚È‚¢ê‡‚ÉÀs
+//ä»Šæ—¥ãŒãŠçŸ¥ã‚‰ã›ã®æ—¥ã§ï¼Œã‹ã¤ï¼Œã¾ã ãŠçŸ¥ã‚‰ã›ã—ã¦ã„ãªã„å ´åˆã«å®Ÿè¡Œ
 $checkNotify
 {
-{$if ({$reserveDate} == "{$month}Œ{$day}“ú") {{$notify}} elseif ({$isMicrosoftUpdateDay} == true) {{$notifyMicrosoftUpdate}} }
+{$if ({$reserveDate} == "{$month}æœˆ{$day}æ—¥") {{$notify}} elseif ({$isMicrosoftUpdateDay} == true) {{$notifyMicrosoftUpdate}} }
 }
 
 
-//‚¨’m‚ç‚¹
+//ãŠçŸ¥ã‚‰ã›
 $notify
 {
-{@message = "\n¡“ú‚Í{$reserveContent}‚Ì“ú‚ËB\n‚¿‚á‚ñ‚ÆŠo‚¦‚Ä‚½H"}
+{@message = "\nä»Šæ—¥ã¯{$reserveContent}ã®æ—¥ã­ã€‚\nã¡ã‚ƒã‚“ã¨è¦šãˆã¦ãŸï¼Ÿ"}
 {$reserveDate = ""}
 {$reserveContent = ""}
 {@message}
 }
 
-//MicrosoftUpdate‚Ì‚¨’m‚ç‚¹
+//MicrosoftUpdateã®ãŠçŸ¥ã‚‰ã›
 $notifyMicrosoftUpdate
 {
-{$lastNotifiedDate = "{$month}Œ{$day}“ú"}
-{@message = "\n¡“ú‚ÍMicrosoftUpdate‚Ì“ú‚ËB‚à‚¤‚â‚Á‚½H"}
+{$lastNotifiedDate = "{$month}æœˆ{$day}æ—¥"}
+{@message = "\nä»Šæ—¥ã¯MicrosoftUpdateã®æ—¥ã­ã€‚ã‚‚ã†ã‚„ã£ãŸï¼Ÿ"}
 {@message}
 }
 
-//¡“ú‚ªMicrosoftUpdate‚ÌŒ—á“ú‚©‚Ç‚¤‚©
+//ä»Šæ—¥ãŒMicrosoftUpdateã®æœˆä¾‹æ—¥ã‹ã©ã†ã‹
 $isMicrosoftUpdateDay
 {
 {$if ({$dayofweek} == 4 && (({$day} - 1) / 7) == 2) {{@b = true}} else {{@b = false}}}
-{$if ({$lastNotifiedDate} == "{$month}Œ{$day}“ú") {{@b = false}} }
+{$if ({$lastNotifiedDate} == "{$month}æœˆ{$day}æ—¥") {{@b = false}} }
 {@b}
 }
 
-//ˆø”‚ª—\–ñƒRƒ}ƒ“ƒh‚Å‚ ‚é‚©‚Ìƒ`ƒFƒbƒN
-//ˆø”‚ª"—\–ñ:c“ú:c"‚Æ‚¢‚¤\‘¢‚ÅCc‚Í0•¶šˆÈã‚Ì‚Æ‚«true
+//å¼•æ•°ãŒäºˆç´„ã‚³ãƒãƒ³ãƒ‰ã§ã‚ã‚‹ã‹ã®ãƒã‚§ãƒƒã‚¯
+//å¼•æ•°ãŒ"äºˆç´„:â€¦æ—¥:â€¦"ã¨ã„ã†æ§‹é€ ã§ï¼Œâ€¦ã¯0æ–‡å­—ä»¥ä¸Šã®ã¨ãtrue
 $isReserveCommand
 {
 {@len = {$length({@argv[0]})}}
 {$if (len > 3) {{@key = {$substringl({@argv[0]},3)}}} else {{@key = ""}}}
-{$if (({$insentence({@argv[0]},"—\–ñ:","“ú:")} == true) && ({@key} == "—\–ñ:")) {{@b = true}} else {{@b = false}}}
+{$if (({$insentence({@argv[0]},"äºˆç´„:","æ—¥:")} == true) && ({@key} == "äºˆç´„:")) {{@b = true}} else {{@b = false}}}
 {@b}
 }
 
-//‚¨’m‚ç‚¹—\–ñ - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
-//‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚Ä‚¢‚é“_‚Åˆø”‚ª"—\–ñ:a:b"ia‚Íˆê•¶šˆÈãj‚Å‚ ‚é‚±‚Æ‚Í•Ûá‚³‚ê‚Ä‚¢‚é
+//ãŠçŸ¥ã‚‰ã›äºˆç´„ - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
+//ã“ã®é–¢æ•°ãŒå‘¼ã°ã‚Œã¦ã„ã‚‹æ™‚ç‚¹ã§å¼•æ•°ãŒ"äºˆç´„:a:b"ï¼ˆaã¯ä¸€æ–‡å­—ä»¥ä¸Šï¼‰ã§ã‚ã‚‹ã“ã¨ã¯ä¿éšœã•ã‚Œã¦ã„ã‚‹
 $reserveNotify
 {
 {@lidx = {$lastindex(":",{@argv[0]})}}
 {$reserveDate = {$substring({@argv[0]},3,{@lidx} - 3)}}
 {$reserveContent = {$substringr({@argv[0]},{$length({@argv[0]})}-{@lidx}-1)}}
-{@message = "{$reserveDate}‚É{$reserveContent}‚Ì‚±‚Æ‚ğ‚¢‚¦‚Î‚¢‚¢‚Ì‚ËH\n‚¢‚¢‚í‚æB"}
+{@message = "{$reserveDate}ã«{$reserveContent}ã®ã“ã¨ã‚’ã„ãˆã°ã„ã„ã®ã­ï¼Ÿ\nã„ã„ã‚ã‚ˆã€‚"}
 {@message}
 }
 
 
-//I—¹ - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//çµ‚äº† - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $Exit
 {$OnClose}\w7\-

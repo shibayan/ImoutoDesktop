@@ -15,7 +15,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// </summary>
         public Parser()
         {
-            encoding = Encoding.Default;
+            encoding = Encoding.UTF8;
             globalDefines = new List<Define>();
         }
 

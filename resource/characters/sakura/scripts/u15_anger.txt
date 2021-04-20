@@ -1,33 +1,33 @@
-// «‘ - 12ÎˆÈã15Î–¢–i‚²‹@Œ™Î‚ßƒ‚[ƒhj
+// è¾æ›¸ - 12æ­³ä»¥ä¸Š15æ­³æœªæº€ï¼ˆã”æ©Ÿå«Œæ–œã‚ãƒ¢ãƒ¼ãƒ‰ï¼‰
 
 #Common
 {$if ({$age} >= 12 && {$age} < 15 && ({$thunderstorm} == true))}
 
 
-// ‹N“®
+// èµ·å‹•æ™‚
 $OnBoot_default
-{$setSurfaceRange(11,13)}‚È‚É‚æI‚Ü‚¾‚È‚É‚©—pH
-{$setSurfaceRange(11,13)}˜b‚µ‚©‚¯‚È‚¢‚Å‚Á‚Ä‚¢‚Á‚½‚Å‚µ‚åB
+{$setSurfaceRange(11,13)}ãªã«ã‚ˆï¼ã¾ã ãªã«ã‹ç”¨ï¼Ÿ
+{$setSurfaceRange(11,13)}è©±ã—ã‹ã‘ãªã„ã§ã£ã¦ã„ã£ãŸã§ã—ã‚‡ã€‚
 
 
-// I—¹
+// çµ‚äº†æ™‚
 $OnClose
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnClose_normal} } else { {$OnClose_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnClose_dere} } else { {$OnClose_normal} } } } }
 
 $OnClose_tsun
-{$setSurfaceRange(11,13)}‚à‚¤“ñ“x‚Æ˜b‚µ‚©‚¯‚È‚¢‚Å‚ÁI
-{$setSurfaceRange(11,13)}‚à‚¤’m‚ç‚È‚¢‚ÁI
+{$setSurfaceRange(11,13)}ã‚‚ã†äºŒåº¦ã¨è©±ã—ã‹ã‘ãªã„ã§ã£ï¼
+{$setSurfaceRange(11,13)}ã‚‚ã†çŸ¥ã‚‰ãªã„ã£ï¼
 
 $OnClose_normal
-{$setSurfaceRange(11,13)}%username‚ÌƒoƒJI
+{$setSurfaceRange(11,13)}%usernameã®ãƒã‚«ï¼
 
 $OnClose_dere
-{$setSurfaceRange(05,06)}cccc‚Ó‚ñA‚¾B
-{$setSurfaceRange(11,13)}‚¶‚á‚ ‚Ë‚ÁI
+{$setSurfaceRange(05,06)}â€¦â€¦â€¦â€¦ãµã‚“ã€ã ã€‚
+{$setSurfaceRange(11,13)}ã˜ã‚ƒã‚ã­ã£ï¼
 
 
 
-// ƒƒOƒCƒ“
+// ãƒ­ã‚°ã‚¤ãƒ³æ™‚
 $OnLogin_default
 {
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnLogin_normal} } else { {$OnLogin_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnLogin_dere} } else { {$OnLogin_normal} } } } }
@@ -35,154 +35,154 @@ $OnLogin_default
 }
 
 $OnLogin_tsun
-{$reject = true}{$setSurfaceRange(05,06)}‚ [‚ A‚È‚ñ‚ÅƒAƒ^ƒV‚ª‚±‚ñ‚È‚Ì‚Ì‘Šè‚µ‚È‚«‚á‚¢‚¯‚È‚¢‚Ì‚æccB
+{$reject = true}{$setSurfaceRange(05,06)}ã‚ãƒ¼ã‚ã€ãªã‚“ã§ã‚¢ã‚¿ã‚·ãŒã“ã‚“ãªã®ã®ç›¸æ‰‹ã—ãªãã‚ƒã„ã‘ãªã„ã®ã‚ˆâ€¦â€¦ã€‚
 
 $OnLogin_normal
-{$reject = true}{$setSurfaceRange(05,06)}‚Í[‚ A‚Ç‚±‚©‰“‚­‚Ös‚«‚½‚¢‚È‚ŸccB
+{$reject = true}{$setSurfaceRange(05,06)}ã¯ãƒ¼ã‚ã€ã©ã“ã‹é ãã¸è¡ŒããŸã„ãªãâ€¦â€¦ã€‚
 
 $OnLogin_dere
-{$reject = true}{$setSurfaceRange(05,06)}c­‚µ‚Í”½È‚µ‚Ä‚éH
+{$reject = true}{$setSurfaceRange(05,06)}â€¦å°‘ã—ã¯åçœã—ã¦ã‚‹ï¼Ÿ
 
 
-//‚·‚Å‚ÉÚ‘±‚µ‚Ä‚¢‚é
+//ã™ã§ã«æ¥ç¶šã—ã¦ã„ã‚‹
 $alreadyConnected
 {$OnCommandIgnored}
 
 
-// ƒƒOƒCƒ“Š®—¹
+// ãƒ­ã‚°ã‚¤ãƒ³å®Œäº†
 $OnLogined_default
-//‚È‚µ
+//ãªã—
 
 
-// Ú‘±¸”s
+// æ¥ç¶šå¤±æ•—
 $OnConnectFailure
-//‚È‚µ
+//ãªã—
 
 
-// I‚ÆÚ‘±‚µ‚Ä‚È‚¢
+// é¯–ã¨æ¥ç¶šã—ã¦ãªã„
 $OnDisconnecting
 {$OnCommandIgnored}
-//—vŒŸ“¢
+//è¦æ¤œè¨
 
 
-// I‚Æ‚ÌÚ‘±‚ªØ‚ê‚½
+// é¯–ã¨ã®æ¥ç¶šãŒåˆ‡ã‚ŒãŸ
 $OnDisconnected_default
 {$OnCommandIgnored}
-//—vŒŸ“¢
+//è¦æ¤œè¨
 
 
-// ƒpƒXƒ[ƒhŠÔˆá‚¢
+// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰é–“é•ã„
 $OnIncorrectPassword
-//‚È‚µ?
+//ãªã—?
 
 
-// DOS ƒRƒ}ƒ“ƒhÀs
+// DOS ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
 $OnDosCommand
 {$OnCommandIgnored}
 
 
-// DOS ƒRƒ}ƒ“ƒh¸”s
+// DOS ã‚³ãƒãƒ³ãƒ‰å¤±æ•—
 $OnDosCommandFailure
-//‚È‚µ
+//ãªã—
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•
 $OnChangeDirectory
 {$OnCommandIgnored}
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®¸”s
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•å¤±æ•—
 $NoSuchDirectory_tsun
 $NoSuchDirectory_normal
 $NoSuchDirectory_dere
-//‚È‚µ
+//ãªã—
 
 $OnChangeDirectoryFailure_tsun_default
 $OnChangeDirectoryFailure_normal_default
 $OnChangeDirectoryFailure_dere_default
-//‚È‚µ
+//ãªã—
 
 
-// ƒtƒ@ƒCƒ‹•\¦EŠJ‚­
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºãƒ»é–‹ã
 $OnOpenFile
 {$OnCommandIgnored}
 
 
-// ƒtƒ@ƒCƒ‹•\¦¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºå¤±æ•—
 $OnOpenFileFailure_tsun_default
 $OnOpenFileFailure_normal_default
 $OnOpenFileFailure_dere_default
-//‚È‚µ
+//ãªã—
 
 
-// ƒtƒ@ƒCƒ‹Às
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œ
 $OnExecuteFile
 {$OnCommandIgnored}
 
 
-// ƒtƒ@ƒCƒ‹Às¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œå¤±æ•—
 $OnExecuteFileFailure_tsun_default
 $OnExecuteFileFailure_normal_default
 $OnExecuteFileFailure_dere_default
-//‚È‚µ
+//ãªã—
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 $OnCloseFile
 {$OnCommandIgnored}
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹å¤±æ•—
 $OnCloseFileFailure_tsun
 $OnCloseFileFailure_normal
 $OnCloseFileFailure_dere
-//‚È‚µ
+//ãªã—
 
 
-// ƒtƒ@ƒCƒ‹íœ
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤
 $OnDeleteFile
 {$OnCommandIgnored}
-{$if ({$allowoperate} == true) {\r[delete,directory]‚ ‚çAèŒ³‚ª‹¶‚Á‚¿‚á‚Á‚½B} else {{$OnCommandIgnored}}}
+{$if ({$allowoperate} == true) {\r[delete,directory]ã‚ã‚‰ã€æ‰‹å…ƒãŒç‹‚ã£ã¡ã‚ƒã£ãŸã€‚} else {{$OnCommandIgnored}}}
 
 
-// ƒtƒ@ƒCƒ‹íœ¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤å¤±æ•—
 $OnDeleteFileFailure_tsun_default
 $OnDeleteFileFailure_normal_default
 $OnDeleteFileFailure_dere_default
-//‚È‚µ
+//ãªã—
 
 
-//ƒtƒ@ƒCƒ‹óMŠJn
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡é–‹å§‹
 $OnDownloading
 {$OnCommandIgnored}
 
 
-// ƒtƒ@ƒCƒ‹óMŠ®—¹
+// ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å®Œäº†
 $OnDownloaded
-//‚È‚µ
+//ãªã—
 
 
-//ƒtƒ@ƒCƒ‹óM¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å¤±æ•—
 $OnDownloadFailure_tsun_default
 $OnDownloadFailure_normal_default
 $OnDownloadFailure_dere_default
 $OnDownloadFailure_tsun_cancel
 $OnDownloadFailure_normal_cancel
 $OnDownloadFailure_dere_cancel
-//‚È‚µ
+//ãªã—
 
 
-//ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒgB‰e
+//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆæ’®å½±
 $OnScreenShot
 {$OnCommandIgnored}
 
 
-//ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒgB‰e¸”s
+//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆæ’®å½±å¤±æ•—
 $OnScreenShotFailure
-//‚È‚µ
+//ãªã—
 
 
-// —‰ğ‚Å‚«‚È‚¢ƒRƒ}ƒ“ƒh
+// ç†è§£ã§ããªã„ã‚³ãƒãƒ³ãƒ‰
 $OnUnknownCommand
 {$parsePrivateCommand}
 
@@ -193,17 +193,17 @@ $ImSorry
 {$if ({$random(3)} == 0) {{$excuse}} else {{$OnCommandIgnored}}}
 
 
-// ˜b‚µ‚©‚¯
+// è©±ã—ã‹ã‘
 $OnCallName
 {$OnCommandIgnored}
 
 
-//ƒRƒ}ƒ“ƒhÀs•s”\
+//ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œä¸èƒ½æ™‚
 $OnCommandDisabled
 {$OnCommandIgnored}
 
 
-//ƒRƒ}ƒ“ƒh–³‹‚ÌƒŠƒAƒNƒVƒ‡ƒ“
+//ã‚³ãƒãƒ³ãƒ‰ç„¡è¦–æ™‚ã®ãƒªã‚¢ã‚¯ã‚·ãƒ§ãƒ³
 $OnCommandIgnored
 {
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCommandIgnored_normal} } else { {$OnCommandIgnored_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCommandIgnored_dere} } else { {$OnCommandIgnored_normal} } } } }
@@ -211,24 +211,24 @@ $OnCommandIgnored
 }
 
 $OnCommandIgnored_tsun
-{$reject = true}{$setSurfaceRange(05,06)}ccccB
-{$reject = true}{$setSurfaceRange(11,13)}‚È‚É‚æ‚ÁI‚±‚Ìƒwƒ“ƒ^ƒC‚ÁB
-{$reject = true}{$setSurfaceRange(11,13)}‚±‚Á‚¿‚İ‚È‚¢‚ÅI
+{$reject = true}{$setSurfaceRange(05,06)}â€¦â€¦â€¦â€¦ã€‚
+{$reject = true}{$setSurfaceRange(11,13)}ãªã«ã‚ˆã£ï¼ã“ã®ãƒ˜ãƒ³ã‚¿ã‚¤ã£ã€‚
+{$reject = true}{$setSurfaceRange(11,13)}ã“ã£ã¡ã¿ãªã„ã§ï¼
 
 $OnCommandIgnored_normal
-{$reject = true}{$setSurfaceRange(05,06)}ccccB
-{$reject = true}{$setSurfaceRange(05,06)}ccccA‚Ó‚ñA‚¾B
-{$reject = true}{$setSurfaceRange(11,13)}‚È‚É‚æ‚ÁI
+{$reject = true}{$setSurfaceRange(05,06)}â€¦â€¦â€¦â€¦ã€‚
+{$reject = true}{$setSurfaceRange(05,06)}â€¦â€¦â€¦â€¦ã€ãµã‚“ã€ã ã€‚
+{$reject = true}{$setSurfaceRange(11,13)}ãªã«ã‚ˆã£ï¼
 
 $OnCommandIgnored_dere
-{$reject = true}{$setSurfaceRange(05,06)}ccccB
-{$reject = true}{$setSurfaceRange(11,13)}‚È‚É‚æ‚ÁI
-{$reject = true}{$setSurfaceRange(11,13)}%username‚È‚ñ‚Ä’m‚ç‚È‚¢‚ÁI
-{$reject = true}{$setSurfaceRange(11,13)}˜b‚µ‚©‚¯‚È‚¢‚ÅI
+{$reject = true}{$setSurfaceRange(05,06)}â€¦â€¦â€¦â€¦ã€‚
+{$reject = true}{$setSurfaceRange(11,13)}ãªã«ã‚ˆã£ï¼
+{$reject = true}{$setSurfaceRange(11,13)}%usernameãªã‚“ã¦çŸ¥ã‚‰ãªã„ã£ï¼
+{$reject = true}{$setSurfaceRange(11,13)}è©±ã—ã‹ã‘ãªã„ã§ï¼
 
 
 
-//d•û‚È‚¢‚Ì‚Å‹–‚µ‚Ä‚â‚é
+//ä»•æ–¹ãªã„ã®ã§è¨±ã—ã¦ã‚„ã‚‹
 $excuse
 {
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$excuse_normal} } else { {$excuse_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$excuse_dere} } else { {$excuse_normal} } } } }
@@ -236,13 +236,13 @@ $excuse
 }
 
 $excuse_tsun
-\w5{$setSurfaceRange(05,06)}¡‰ñ‚¾‚¯‚Í‹–‚µ‚Ä‚ ‚°‚é‚íBŸ‚Í‚È‚¢‚©‚ç‚Ë‚ÁB
-\w5{$setSurfaceRange(05,06)}ƒzƒ“ƒg‚Ç‚¤‚µ‚æ‚¤‚à‚È‚¢‚í‚ËB¡‰ñ‚¾‚¯‚æH
+\w5{$setSurfaceRange(05,06)}ä»Šå›ã ã‘ã¯è¨±ã—ã¦ã‚ã’ã‚‹ã‚ã€‚æ¬¡ã¯ãªã„ã‹ã‚‰ã­ã£ã€‚
+\w5{$setSurfaceRange(05,06)}ãƒ›ãƒ³ãƒˆã©ã†ã—ã‚ˆã†ã‚‚ãªã„ã‚ã­ã€‚ä»Šå›ã ã‘ã‚ˆï¼Ÿ
 
 $excuse_normal
-\w5{$setSurfaceRange(05,06)}‚µ‚å‚¤‚ª‚È‚¢‚È‚ŸA‚Ü‚Á‚½‚­B
+\w5{$setSurfaceRange(05,06)}ã—ã‚‡ã†ãŒãªã„ãªãã€ã¾ã£ãŸãã€‚
 
 $excuse_dere
-\w5{$setSurfaceRange(05,06)}‚µ‚å‚¤‚ª‚È‚¢‚©‚ç¡‰ñ‚¾‚¯‚Í‹–‚µ‚Ä‚ ‚°‚é‚¯‚ÇccB
-\w5{$setSurfaceRange(05,06)}‚¤[A¡‰ñ‚¾‚¯‚Í‹–‚µ‚Ä‚ ‚°‚é‚¯‚ÇccB
+\w5{$setSurfaceRange(05,06)}ã—ã‚‡ã†ãŒãªã„ã‹ã‚‰ä»Šå›ã ã‘ã¯è¨±ã—ã¦ã‚ã’ã‚‹ã‘ã©â€¦â€¦ã€‚
+\w5{$setSurfaceRange(05,06)}ã†ãƒ¼ã€ä»Šå›ã ã‘ã¯è¨±ã—ã¦ã‚ã’ã‚‹ã‘ã©â€¦â€¦ã€‚
 

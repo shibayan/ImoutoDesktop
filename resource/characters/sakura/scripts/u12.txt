@@ -1,141 +1,141 @@
-// «‘ - 6ÎˆÈã12Î–¢–
+// è¾æ›¸ - 6æ­³ä»¥ä¸Š12æ­³æœªæº€
 
 #Common
 {$if ({$age} >= 6 && {$age} < 12 && ({$hour} >= 7 && {$hour} < 21) && ({$thunderstorm} == false))}
 
 
-// ‹N“®
+// èµ·å‹•æ™‚
 $OnBoot_default
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnBoot_normal} } else { {$OnBoot_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnBoot_dere} } else { {$OnBoot_normal} } } } }
 
 $OnBoot_tsun
-‚È‚ÉH—V‚ñ‚Å—~‚µ‚¢‚ÌH\n\w5­‚µ‚¾‚¯‚ËB
-%usernameA‚È‚ñ‚©ƒqƒ}‚»‚¤‚¾‚Ë[B
+ãªã«ï¼ŸéŠã‚“ã§æ¬²ã—ã„ã®ï¼Ÿ\n\w5å°‘ã—ã ã‘ã­ã€‚
+%usernameã€ãªã‚“ã‹ãƒ’ãƒãã†ã ã­ãƒ¼ã€‚
 
 $OnBoot_normal
-%usernameA‰½‚©—pH
+%usernameã€ä½•ã‹ç”¨ï¼Ÿ
 
 $OnBoot_dere
-‚â‚Á‚Ù[AŒ³‹CH
-‚ [A%username‚¾I—V‚Ú‚¤‚æB
+ã‚„ã£ã»ãƒ¼ã€å…ƒæ°—ï¼Ÿ
+ã‚ãƒ¼ã€%usernameã ï¼éŠã¼ã†ã‚ˆã€‚
 
 
-// I—¹H
+// çµ‚äº†æ™‚ï¼Ÿ
 $OnClose
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnClose_normal} } else { {$OnClose_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnClose_dere} } else { {$OnClose_normal} } } } }
 
 $OnClose_tsun
-cc‚à‚¤‚¢‚¢‚ÌH‚Ó[‚ñA‚»‚¤B
-cc‚à‚¤‚¢‚¢‚ÌH‚Ó[‚ñA‚»‚¤B\n‚×‚Á‚Â‚É%username‚ÌŠç‚È‚ñ‚Ä‚İ‚½‚­‚È‚¢‚à‚ñB
-‚¶‚á‚ ‚ËB\n\w5‚Ü‚½‚½‚Ü‚É‚Í—V‚ñ‚Å‚ ‚°‚Ä‚à‚¢‚¢‚æH
+â€¦â€¦ã‚‚ã†ã„ã„ã®ï¼Ÿãµãƒ¼ã‚“ã€ãã†ã€‚
+â€¦â€¦ã‚‚ã†ã„ã„ã®ï¼Ÿãµãƒ¼ã‚“ã€ãã†ã€‚\nã¹ã£ã¤ã«%usernameã®é¡”ãªã‚“ã¦ã¿ãŸããªã„ã‚‚ã‚“ã€‚
+ã˜ã‚ƒã‚ã­ã€‚\n\w5ã¾ãŸãŸã¾ã«ã¯éŠã‚“ã§ã‚ã’ã¦ã‚‚ã„ã„ã‚ˆï¼Ÿ
 
 $OnClose_normal
-‚¶‚á[‚ËB
-‚¶‚áA‚Ü‚½‚ËB
+ã˜ã‚ƒãƒ¼ã­ã€‚
+ã˜ã‚ƒã€ã¾ãŸã­ã€‚
 
 $OnClose_dere
-‚à‚¤I‚í‚è[H‚Â‚Ü‚ñ‚È‚¢I
-‚»‚ê‚¶‚á‚ A‚Ü‚Á‚½‚Ë[ô
+ã‚‚ã†çµ‚ã‚ã‚Šãƒ¼ï¼Ÿã¤ã¾ã‚“ãªã„ï¼
+ãã‚Œã˜ã‚ƒã‚ã€ã¾ã£ãŸã­ãƒ¼â™ª
 
 
-// ƒƒOƒCƒ“
+// ãƒ­ã‚°ã‚¤ãƒ³æ™‚
 $OnLogin_default
 //none
 
 
-//‚·‚Å‚ÉÚ‘±‚µ‚Ä‚¢‚é
+//ã™ã§ã«æ¥ç¶šã—ã¦ã„ã‚‹
 $alreadyConnected
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$alreadyConnected_normal} } else { {$alreadyConnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$alreadyConnected_dere} } else { {$alreadyConnected_normal} } } } }
 
 $alreadyConnected_tsun
-{$reject = true}‚³‚Á‚«ƒƒOƒCƒ“‚µ‚½‚Î‚Á‚©‚¶‚á‚ñB
-{$reject = true}‚³‚Á‚«‚â‚Á‚½‚Î‚Á‚©‚¾‚æH–Y‚ê‚½‚ÌH
+{$reject = true}ã•ã£ããƒ­ã‚°ã‚¤ãƒ³ã—ãŸã°ã£ã‹ã˜ã‚ƒã‚“ã€‚
+{$reject = true}ã•ã£ãã‚„ã£ãŸã°ã£ã‹ã ã‚ˆï¼Ÿå¿˜ã‚ŒãŸã®ï¼Ÿ
 
 $alreadyConnected_normal
-{$reject = true}‚à‚¤Ú‘±‚µ‚Ä‚é‚æH
+{$reject = true}ã‚‚ã†æ¥ç¶šã—ã¦ã‚‹ã‚ˆï¼Ÿ
 
 $alreadyConnected_dere
-{$reject = true}‚à‚¤ƒƒOƒCƒ“‚µ‚Ä‚é‚æH
-{$reject = true}‚à‚¤Ú‘±‚µ‚Ä‚È‚©‚Á‚½‚Á‚¯H
+{$reject = true}ã‚‚ã†ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ã‚‹ã‚ˆï¼Ÿ
+{$reject = true}ã‚‚ã†æ¥ç¶šã—ã¦ãªã‹ã£ãŸã£ã‘ï¼Ÿ
 
 
-// ƒƒOƒCƒ“
+// ãƒ­ã‚°ã‚¤ãƒ³æ™‚
 $OnLogined_default
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnLogined_normal} } else { {$OnLogined_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnLogined_dere} } else { {$OnLogined_normal} } } } }
 
 $OnLogined_tsun
-u{$parameter(0)}v‚ÉƒƒOƒCƒ“‚µ‚½‚æB\w5‚ÅA\w5‚È‚É‚·‚é‚ÌH
+ã€Œ{$parameter(0)}ã€ã«ãƒ­ã‚°ã‚¤ãƒ³ã—ãŸã‚ˆã€‚\w5ã§ã€\w5ãªã«ã™ã‚‹ã®ï¼Ÿ
 
 $OnLogined_normal
-u{$parameter(0)}v‚ÉƒƒOƒCƒ“‚µ‚½‚æB
+ã€Œ{$parameter(0)}ã€ã«ãƒ­ã‚°ã‚¤ãƒ³ã—ãŸã‚ˆã€‚
 
 $OnLogined_dere
-u{$parameter(0)}v‚ÉƒƒOƒCƒ“‚µ‚½‚æB
-ƒƒOƒCƒ“¬Œ÷B‚â‚Á‚½‚ËI
+ã€Œ{$parameter(0)}ã€ã«ãƒ­ã‚°ã‚¤ãƒ³ã—ãŸã‚ˆã€‚
+ãƒ­ã‚°ã‚¤ãƒ³æˆåŠŸã€‚ã‚„ã£ãŸã­ï¼
 
 
-// Ú‘±¸”s
+// æ¥ç¶šå¤±æ•—
 $OnConnectFailure
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnConnectFailure_normal} } else { {$OnConnectFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnConnectFailure_dere} } else { {$OnConnectFailure_normal} } } } }
 
 $OnConnectFailure_tsun
-u{$parameter(0)}v‚ÉÚ‘±‚Å‚«‚È‚©‚Á‚½‚İ‚½‚¢B\n\w5ƒAƒ^ƒV‚Ì‚¹‚¢‚¶‚á‚È‚¢c‚ÆA‚¨‚à‚¤‚æH
-‚Â‚È‚ª‚ç‚È‚©‚Á‚½‚æH\n\w5%username‚Ìİ’è‚ª‚¨‚©‚µ‚¢‚ñ‚¶‚á‚È‚¢‚ÌH
+ã€Œ{$parameter(0)}ã€ã«æ¥ç¶šã§ããªã‹ã£ãŸã¿ãŸã„ã€‚\n\w5ã‚¢ã‚¿ã‚·ã®ã›ã„ã˜ã‚ƒãªã„â€¦ã¨ã€ãŠã‚‚ã†ã‚ˆï¼Ÿ
+ã¤ãªãŒã‚‰ãªã‹ã£ãŸã‚ˆï¼Ÿ\n\w5%usernameã®è¨­å®šãŒãŠã‹ã—ã„ã‚“ã˜ã‚ƒãªã„ã®ï¼Ÿ
 
 $OnConnectFailure_normal
-u{$parameter(0)}v‚ÉÚ‘±‚Å‚«‚È‚¢‚æB
+ã€Œ{$parameter(0)}ã€ã«æ¥ç¶šã§ããªã„ã‚ˆã€‚
 
 $OnConnectFailure_dere
-u{$parameter(0)}v‚Æ‚ÌÚ‘±‚É¸”s‚µ‚¿‚á‚Á‚½B‚²‚ß‚ñ‚È‚³‚¢B
-‚ ‚ê‚êH‚¤‚Ü‚­‚Â‚È‚ª‚ç‚È‚¢‚æ[B
+ã€Œ{$parameter(0)}ã€ã¨ã®æ¥ç¶šã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚ã”ã‚ã‚“ãªã•ã„ã€‚
+ã‚ã‚Œã‚Œï¼Ÿã†ã¾ãã¤ãªãŒã‚‰ãªã„ã‚ˆãƒ¼ã€‚
 
 
-// I‚ÆÚ‘±‚µ‚Ä‚È‚¢
+// é¯–ã¨æ¥ç¶šã—ã¦ãªã„
 $OnDisconnecting
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnecting_normal} } else { {$OnDisconnecting_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnecting_dere} } else { {$OnDisconnecting_normal} } } } }
 
 $OnDisconnecting_tsun
-‚¢‚Ü‚Í‚Â‚È‚ª‚Á‚Ä‚È‚¢‚¶‚á‚È‚¢B
-Ú‘±‚³‚ê‚Ä‚È‚¢‚¶‚á‚È‚¢B
+ã„ã¾ã¯ã¤ãªãŒã£ã¦ãªã„ã˜ã‚ƒãªã„ã€‚
+æ¥ç¶šã•ã‚Œã¦ãªã„ã˜ã‚ƒãªã„ã€‚
 
 $OnDisconnecting_normal
-ƒT[ƒo‚ÆÚ‘±‚³‚ê‚Ä‚È‚¢‚İ‚½‚¢B
+ã‚µãƒ¼ãƒã¨æ¥ç¶šã•ã‚Œã¦ãªã„ã¿ãŸã„ã€‚
 
 $OnDisconnecting_dere
-‚¢‚Ü‚ÍƒT[ƒo‚ÆÚ‘±‚³‚ê‚Ä‚È‚¢‚æH
+ã„ã¾ã¯ã‚µãƒ¼ãƒã¨æ¥ç¶šã•ã‚Œã¦ãªã„ã‚ˆï¼Ÿ
 
 
-// I‚Æ‚ÌÚ‘±‚ªØ‚ê‚½
+// é¯–ã¨ã®æ¥ç¶šãŒåˆ‡ã‚ŒãŸ
 $OnDisconnected_default
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnected_normal} } else { {$OnDisconnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnected_dere} } else { {$OnDisconnected_normal} } } } }
 
 $OnDisconnected_tsun
-Ú‘±Ø‚ê‚¿‚á‚Á‚½‚İ‚½‚¢B
+æ¥ç¶šåˆ‡ã‚Œã¡ã‚ƒã£ãŸã¿ãŸã„ã€‚
 
 $OnDisconnected_normal
-Ú‘±‚ªØ‚ê‚¿‚á‚Á‚½‚İ‚½‚¢‚ËB
+æ¥ç¶šãŒåˆ‡ã‚Œã¡ã‚ƒã£ãŸã¿ãŸã„ã­ã€‚
 
 $OnDisconnected_dere
-‚ ‚Á‚¿‚Æ‚ÌÚ‘±‚ªØ‚ê‚¿‚á‚Á‚½B
+ã‚ã£ã¡ã¨ã®æ¥ç¶šãŒåˆ‡ã‚Œã¡ã‚ƒã£ãŸã€‚
 
 
-// ƒpƒXƒ[ƒhŠÔˆá‚¢
+// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰é–“é•ã„
 $OnIncorrectPassword
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnIncorrectPassword_normal} } else { {$OnIncorrectPassword_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnIncorrectPassword_dere} } else { {$OnIncorrectPassword_normal} } } } }
 
 $OnIncorrectPassword_tsun
-ƒpƒXƒ[ƒh‚ªˆá‚¤‚Á‚ÄB
-ƒpƒXƒ[ƒh‚ ‚Á‚Ä‚È‚¢‚ñ‚¶‚á‚È‚¢H
+ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒé•ã†ã£ã¦ã€‚
+ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚ã£ã¦ãªã„ã‚“ã˜ã‚ƒãªã„ï¼Ÿ
 
 $OnIncorrectPassword_normal
-ƒƒOƒCƒ“‚Å‚«‚È‚©‚Á‚½‚æB\w5ƒpƒXƒ[ƒh‚ªˆá‚¤‚İ‚½‚¢B
+ãƒ­ã‚°ã‚¤ãƒ³ã§ããªã‹ã£ãŸã‚ˆã€‚\w5ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒé•ã†ã¿ãŸã„ã€‚
 
 $OnIncorrectPassword_dere
-‚¦‚Á‚ÆAƒƒOƒCƒ“‚É¸”s‚µ‚¿‚á‚Á‚½B\nƒpƒXƒ[ƒh‚ªˆá‚¤‚İ‚½‚¢B
-‚È‚ñ‚©ƒpƒXƒ[ƒh‚ªˆá‚¤‚ñ‚¾‚Á‚ÄB
+ãˆã£ã¨ã€ãƒ­ã‚°ã‚¤ãƒ³ã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚\nãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒé•ã†ã¿ãŸã„ã€‚
+ãªã‚“ã‹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒé•ã†ã‚“ã ã£ã¦ã€‚
 
 
-// DOS ƒRƒ}ƒ“ƒhÀs
+// DOS ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ
 $OnDosCommand
 {
 {@cmd = {$substringl({$parameter(0)},2)}}
@@ -149,36 +149,36 @@ $OnDosCommandAccepted_tsun; {$if ({$random(5)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnDosCommandAccepted_tsun
-u{$parameter(0)}v‚ğÀs‚µ‚½‚æB\n\w5ƒJƒ“ƒVƒƒ‚µ‚Ä‚æ‚ËB
-u{$parameter(0)}v‚ğÀs‚µ‚½‚æB
+ã€Œ{$parameter(0)}ã€ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚\n\w5ã‚«ãƒ³ã‚·ãƒ£ã—ã¦ã‚ˆã­ã€‚
+ã€Œ{$parameter(0)}ã€ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚
 
 $OnDosCommandAccepted_normal
-u{$parameter(0)}v‚ğÀs‚µ‚½‚æB
+ã€Œ{$parameter(0)}ã€ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚
 
 $OnDosCommandAccepted_dere
-u{$parameter(0)}v‚ğÀs‚µ‚½‚æB
-u{$parameter(0)}v‚ğÀs‚µ‚½‚æB‚¦‚Ö‚ÖB
+ã€Œ{$parameter(0)}ã€ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚
+ã€Œ{$parameter(0)}ã€ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚ãˆã¸ã¸ã€‚
 
 $OnDosCommandRejected
 {$OnCommandDisabled}
 
 
-// DOS ƒRƒ}ƒ“ƒh¸”s
+// DOS ã‚³ãƒãƒ³ãƒ‰å¤±æ•—
 $OnDosCommandFailure
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDosCommandFailure_normal} } else { {$OnDosCommandFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDosCommandFailure_dere} } else { {$OnDosCommandFailure_normal} } } } }
 
 $OnDosCommandFailure_tsun
-u{$parameter(0)}v‚É¸”s‚µ‚¿‚á‚Á‚½B
+ã€Œ{$parameter(0)}ã€ã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 $OnDosCommandFailure_normal
-‚¤‚Ü‚­‚Å‚«‚È‚©‚Á‚½‚İ‚½‚¢B
-Às‚É¸”s‚µ‚¿‚á‚Á‚½B
+ã†ã¾ãã§ããªã‹ã£ãŸã¿ãŸã„ã€‚
+å®Ÿè¡Œã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 $OnDosCommandFailure_dere
-u{$parameter(0)}v‚É¸”s‚µ‚¿‚á‚Á‚½B
+ã€Œ{$parameter(0)}ã€ã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•
 $OnChangeDirectory
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnChangeDirectory_normal} } else { {$OnChangeDirectory_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnChangeDirectory_dere} } else { {$OnChangeDirectory_normal} } } } }
 
@@ -189,57 +189,57 @@ $OnChangeDirectory_tsun
 {$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_tsun_empty} } else { {$OnChangeDirectory_tsun_default} }}
 
 $OnChangeDirectory_tsun_empty
-‚¢‚í‚ê‚½êŠ‚ÖˆÚ“®‚µ‚½‚íB\n\w5cc‚©‚ç‚Á‚Û‚¶‚á‚È‚¢B
+ã„ã‚ã‚ŒãŸå ´æ‰€ã¸ç§»å‹•ã—ãŸã‚ã€‚\n\w5â€¦â€¦ã‹ã‚‰ã£ã½ã˜ã‚ƒãªã„ã€‚
 
 $OnChangeDirectory_tsun_default
-‚¢‚í‚ê‚½êŠ‚ÖˆÚ“®‚µ‚½‚íB
+ã„ã‚ã‚ŒãŸå ´æ‰€ã¸ç§»å‹•ã—ãŸã‚ã€‚
 
 $OnChangeDirectory_normal
-‚¢‚í‚ê‚½êŠ‚ÖˆÚ“®‚µ‚½‚æB
+ã„ã‚ã‚ŒãŸå ´æ‰€ã¸ç§»å‹•ã—ãŸã‚ˆã€‚
 
 $OnChangeDirectory_dere
 {$if ({$parameter(1)} == "Picture") { {$OnChangeDirectory_dere_picture} } elseif ({$parameter(1)} == "Movie") { {$OnChangeDirectory_dere_movie} } elseif ({$parameter(1)} == "Music") { {$OnChangeDirectory_dere_music} } else { {$OnChangeDirectory_dere_default} }}
 
 $OnChangeDirectory_dere_picture
 {$OnChangeDirectory_dere_default}
-‰æ‘œƒtƒ@ƒCƒ‹‚¾B\n\w5‚Ë‚¦A‚¿‚å‚Á‚Æ‚İ‚Ä‚à‚¢‚¢H
+ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã ã€‚\n\w5ã­ãˆã€ã¡ã‚‡ã£ã¨ã¿ã¦ã‚‚ã„ã„ï¼Ÿ
 
 $OnChangeDirectory_dere_movie
 {$OnChangeDirectory_dere_default}
-“®‰æ‚¾B\n\w5‚Ë‚¦A‚¿‚å‚Á‚Æ‚İ‚Ä‚à‚¢‚¢H
+å‹•ç”»ã ã€‚\n\w5ã­ãˆã€ã¡ã‚‡ã£ã¨ã¿ã¦ã‚‚ã„ã„ï¼Ÿ
 
 $OnChangeDirectory_dere_music
 {$OnChangeDirectory_dere_default}
-‰¹Šyƒtƒ@ƒCƒ‹‚¾B\n\w5‚Ë‚¦A‚¿‚å‚Á‚Æ‚©‚¯‚Ä‚İ‚Ä‚à‚¢‚¢H
+éŸ³æ¥½ãƒ•ã‚¡ã‚¤ãƒ«ã ã€‚\n\w5ã­ãˆã€ã¡ã‚‡ã£ã¨ã‹ã‘ã¦ã¿ã¦ã‚‚ã„ã„ï¼Ÿ
 
 $OnChangeDirectory_dere_default
-‚¢‚í‚ê‚½êŠ‚ÖˆÚ“®‚µ‚½‚æB
+ã„ã‚ã‚ŒãŸå ´æ‰€ã¸ç§»å‹•ã—ãŸã‚ˆã€‚
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®¸”s
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•å¤±æ•—
 $NoSuchDirectory_tsun
-‚»‚ñ‚ÈêŠ‚È‚¢‚¶‚á‚ñB
-‚¢‚í‚ê‚½êŠ‚ª‚İ‚Â‚©‚ñ‚È‚¢‚ñ‚¾‚¯‚ÇH
+ãã‚“ãªå ´æ‰€ãªã„ã˜ã‚ƒã‚“ã€‚
+ã„ã‚ã‚ŒãŸå ´æ‰€ãŒã¿ã¤ã‹ã‚“ãªã„ã‚“ã ã‘ã©ï¼Ÿ
 
 $NoSuchDirectory_normal
-‚¢‚í‚ê‚½êŠ‚ª‚È‚¢‚İ‚½‚¢B
+ã„ã‚ã‚ŒãŸå ´æ‰€ãŒãªã„ã¿ãŸã„ã€‚
 
 $NoSuchDirectory_dere
-ƒpƒX‚ª‚İ‚Â‚©‚ç‚È‚¢‚æ‚§B
+ãƒ‘ã‚¹ãŒã¿ã¤ã‹ã‚‰ãªã„ã‚ˆã‰ã€‚
 
 $OnChangeDirectoryFailure_tsun_default
-ˆÚ“®‚Å‚«‚È‚¢‚İ‚½‚¢B\n\w5êŠ‚ ‚Á‚Ä‚éH
-ˆÚ“®‚Å‚«‚È‚¢‚İ‚½‚¢B
+ç§»å‹•ã§ããªã„ã¿ãŸã„ã€‚\n\w5å ´æ‰€ã‚ã£ã¦ã‚‹ï¼Ÿ
+ç§»å‹•ã§ããªã„ã¿ãŸã„ã€‚
 
 $OnChangeDirectoryFailure_normal_default
-ˆÚ“®‚Å‚«‚È‚©‚Á‚½‚æB
-ˆÚ“®‚Å‚«‚È‚©‚Á‚½‚æB\nƒpƒX‚ ‚Á‚Ä‚éH
+ç§»å‹•ã§ããªã‹ã£ãŸã‚ˆã€‚
+ç§»å‹•ã§ããªã‹ã£ãŸã‚ˆã€‚\nãƒ‘ã‚¹ã‚ã£ã¦ã‚‹ï¼Ÿ
 
 $OnChangeDirectoryFailure_dere_default
-ˆÚ“®‚É¸”s‚µ‚¿‚á‚Á‚½B
+ç§»å‹•ã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 
-// ƒtƒ@ƒCƒ‹•\¦EŠJ‚­
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºãƒ»é–‹ã
 $OnOpenFile
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnOpenFile_normal} } else { {$OnOpenFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnOpenFile_dere} } else { {$OnOpenFile_normal} } } } }
 
@@ -247,45 +247,45 @@ $OnOpenFile_tsun; {$if ({$random(5)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnOpenFile_tsun
-{$ExtractFileName} ‚ğŠJ‚¢‚½‚æB
-{$ExtractFileName} ‚ğ•\¦‚µ‚½‚æB
+{$ExtractFileName} ã‚’é–‹ã„ãŸã‚ˆã€‚
+{$ExtractFileName} ã‚’è¡¨ç¤ºã—ãŸã‚ˆã€‚
 
 $OnOpenFile_normal
-{$ExtractFileName} ‚ğŠJ‚¢‚½‚æB
-{$ExtractFileName} ‚ğ•\¦‚µ‚½‚æB
+{$ExtractFileName} ã‚’é–‹ã„ãŸã‚ˆã€‚
+{$ExtractFileName} ã‚’è¡¨ç¤ºã—ãŸã‚ˆã€‚
 
 $OnOpenFile_dere
-{$ExtractFileName} ‚ğŠJ‚¢‚½‚æB
-{$ExtractFileName} ‚ğ•\¦‚µ‚½‚æB
+{$ExtractFileName} ã‚’é–‹ã„ãŸã‚ˆã€‚
+{$ExtractFileName} ã‚’è¡¨ç¤ºã—ãŸã‚ˆã€‚
 
 
-// ƒtƒ@ƒCƒ‹•\¦¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºå¤±æ•—
 $OnOpenFileFailure_tsun_default
-{$ExtractFileName} ‚ªŠJ‚¯‚È‚©‚Á‚½B
+{$ExtractFileName} ãŒé–‹ã‘ãªã‹ã£ãŸã€‚
 
 $OnOpenFileFailure_normal_default
-{$ExtractFileName} ‚ªŠJ‚¯‚È‚©‚Á‚½‚İ‚½‚¢B
-{$ExtractFileName} ‚Ì•\¦‚É¸”s‚µ‚½‚İ‚½‚¢B
+{$ExtractFileName} ãŒé–‹ã‘ãªã‹ã£ãŸã¿ãŸã„ã€‚
+{$ExtractFileName} ã®è¡¨ç¤ºã«å¤±æ•—ã—ãŸã¿ãŸã„ã€‚
 
 $OnOpenFileFailure_dere_default
-{$ExtractFileName} ‚ªŠJ‚¯‚È‚©‚Á‚½‚æB
-{$ExtractFileName} ‚ª•\¦‚Å‚«‚È‚©‚Á‚½‚İ‚½‚¢B
+{$ExtractFileName} ãŒé–‹ã‘ãªã‹ã£ãŸã‚ˆã€‚
+{$ExtractFileName} ãŒè¡¨ç¤ºã§ããªã‹ã£ãŸã¿ãŸã„ã€‚
 
 $NoSuchFile_tsun
-‚»‚ñ‚Èƒtƒ@ƒCƒ‹‚È‚¢‚¶‚á‚ñB
-ƒtƒ@ƒCƒ‹‚ª‚İ‚Â‚©‚ç‚È‚¢‚ñ‚Å‚·‚¯‚Ç‚§[H\n\w5‚©‚ç‚©‚Á‚Ä‚ñ‚ÌH
+ãã‚“ãªãƒ•ã‚¡ã‚¤ãƒ«ãªã„ã˜ã‚ƒã‚“ã€‚
+ãƒ•ã‚¡ã‚¤ãƒ«ãŒã¿ã¤ã‹ã‚‰ãªã„ã‚“ã§ã™ã‘ã©ã‰ãƒ¼ï¼Ÿ\n\w5ã‹ã‚‰ã‹ã£ã¦ã‚“ã®ï¼Ÿ
 
 $NoSuchFile_normal
-‚¢‚í‚ê‚½ƒtƒ@ƒCƒ‹‚ª‚È‚¢‚İ‚½‚¢B
-ƒtƒ@ƒCƒ‹‚ª‚İ‚Â‚©‚ç‚È‚¢‚æB‚Ç‚¤‚µ‚æ‚¤B
+ã„ã‚ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„ã¿ãŸã„ã€‚
+ãƒ•ã‚¡ã‚¤ãƒ«ãŒã¿ã¤ã‹ã‚‰ãªã„ã‚ˆã€‚ã©ã†ã—ã‚ˆã†ã€‚
 
 $NoSuchFile_dere
-ƒtƒ@ƒCƒ‹‚ª‚İ‚Â‚©‚ç‚È‚¢‚æ‚§B
-‚ ‚Ì‚ËAƒtƒ@ƒCƒ‹‚ª‚È‚¢‚İ‚½‚¢B
-‚ ‚Í‚ÍAƒtƒ@ƒCƒ‹‚ª‚È‚¢‚Ë‚¥B
+ãƒ•ã‚¡ã‚¤ãƒ«ãŒã¿ã¤ã‹ã‚‰ãªã„ã‚ˆã‰ã€‚
+ã‚ã®ã­ã€ãƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„ã¿ãŸã„ã€‚
+ã‚ã¯ã¯ã€ãƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„ã­ã‡ã€‚
 
 
-// ƒtƒ@ƒCƒ‹Às
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œ
 $OnExecuteFile
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnExecuteFile_normal} } else { {$OnExecuteFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnExecuteFile_dere} } else { {$OnExecuteFile_normal} } } } }
 
@@ -293,29 +293,29 @@ $OnExecuteFile_tsun; {$if ({$random(5)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnExecuteFile_tsun
-{$ExtractFileName} ‚ğÀs‚µ‚½‚æB
+{$ExtractFileName} ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚
 
 $OnExecuteFile_normal
-{$ExtractFileName} ‚ğÀs‚µ‚½‚æB
+{$ExtractFileName} ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚
 
 $OnExecuteFile_dere
-{$ExtractFileName} ‚ğÀs‚µ‚½‚æB
+{$ExtractFileName} ã‚’å®Ÿè¡Œã—ãŸã‚ˆã€‚
 
 
-// ƒtƒ@ƒCƒ‹Às¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œå¤±æ•—
 $OnExecuteFileFailure_tsun_default
-{$ExtractFileName} ‚ğÀs‚Å‚«‚È‚©‚Á‚½‚İ‚½‚¢B
-{$ExtractFileName} ‚ÌÀs‚É¸”s‚µ‚¿‚á‚Á‚½B
+{$ExtractFileName} ã‚’å®Ÿè¡Œã§ããªã‹ã£ãŸã¿ãŸã„ã€‚
+{$ExtractFileName} ã®å®Ÿè¡Œã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 $OnExecuteFileFailure_normal_default
-{$ExtractFileName} ‚ªÀs‚Å‚«‚È‚©‚Á‚½‚İ‚½‚¢B
+{$ExtractFileName} ãŒå®Ÿè¡Œã§ããªã‹ã£ãŸã¿ãŸã„ã€‚
 
 $OnExecuteFileFailure_dere_default
-{$ExtractFileName} ‚ğÀs‚Å‚«‚È‚©‚Á‚½‚İ‚½‚¢B
-{$ExtractFileName} ‚ÌÀs‚É¸”s‚µ‚¿‚á‚Á‚½B
+{$ExtractFileName} ã‚’å®Ÿè¡Œã§ããªã‹ã£ãŸã¿ãŸã„ã€‚
+{$ExtractFileName} ã®å®Ÿè¡Œã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 $OnCloseFile
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCloseFile_normal} } else { {$OnCloseFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCloseFile_dere} } else { {$OnCloseFile_normal} } } } }
 
@@ -323,28 +323,28 @@ $OnCloseFile_tsun; {$if ({$random(5)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnCloseFile_tsun
-{$ExtractFileName} ‚ğ•Â‚¶‚½‚æB
+{$ExtractFileName} ã‚’é–‰ã˜ãŸã‚ˆã€‚
 
 $OnCloseFile_normal
-{$ExtractFileName} ‚ğ•Â‚¶‚½‚æB
+{$ExtractFileName} ã‚’é–‰ã˜ãŸã‚ˆã€‚
 
 $OnCloseFile_dere
-{$ExtractFileName} ‚ğ•Â‚¶‚½‚æB
-‚µ‚ã[‚è‚å[B
+{$ExtractFileName} ã‚’é–‰ã˜ãŸã‚ˆã€‚
+ã—ã‚…ãƒ¼ã‚Šã‚‡ãƒ¼ã€‚
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹å¤±æ•—
 $OnCloseFileFailure_tsun
-{$ExtractFileName} ‚ğ•Â‚¶‚ê‚ç‚È‚¢‚İ‚½‚¢B
+{$ExtractFileName} ã‚’é–‰ã˜ã‚Œã‚‰ãªã„ã¿ãŸã„ã€‚
 
 $OnCloseFileFailure_normal
-{$ExtractFileName} ‚ğ•Â‚¶‚é‚Ì‚É¸”s‚µ‚¿‚á‚Á‚½B
+{$ExtractFileName} ã‚’é–‰ã˜ã‚‹ã®ã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 $OnCloseFileFailure_dere
-{$ExtractFileName} ‚ğ•Â‚¶‚é‚Ì‚É¸”s‚µ‚¿‚á‚Á‚½B
+{$ExtractFileName} ã‚’é–‰ã˜ã‚‹ã®ã«å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
 
 
-// ƒtƒ@ƒCƒ‹íœ
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤
 $OnDeleteFile
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDeleteFile_normal} } else { {$OnDeleteFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDeleteFile_dere} } else { {$OnDeleteFile_normal} } } } }
 
@@ -358,12 +358,12 @@ $OnDeleteFile_dere
 {$OnCommandDisabled_dere}
 
 
-// ƒtƒ@ƒCƒ‹íœ¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤å¤±æ•—
 $OnDeleteFileFailure
-//‚È‚µ
+//ãªã—
 
 
-//ƒtƒ@ƒCƒ‹óMŠJn
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡é–‹å§‹
 $OnDownloading
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDownloading_normal} } else { {$OnDownloading_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDownloading_dere} } else { {$OnDownloading_normal} } } } }
 
@@ -377,22 +377,22 @@ $OnDownloaded_dere
 {$OnCommandDisabled_dere}
 
 
-// ƒtƒ@ƒCƒ‹óMŠ®—¹
+// ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å®Œäº†
 $OnDownloaded
-//‚È‚µ
+//ãªã—
 
 
-//ƒtƒ@ƒCƒ‹óM¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å¤±æ•—
 $OnDownloadFailure_tsun_default
 $OnDownloadFailure_normal_default
 $OnDownloadFailure_dere_default
 $OnDownloadFailure_tsun_cancel
 $OnDownloadFailure_normal_cancel
 $OnDownloadFailure_dere_cancel
-//‚È‚µ
+//ãªã—
 
 
-//ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒgB‰e
+//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆæ’®å½±
 $OnScreenShot
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnScreenShot_normal} } else { {$OnScreenShot_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnScreenShot_dere} } else { {$OnScreenShot_normal} } } } }
 
@@ -400,32 +400,32 @@ $OnScreenShot_tsun; {$if ({$random(4)} == 0)}
 {$OnCommandReject_tsun}
 
 $OnScreenShot_tsun
-ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚Æ‚Á‚½‚íB
+ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆã¨ã£ãŸã‚ã€‚
 
 $OnScreenShot_normal
-ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚Æ‚Á‚½‚æB
+ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆã¨ã£ãŸã‚ˆã€‚
 
 $OnScreenShot_dere
-ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚Æ‚ê‚½‚æB
-‚Í‚¢Aƒ`[ƒYô\w5‚È‚ñ‚¿‚á‚Á‚ÄB
+ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆã¨ã‚ŒãŸã‚ˆã€‚
+ã¯ã„ã€ãƒãƒ¼ã‚ºâ™ª\w5ãªã‚“ã¡ã‚ƒã£ã¦ã€‚
 
 
-//ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒgB‰e¸”s
+//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆæ’®å½±å¤±æ•—
 $OnScreenShotFailure
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnScreenShotFailure_normal} } else { {$OnScreenShotFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnScreenShotFailure_dere} } else { {$OnScreenShotFailure_normal} } } } }
 
 $OnScreenShotFailure_tsun
-ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚ª‚Æ‚ê‚È‚¢‚İ‚½‚¢B
+ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆãŒã¨ã‚Œãªã„ã¿ãŸã„ã€‚
 
 $OnScreenShotFailure_normal
-ƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚ª‚Æ‚ê‚È‚©‚Á‚½‚İ‚½‚¢B
+ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆãŒã¨ã‚Œãªã‹ã£ãŸã¿ãŸã„ã€‚
 
 $OnScreenShotFailure_dere
-‚²‚ß‚ñ‚È‚³‚¢B\nƒXƒNƒŠ[ƒ“ƒVƒ‡ƒbƒg‚Æ‚é‚Ì¸”s‚µ‚¿‚á‚Á‚½B
-‚²‚ß‚ñ‚È‚³‚¢B‚¤‚Ü‚­‚Æ‚ê‚È‚©‚Á‚½B
+ã”ã‚ã‚“ãªã•ã„ã€‚\nã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆã¨ã‚‹ã®å¤±æ•—ã—ã¡ã‚ƒã£ãŸã€‚
+ã”ã‚ã‚“ãªã•ã„ã€‚ã†ã¾ãã¨ã‚Œãªã‹ã£ãŸã€‚
 
 
-// —‰ğ‚Å‚«‚È‚¢ƒRƒ}ƒ“ƒh
+// ç†è§£ã§ããªã„ã‚³ãƒãƒ³ãƒ‰
 $OnUnknownCommand
 {$parsePrivateCommand}
 
@@ -433,151 +433,151 @@ $OnUnknownCommand_default
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnUnknownCommand_normal} } else { {$OnUnknownCommand_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnUnknownCommand_dere} } else { {$OnUnknownCommand_normal} } } } }
 
 $OnUnknownCommand_tsun
-‚È‚ñ‚Ä‚¢‚Á‚½‚ÌH‚í‚©‚ñ‚È‚¢‚æB
-‚ [‚²‚ß‚ñA•·‚¢‚Ä‚È‚©‚Á‚½B
+ãªã‚“ã¦ã„ã£ãŸã®ï¼Ÿã‚ã‹ã‚“ãªã„ã‚ˆã€‚
+ã‚ãƒ¼ã”ã‚ã‚“ã€èã„ã¦ãªã‹ã£ãŸã€‚
 
 $OnUnknownCommand_normal
-‚²‚ß‚ñA\w5‚í‚©‚ñ‚È‚¢B
+ã”ã‚ã‚“ã€\w5ã‚ã‹ã‚“ãªã„ã€‚
 
 $OnUnknownCommand_dere
-‚¦‚Á‚ÆA‚È‚ñ‚Ä‚¢‚Á‚½‚ÌH
-‚²‚ß‚ñ‚È‚³‚¢A‚í‚©‚ñ‚È‚©‚Á‚½B
+ãˆã£ã¨ã€ãªã‚“ã¦ã„ã£ãŸã®ï¼Ÿ
+ã”ã‚ã‚“ãªã•ã„ã€ã‚ã‹ã‚“ãªã‹ã£ãŸã€‚
 
 
-//‚¢‚Ü‰½H - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//ã„ã¾ä½•æ™‚ï¼Ÿ - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $WhatTimeIsIt
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$WhatTimeIsIt_normal} } else { {$WhatTimeIsIt_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$WhatTimeIsIt_dere} } else { {$WhatTimeIsIt_normal} } } } }
 
 $WhatTimeIsIt_tsun
-‚¢‚Ü‚Í{$getHalfHour}{$minute}•ª‚æB
-©•ª‚ÅŒv‚İ‚ê‚Î‚¢‚¢‚¶‚á‚ñB
-©•ª‚ÅŒv‚İ‚½‚çH
+ã„ã¾ã¯{$getHalfHour}æ™‚{$minute}åˆ†ã‚ˆã€‚
+è‡ªåˆ†ã§æ™‚è¨ˆã¿ã‚Œã°ã„ã„ã˜ã‚ƒã‚“ã€‚
+è‡ªåˆ†ã§æ™‚è¨ˆã¿ãŸã‚‰ï¼Ÿ
 
 $WhatTimeIsIt_normal
-‚¢‚Ü‚Í{$getHalfHour}{$minute}•ªB
-{$getHalfHour}{$minute}•ª‚¾‚æB
+ã„ã¾ã¯{$getHalfHour}æ™‚{$minute}åˆ†ã€‚
+{$getHalfHour}æ™‚{$minute}åˆ†ã ã‚ˆã€‚
 
 $WhatTimeIsIt_dere
-‚¢‚Ü‚Í{$getHalfHour}{$minute}•ª‚¾‚æB
-‚¦[‚Æ‚ËA{$getHalfHour}{$minute}•ª‚¾‚æB
+ã„ã¾ã¯{$getHalfHour}æ™‚{$minute}åˆ†ã ã‚ˆã€‚
+ãˆãƒ¼ã¨ã­ã€{$getHalfHour}æ™‚{$minute}åˆ†ã ã‚ˆã€‚
 
 
-//¡“ú‚Í‰½“úH - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//ä»Šæ—¥ã¯ä½•æ—¥ï¼Ÿ - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $WhatDateIsIt
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$WhatDateIsIt_normal} } else { {$WhatDateIsIt_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$WhatDateIsIt_dere} } else { {$WhatDateIsIt_normal} } } } }
 
 $WhatDateIsIt_tsun
-¡“ú‚Í{$month}Œ{$day}“ú‚æB
-¡“ú‚Í{$month}Œ{$day}“ú‚æB{$if ({$getMemorialDay} != "") {{$getMemorialDay}‚ËB} }
-¡“ú‚Í{$day}“ú‚æB
-©•ª‚ÅƒJƒŒƒ“ƒ_[‚İ‚ê‚ÎH
+ä»Šæ—¥ã¯{$month}æœˆ{$day}æ—¥ã‚ˆã€‚
+ä»Šæ—¥ã¯{$month}æœˆ{$day}æ—¥ã‚ˆã€‚{$if ({$getMemorialDay} != "") {{$getMemorialDay}ã­ã€‚} }
+ä»Šæ—¥ã¯{$day}æ—¥ã‚ˆã€‚
+è‡ªåˆ†ã§ã‚«ãƒ¬ãƒ³ãƒ€ãƒ¼ã¿ã‚Œã°ï¼Ÿ
 
 $WhatDateIsIt_normal
-¡“ú‚Í{$month}Œ{$day}“úB
-{$month}Œ{$day}“ú‚¾‚æB
-¡“ú‚Í{$month}Œ{$day}“úB{$if ({$getMemorialDay} != "") {{$getMemorialDay}‚ËB} }
-{$month}Œ{$day}“ú‚¾‚æB{$if ({$getMemorialDay} != "") {{$getMemorialDay}‚ËB} }
+ä»Šæ—¥ã¯{$month}æœˆ{$day}æ—¥ã€‚
+{$month}æœˆ{$day}æ—¥ã ã‚ˆã€‚
+ä»Šæ—¥ã¯{$month}æœˆ{$day}æ—¥ã€‚{$if ({$getMemorialDay} != "") {{$getMemorialDay}ã­ã€‚} }
+{$month}æœˆ{$day}æ—¥ã ã‚ˆã€‚{$if ({$getMemorialDay} != "") {{$getMemorialDay}ã­ã€‚} }
 
 $WhatDateIsIt_dere
-¡“ú‚Í{$month}Œ{$day}“ú‚¾‚æB
-‚¦[‚Æ‚ËA{$month}Œ{$day}“ú‚¾‚æB
-¡“ú‚Í{$month}Œ{$day}“ú‚¾‚æB{$if ({$getMemorialDay} != "") {{$getMemorialDay}‚ËB} }
-‚¦[‚Æ‚ËA{$month}Œ{$day}“ú‚¾‚æB{$if ({$getMemorialDay} != "") {{$getMemorialDay}‚ËB} }
-{$month}Œ{$day}“ú‚¾‚æB{$if ({$dayofweek} == 0) {"–¾“ú‚ÍŒ—j“ú‚¾‚Ëô"} elseif ({$dayofweek} == 6) {"–¾“ú‚Í“ú—j“ú‚¾‚Ëô"}}
+ä»Šæ—¥ã¯{$month}æœˆ{$day}æ—¥ã ã‚ˆã€‚
+ãˆãƒ¼ã¨ã­ã€{$month}æœˆ{$day}æ—¥ã ã‚ˆã€‚
+ä»Šæ—¥ã¯{$month}æœˆ{$day}æ—¥ã ã‚ˆã€‚{$if ({$getMemorialDay} != "") {{$getMemorialDay}ã­ã€‚} }
+ãˆãƒ¼ã¨ã­ã€{$month}æœˆ{$day}æ—¥ã ã‚ˆã€‚{$if ({$getMemorialDay} != "") {{$getMemorialDay}ã­ã€‚} }
+{$month}æœˆ{$day}æ—¥ã ã‚ˆã€‚{$if ({$dayofweek} == 0) {"æ˜æ—¥ã¯æœˆæ›œæ—¥ã ã­â™ª"} elseif ({$dayofweek} == 6) {"æ˜æ—¥ã¯æ—¥æ›œæ—¥ã ã­â™ª"}}
 
 
-//"help" - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//"help" - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $help
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_normal} } else { {$help_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_dere} } else { {$help_normal} } } } }
 
 $help_tsun
-‚±‚ÌƒRƒ}ƒ“ƒh‚É‚Í‚Ó‚½‚ÂƒIƒvƒVƒ‡ƒ“‚ª‚ ‚é‚ñ‚¾‚¯‚ÇA\n -dos ƒIƒvƒVƒ‡ƒ“‚Åg‚¦‚éDOSƒRƒ}ƒ“ƒhA\n -private ‚Åƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh‚Ì\nà–¾‚ğ‚µ‚Ä‚ ‚°‚éB‚¢‚¢H
+ã“ã®ã‚³ãƒãƒ³ãƒ‰ã«ã¯ãµãŸã¤ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹ã‚“ã ã‘ã©ã€\n -dos ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ä½¿ãˆã‚‹DOSã‚³ãƒãƒ³ãƒ‰ã€\n -private ã§ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ã®\nèª¬æ˜ã‚’ã—ã¦ã‚ã’ã‚‹ã€‚ã„ã„ï¼Ÿ
 
 $help_normal
-‚±‚ÌƒRƒ}ƒ“ƒh‚É‚Í‚Ó‚½‚ÂƒIƒvƒVƒ‡ƒ“‚ª‚ ‚é‚æB\n -dos ƒIƒvƒVƒ‡ƒ“‚Åg‚¦‚éDOSƒRƒ}ƒ“ƒhA\n -private ‚Åƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh‚Ì\nà–¾‚ğ‚µ‚Ä‚ ‚°‚é‚ËB
+ã“ã®ã‚³ãƒãƒ³ãƒ‰ã«ã¯ãµãŸã¤ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹ã‚ˆã€‚\n -dos ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ä½¿ãˆã‚‹DOSã‚³ãƒãƒ³ãƒ‰ã€\n -private ã§ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ã®\nèª¬æ˜ã‚’ã—ã¦ã‚ã’ã‚‹ã­ã€‚
 
 $help_dere
-‚±‚ÌƒRƒ}ƒ“ƒh‚É‚Í‚Ó‚½‚ÂƒIƒvƒVƒ‡ƒ“‚ª‚ ‚Á‚Ä‚ËA\n -dos ƒIƒvƒVƒ‡ƒ“‚Åg‚¦‚éDOSƒRƒ}ƒ“ƒhA\n -private ‚Åƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh‚Ì\nà–¾‚ğ‚µ‚Ä‚ ‚°‚é‚æB
+ã“ã®ã‚³ãƒãƒ³ãƒ‰ã«ã¯ãµãŸã¤ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒã‚ã£ã¦ã­ã€\n -dos ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ä½¿ãˆã‚‹DOSã‚³ãƒãƒ³ãƒ‰ã€\n -private ã§ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ã®\nèª¬æ˜ã‚’ã—ã¦ã‚ã’ã‚‹ã‚ˆã€‚
 
 
-//"help -dos" - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//"help -dos" - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $help_dos
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_dos_normal} } else { {$help_dos_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_dos_dere} } else { {$help_dos_normal} } } } }
 
 $help_dos_tsun
-ƒAƒ^ƒV‚É‚Å‚«‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚ËB
-ƒAƒ^ƒV‚ªg‚¦‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚ËB
-ƒAƒ^ƒV‚ªg‚¦‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚©‚ÈB
+ã‚¢ã‚¿ã‚·ã«ã§ãã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã­ã€‚
+ã‚¢ã‚¿ã‚·ãŒä½¿ãˆã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã­ã€‚
+ã‚¢ã‚¿ã‚·ãŒä½¿ãˆã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã‹ãªã€‚
 
 $help_dos_normal
-ƒAƒ^ƒV‚É‚Å‚«‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚ËB
-ƒAƒ^ƒV‚ªg‚¦‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚ËB
-ƒAƒ^ƒV‚ªg‚¦‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚©‚ÈB
+ã‚¢ã‚¿ã‚·ã«ã§ãã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã­ã€‚
+ã‚¢ã‚¿ã‚·ãŒä½¿ãˆã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã­ã€‚
+ã‚¢ã‚¿ã‚·ãŒä½¿ãˆã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã‹ãªã€‚
 
 $help_dos_dere
-ƒAƒ^ƒV‚É‚Å‚«‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚ËB
-ƒAƒ^ƒV‚ªg‚¦‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚ËB
-ƒAƒ^ƒV‚ªg‚¦‚é‚Ì‚Ícc\n\w5{$listExecutableCommands}c‚©‚ÈB
+ã‚¢ã‚¿ã‚·ã«ã§ãã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã­ã€‚
+ã‚¢ã‚¿ã‚·ãŒä½¿ãˆã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã­ã€‚
+ã‚¢ã‚¿ã‚·ãŒä½¿ãˆã‚‹ã®ã¯â€¦â€¦\n\w5{$listExecutableCommands}â€¦ã‹ãªã€‚
 
 
-//"help -private" - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//"help -private" - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $help_private
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_private_normal} } else { {$help_private_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_private_dere} } else { {$help_private_normal} } } } }
 
 $help_private_tsun
-‚È‚ñ‚©ƒƒ‚‚ª‚ ‚é‚Á‚ÄŒ¾‚í‚ê‚Ä‚é‚ñ‚¾‚¯‚Çc\n\n{$PrivateCommandMessage}\ncc‚¾‚Á‚ÄB\n\w5‚¿‚å‚Á‚ÆAÅŒã‚Ìƒqƒh‚­‚È‚¢H
+ãªã‚“ã‹ãƒ¡ãƒ¢ãŒã‚ã‚‹ã£ã¦è¨€ã‚ã‚Œã¦ã‚‹ã‚“ã ã‘ã©â€¦\n\n{$PrivateCommandMessage}\nâ€¦â€¦ã ã£ã¦ã€‚\n\w5ã¡ã‚‡ã£ã¨ã€æœ€å¾Œã®ãƒ’ãƒ‰ããªã„ï¼Ÿ
 
 $help_private_normal
-‚¦‚Á‚ÆAƒƒ‚‚ª‚ ‚é‚ñ‚¾‚¯‚Çc\n\n{$PrivateCommandMessage}\ncc‚¾‚Á‚ÄB
+ãˆã£ã¨ã€ãƒ¡ãƒ¢ãŒã‚ã‚‹ã‚“ã ã‘ã©â€¦\n\n{$PrivateCommandMessage}\nâ€¦â€¦ã ã£ã¦ã€‚
 
 $help_private_dere
-‚¦‚Á‚ÆAƒƒ‚‚ª‚ ‚é‚ñ‚¾‚¯‚Çc“Ç‚Ş‚ËH\n\n{$PrivateCommandMessage}\ncc‚¾‚Á‚ÄB\n\w5ƒAƒ^ƒV‚·‚Ë‚½‚è‚µ‚È‚¢‚à‚ñB
+ãˆã£ã¨ã€ãƒ¡ãƒ¢ãŒã‚ã‚‹ã‚“ã ã‘ã©â€¦èª­ã‚€ã­ï¼Ÿ\n\n{$PrivateCommandMessage}\nâ€¦â€¦ã ã£ã¦ã€‚\n\w5ã‚¢ã‚¿ã‚·ã™ã­ãŸã‚Šã—ãªã„ã‚‚ã‚“ã€‚
 
 
-// ˜b‚µ‚©‚¯H
+// è©±ã—ã‹ã‘ï¼Ÿ
 $OnCallName
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCallName_normal} } else { {$OnCallName_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCallName_dere} } else { {$OnCallName_normal} } } } }
 
 $OnCallName_tsun
-‚È‚É‚©—pH
-‚Ó[‚ñ‚¾B
+ãªã«ã‹ç”¨ï¼Ÿ
+ãµãƒ¼ã‚“ã ã€‚
 
 $OnCallName_normal
-‰½‚©—pH
-ŒÄ‚ñ‚¾H
+ä½•ã‹ç”¨ï¼Ÿ
+å‘¼ã‚“ã ï¼Ÿ
 
 $OnCallName_dere
-‚ñH‚È‚Ÿ‚ÉH
-%usernameB‚¦‚Ö‚ÖB
+ã‚“ï¼Ÿãªãã«ï¼Ÿ
+%usernameã€‚ãˆã¸ã¸ã€‚
 
 
-//ƒRƒ}ƒ“ƒh‹‘”Û‚ÌƒŠƒAƒNƒVƒ‡ƒ“iƒcƒ“ê—pj
+//ã‚³ãƒãƒ³ãƒ‰æ‹’å¦æ™‚ã®ãƒªã‚¢ã‚¯ã‚·ãƒ§ãƒ³ï¼ˆãƒ„ãƒ³å°‚ç”¨ï¼‰
 $OnCommandReject_tsun
-{$reject = true}‚¦[Aƒƒ“ƒh‚­‚³‚¢B
-{$reject = true}ƒ„ƒ_‚æ[ô
+{$reject = true}ãˆãƒ¼ã€ãƒ¡ãƒ³ãƒ‰ãã•ã„ã€‚
+{$reject = true}ãƒ¤ãƒ€ã‚ˆãƒ¼â™ª
 
 
-//ƒRƒ}ƒ“ƒhÀs•s”\
+//ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œä¸èƒ½æ™‚
 $OnCommandDisabled
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCommandDisabled_normal} } else { {$OnCommandDisabled_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCommandDisabled_dere} } else { {$OnCommandDisabled_normal} } } } }
 
 $OnCommandDisabled_tsun
-{$reject = true}ƒAƒ^ƒV‚É‚»‚ñ‚È“ï‚µ‚¢‚±‚Æ‚â‚ç‚¹‚é‚Â‚à‚èH
-{$reject = true}‚Î‚©‚ŸA‚±‚ñ‚È‚Ì‚í‚©‚ñ‚È‚¢‚æI
+{$reject = true}ã‚¢ã‚¿ã‚·ã«ãã‚“ãªé›£ã—ã„ã“ã¨ã‚„ã‚‰ã›ã‚‹ã¤ã‚‚ã‚Šï¼Ÿ
+{$reject = true}ã°ã‹ãã€ã“ã‚“ãªã®ã‚ã‹ã‚“ãªã„ã‚ˆï¼
 {$reject = true}{$OnUnknownCommand_tsun}
 
 $OnCommandDisabled_normal
-{$reject = true}ƒAƒ^ƒV‚É‚Í“ï‚µ‚¢‚æB
-{$reject = true}‚²‚ß‚ñ‚È‚³‚¢A“ï‚µ‚­‚Ä‚í‚©‚ñ‚È‚¢B
+{$reject = true}ã‚¢ã‚¿ã‚·ã«ã¯é›£ã—ã„ã‚ˆã€‚
+{$reject = true}ã”ã‚ã‚“ãªã•ã„ã€é›£ã—ãã¦ã‚ã‹ã‚“ãªã„ã€‚
 {$reject = true}{$OnUnknownCommand_normal}
 
 $OnCommandDisabled_dere
-{$reject = true}‚¤[A“ï‚µ‚¢‚æccB
-{$reject = true}‚²‚ß‚ñ‚È‚³‚¢A“ï‚µ‚­‚Ä‚í‚©‚ñ‚È‚¢B
+{$reject = true}ã†ãƒ¼ã€é›£ã—ã„ã‚ˆâ€¦â€¦ã€‚
+{$reject = true}ã”ã‚ã‚“ãªã•ã„ã€é›£ã—ãã¦ã‚ã‹ã‚“ãªã„ã€‚
 {$reject = true}{$OnUnknownCommand_dere}
 
 
-//ƒqƒ~ƒc‚Ìƒtƒ@ƒCƒ‹‚ğŒ©‚Â‚¯‚Ä‚µ‚Ü‚Á‚½‚Æ‚«
+//ãƒ’ãƒŸãƒ„ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¦‹ã¤ã‘ã¦ã—ã¾ã£ãŸã¨ã
 $OnSecretFileFound
 {
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnSecretFileFound_normal} } else { {$OnSecretFileFound_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnSecretFileFound_dere} } else { {$OnSecretFileFound_normal} } } } }
@@ -587,14 +587,14 @@ $OnSecretFileFound
 }
 
 $OnSecretFileFound_tsun
-‚¦H‰½ƒRƒŒccB\w5\n‚¦‚Á‚¿‚È‰æ‘œ‚Î‚Á‚©‚èI
-\w5ccƒoƒJIƒwƒ“ƒ^ƒCIƒ`ƒJƒ“I”ÆßÒII
-\w5ccƒwƒ“ƒ^ƒCII
+ãˆï¼Ÿä½•ã‚³ãƒ¬â€¦â€¦ã€‚\w5\nãˆã£ã¡ãªç”»åƒã°ã£ã‹ã‚Šï¼
+\w5â€¦â€¦ãƒã‚«ï¼ãƒ˜ãƒ³ã‚¿ã‚¤ï¼ãƒã‚«ãƒ³ï¼çŠ¯ç½ªè€…ï¼ï¼
+\w5â€¦â€¦ãƒ˜ãƒ³ã‚¿ã‚¤ï¼ï¼
 
 $OnSecretFileFound_normal
-‚¦‚Á‚¿‚È‰æ‘œ‚ª‚¢‚Á‚Ï‚¢ccB
-%usernameAƒTƒCƒe[II
+ãˆã£ã¡ãªç”»åƒãŒã„ã£ã±ã„â€¦â€¦ã€‚
+%usernameã€ã‚µã‚¤ãƒ†ãƒ¼ï¼ï¼
 
 $OnSecretFileFound_dere
-‚ ‚êH\n‰½‚±‚êH\w5\n%usernameA‚¦‚Á‚¿‚È‰æ‘œ‚Î‚Á‚©‚èI\n‚à‚¤A‚µ‚ç‚È‚¢I
-‚¦ccH\w5ƒoƒJƒoƒJƒoƒJƒ@II
+ã‚ã‚Œï¼Ÿ\nä½•ã“ã‚Œï¼Ÿ\w5\n%usernameã€ãˆã£ã¡ãªç”»åƒã°ã£ã‹ã‚Šï¼\nã‚‚ã†ã€ã—ã‚‰ãªã„ï¼
+ãˆâ€¦â€¦ï¼Ÿ\w5ãƒã‚«ãƒã‚«ãƒã‚«ã‚¡ï¼ï¼

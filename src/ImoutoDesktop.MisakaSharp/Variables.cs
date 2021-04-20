@@ -9,7 +9,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public Variables()
         {
-            encoding = Encoding.Default;
+            encoding = Encoding.UTF8;
             variables = new SortedList<string, Value>();
         }
 

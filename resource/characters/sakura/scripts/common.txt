@@ -1,7 +1,7 @@
-// ‘Sƒpƒ^[ƒ“‹¤’Ê«‘
+// å…¨ãƒ‘ã‚¿ãƒ¼ãƒ³å…±é€šè¾æ›¸
 
 
-// ‹N“®
+// èµ·å‹•æ™‚
 $OnBoot
 {
 {$init}
@@ -9,12 +9,12 @@ $OnBoot
 }
 
 
-// ƒƒOƒCƒ“
+// ãƒ­ã‚°ã‚¤ãƒ³æ™‚
 $OnLogin
 {$if ({$connecting} == true) {{$alreadyConnected}} else {{$OnLogin_default}}}
 
 
-// ³í‚ÉƒƒOƒCƒ“‚µ‚½
+// æ­£å¸¸ã«ãƒ­ã‚°ã‚¤ãƒ³ã—ãŸ
 $OnLogined
 {
 {$ServerName = {$parameter(0)}}
@@ -22,15 +22,15 @@ $OnLogined
 }
 
 
-// I‚Æ‚ÌÚ‘±‚ªØ‚ê‚½
+// é¯–ã¨ã®æ¥ç¶šãŒåˆ‡ã‚ŒãŸ
 $OnDisconnected
 {
 {$OnDisconnected_default}
-{$ServerName = "ƒT[ƒo"}
+{$ServerName = "ã‚µãƒ¼ãƒ"}
 }
 
 
-//DOSƒRƒ}ƒ“ƒhŒn‚Ì{$parameter(0)}‚©‚çDOSƒRƒ}ƒ“ƒh–¼‚ğ’Šo
+//DOSã‚³ãƒãƒ³ãƒ‰ç³»ã®{$parameter(0)}ã‹ã‚‰DOSã‚³ãƒãƒ³ãƒ‰åã‚’æŠ½å‡º
 $ExtractCommandName
 {
 {@idx = {$index(" ",{$parameter(0)})}}
@@ -38,8 +38,8 @@ $ExtractCommandName
 }
 
 
-//ƒtƒ@ƒCƒ‹ƒpƒX‚ğˆø”‚É‚Æ‚éƒRƒ}ƒ“ƒh‚Ì{$parameter(0)}‚©‚çƒtƒ@ƒCƒ‹–¼‚ğ’Šo
-//ƒpƒX‚ª\‚ÅI‚í‚é‚ÆƒoƒO‚é‚©‚à
+//ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å¼•æ•°ã«ã¨ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®{$parameter(0)}ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŠ½å‡º
+//ãƒ‘ã‚¹ãŒ\ã§çµ‚ã‚ã‚‹ã¨ãƒã‚°ã‚‹ã‹ã‚‚
 $ExtractFileName
 {
 {@idx1 = {$lastindex(\\,{$parameter(0)})}}
@@ -48,7 +48,7 @@ $ExtractFileName
 }
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®¸”s
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•å¤±æ•—
 $OnChangeDirectoryFailure
 {
 {@value = {$getValue}}
@@ -56,7 +56,7 @@ $OnChangeDirectoryFailure
 }
 
 
-// ƒtƒ@ƒCƒ‹•\¦¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºå¤±æ•—
 $OnOpenFileFailure
 {
 {@value = {$getValue}}
@@ -64,7 +64,7 @@ $OnOpenFileFailure
 }
 
 
-// ƒtƒ@ƒCƒ‹Às¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œå¤±æ•—
 $OnExecuteFileFailure
 {
 {@value = {$getValue}}
@@ -72,12 +72,12 @@ $OnExecuteFileFailure
 }
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹å¤±æ•—
 $OnCloseFileFailure
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCloseFileFailure_normal} } else { {$OnCloseFileFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCloseFileFailure_dere} } else { {$OnCloseFileFailure_normal} } } } }
 
 
-// ƒtƒ@ƒCƒ‹íœ¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤å¤±æ•—
 $OnDeleteFileFailure
 {
 {@value = {$getValue}}
@@ -85,7 +85,7 @@ $OnDeleteFileFailure
 }
 
 
-//ƒtƒ@ƒCƒ‹óM¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å¤±æ•—
 $OnDownloadFailure
 {
 {@value = {$getValue}}
@@ -93,9 +93,9 @@ $OnDownloadFailure
 }
 
 
-//ƒRƒ}ƒ“ƒh¸”s‚ÌƒŠƒAƒNƒVƒ‡ƒ“‚Ì•ª—ŞŒvZ
+//ã‚³ãƒãƒ³ãƒ‰å¤±æ•—æ™‚ã®ãƒªã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®åˆ†é¡è¨ˆç®—
 //@value = 1:tsun, 5:normal, 9:dere
-//         10:not exist, 0:unknown, 20:cancel(OnDownloadFailure‚Ì‚İ)
+//         10:not exist, 0:unknown, 20:cancel(OnDownloadFailureã®ã¿)
 $getValue
 {
 {$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {@value = 5} } else { {@value = 1} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {@value = 9} } else { {@value = 5} } } } }
@@ -104,7 +104,7 @@ $getValue
 }
 
 
-//‚ğ12ŠÔ•û®‚É•ÏŠ·
+//æ™‚åˆ»ã‚’12æ™‚é–“æ–¹å¼ã«å¤‰æ›
 $getHalfHour
 {
 {$if ({$hour}>12) {{@h = {$hour}-12}} else {{@h = {$hour}}}}
@@ -113,50 +113,50 @@ $getHalfHour
 }
 
 
-//$OnUnknownCommand‚Ìˆø”‚©‚çPrivateCommand‚ğU‚è•ª‚¯‚é
+//$OnUnknownCommandã®å¼•æ•°ã‹ã‚‰PrivateCommandã‚’æŒ¯ã‚Šåˆ†ã‘ã‚‹
 $parsePrivateCommand
 {$if ({$thunderstorm} == true) {{$parsePrivateCommand_anger}} else {{$parsePrivateCommand_default}}}
 
 $parsePrivateCommand_default
 {
 {@param = {$tolower({$parameter(0)})}}
-{$if ({@param} == "I—¹" || {@param} == "exit") {{$Exit}} elseif ({@param} == "help") {{$help}} elseif ({@param} == "help -dos") {{$help_dos}} elseif ({@param} == "help -private") {{$help_private}} elseif ({@param} == "‚Ø‚Á‚½‚ñ‚±") {{$OnSecretFileFound}} elseif ({$talk} != "") {{$talk}} elseif ({$connecting} == false) {{$OnDisconnecting}} elseif ({@param} == "‚¢‚Ü‰½H") { {$WhatTimeIsIt} } elseif ({@param} == "¡“ú‚Í‰½“úH") {{$WhatDateIsIt}} elseif ({@param} == "ƒŠƒ‚[ƒgƒ}ƒVƒ“‚ğƒVƒƒƒbƒgƒ_ƒEƒ“") {{$ShutdownServerPC}} else {{$OnUnknownCommand_default}}}
+{$if ({@param} == "çµ‚äº†" || {@param} == "exit") {{$Exit}} elseif ({@param} == "help") {{$help}} elseif ({@param} == "help -dos") {{$help_dos}} elseif ({@param} == "help -private") {{$help_private}} elseif ({@param} == "ãºã£ãŸã‚“ã“") {{$OnSecretFileFound}} elseif ({$talk} != "") {{$talk}} elseif ({$connecting} == false) {{$OnDisconnecting}} elseif ({@param} == "ã„ã¾ä½•æ™‚ï¼Ÿ") { {$WhatTimeIsIt} } elseif ({@param} == "ä»Šæ—¥ã¯ä½•æ—¥ï¼Ÿ") {{$WhatDateIsIt}} elseif ({@param} == "ãƒªãƒ¢ãƒ¼ãƒˆãƒã‚·ãƒ³ã‚’ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³") {{$ShutdownServerPC}} else {{$OnUnknownCommand_default}}}
 }
 
 $parsePrivateCommand_anger
 {
 {@param = {$tolower({$parameter(0)})}}
-{$if ({@param} == "I—¹" || {@param} == "exit") {{$Exit}} elseif ({@param} == "ƒSƒƒ“") {{$ImSorry}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
+{$if ({@param} == "çµ‚äº†" || {@param} == "exit") {{$Exit}} elseif ({@param} == "ã‚´ãƒ¡ãƒ³") {{$ImSorry}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
 }
 
-//I—¹ - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//çµ‚äº† - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $Exit
 {$OnClose}\w7\-
 
 
-//ƒŠƒ‚[ƒgƒ}ƒVƒ“‚ğƒVƒƒƒbƒgƒ_ƒEƒ“ - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
-//15ÎˆÈãê—p
+//ãƒªãƒ¢ãƒ¼ãƒˆãƒã‚·ãƒ³ã‚’ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
+//15æ­³ä»¥ä¸Šå°‚ç”¨
 $ShutdownServerPC
 {$if ({$age} >= 15) {{$if ({$allowoperate} == true) {{$ShutdownServerPCEnabled}} else {{$ShutdownServerPCDisabled}}}} else {{$OnCommandDisabled}}}
 
 
 
-//ƒOƒ[ƒoƒ‹•Ï”‚Ì‰Šú‰»
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã®åˆæœŸåŒ–
 $init
 {
-{$ServerName = "ƒT[ƒo"}
+{$ServerName = "ã‚µãƒ¼ãƒ"}
 {$CommandName = {$array("di","ve","mk","rm","co","de","mo","re","cd","ty","ls","ch","cp","cl","xc","st")}}
 {$CommandFullName = {$array("dir","ver","mkdir","rmdir\nrm","copy","del","move","ren","cd","type","ls","chdir","cp","cls","xcopy","start")}}
 {$CommandAge = {$array(6,6,12,12,12,12,9,6,6,6,6,6,12,6,15,9)}}
-{$MemorialDate = {$array("1Œ1“ú","1Œ7“ú","2Œ29“ú","3Œ3“ú","4Œ1“ú","5Œ5“ú","7Œ7“ú","9Œ9“ú","10Œ31“ú","12Œ25“ú","12Œ31“ú")}}
-{$MemorialDesc = {$array("Œ³’U","µ‘‚Ì“ú","‚¤‚é‚¤”N","“‚Ìß‹å","ƒAƒ^ƒV‚Ì’a¶“ú","’[Œß‚Ìß‹å","µ—[","‹e‚Ìß‹å","ƒnƒƒEƒBƒ“","ƒNƒŠƒXƒ}ƒX","‘åŠA“ú")}}
-{$MemorialDesc_u12 = {$array("‚¨³Œ","µ‘‚Ì“ú","‚¤‚é‚¤”N","‚Ğ‚ÈÕ‚è","ƒAƒ^ƒV‚Ì’a¶“ú","‚±‚Ç‚à‚Ì“ú","µ—[","","ƒnƒƒEƒBƒ“","ƒNƒŠƒXƒ}ƒX","‘å‚İ‚»‚©")}}
-//‹C•ªó‘Ô true:—‹‰JAfalse:°‚ê
+{$MemorialDate = {$array("1æœˆ1æ—¥","1æœˆ7æ—¥","2æœˆ29æ—¥","3æœˆ3æ—¥","4æœˆ1æ—¥","5æœˆ5æ—¥","7æœˆ7æ—¥","9æœˆ9æ—¥","10æœˆ31æ—¥","12æœˆ25æ—¥","12æœˆ31æ—¥")}}
+{$MemorialDesc = {$array("å…ƒæ—¦","ä¸ƒè‰ã®æ—¥","ã†ã‚‹ã†å¹´","æ¡ƒã®ç¯€å¥","ã‚¢ã‚¿ã‚·ã®èª•ç”Ÿæ—¥","ç«¯åˆã®ç¯€å¥","ä¸ƒå¤•","èŠã®ç¯€å¥","ãƒãƒ­ã‚¦ã‚£ãƒ³","ã‚¯ãƒªã‚¹ãƒã‚¹","å¤§æ™¦æ—¥")}}
+{$MemorialDesc_u12 = {$array("ãŠæ­£æœˆ","ä¸ƒè‰ã®æ—¥","ã†ã‚‹ã†å¹´","ã²ãªç¥­ã‚Š","ã‚¢ã‚¿ã‚·ã®èª•ç”Ÿæ—¥","ã“ã©ã‚‚ã®æ—¥","ä¸ƒå¤•","","ãƒãƒ­ã‚¦ã‚£ãƒ³","ã‚¯ãƒªã‚¹ãƒã‚¹","å¤§ã¿ãã‹")}}
+//æ°—åˆ†çŠ¶æ…‹ true:é›·é›¨ã€false:æ™´ã‚Œ
 {$if ({$thunderstorm} == true && {$isTimeUp} == true) {{$thunderstorm = false}}}
 }
 
 
-//‰‰ñ‹N“®‚ÌƒƒbƒZ[ƒW
+//åˆå›èµ·å‹•æ™‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 $sendFirstMessage
 {
 {$if ({$random(2)} == 0) {{$sendFirstMessage_normal}} else {{$sendFirstMessage_tsun}}}
@@ -164,18 +164,18 @@ $sendFirstMessage
 }
 
 $sendFirstMessage_tsun
-%username‚¶‚á‚È‚¢B‚Ç‚¤‚µ‚½‚Ì‚æB\n‚ [‚»‚¤‚»‚¤AƒAƒ“ƒ^‚É“`Œ¾‚ª‚ ‚Á‚½‚íB‚¢‚¢H\n\nu‚³‚­‚ç‚É‚Í•W€ƒRƒ}ƒ“ƒh‚Ì‚Ù‚©‚ÉA\n@‚¢‚­‚Â‚©‚Ìƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh‚ª—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B\n@‚­‚í‚µ‚­‚Í¢help£ƒRƒ}ƒ“ƒh‚É‚ÄBv\n\ncc‚¾‚»‚¤‚æB
+%usernameã˜ã‚ƒãªã„ã€‚ã©ã†ã—ãŸã®ã‚ˆã€‚\nã‚ãƒ¼ãã†ãã†ã€ã‚¢ãƒ³ã‚¿ã«ä¼è¨€ãŒã‚ã£ãŸã‚ã€‚ã„ã„ï¼Ÿ\n\nã€Œã•ãã‚‰ã«ã¯æ¨™æº–ã‚³ãƒãƒ³ãƒ‰ã®ã»ã‹ã«ã€\nã€€ã„ãã¤ã‹ã®ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ãŒç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚\nã€€ãã‚ã—ãã¯ï½¢helpï½£ã‚³ãƒãƒ³ãƒ‰ã«ã¦ã€‚ã€\n\nâ€¦â€¦ã ãã†ã‚ˆã€‚
 
 $sendFirstMessage_normal
-%usernameA‰½‚©—pH\n‚ A‚¦[‚Æ‚ËA%username‚É“`Œ¾‚¾‚æB‚¢‚¢H\n\nu‚³‚­‚ç‚É‚Í•W€ƒRƒ}ƒ“ƒh‚Ì‚Ù‚©‚ÉA\n@‚¢‚­‚Â‚©‚Ìƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh‚ª—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B\n@‚­‚í‚µ‚­‚Í¢help£ƒRƒ}ƒ“ƒh‚É‚ÄBv\n\ncc‚¾‚Á‚ÄB
+%usernameã€ä½•ã‹ç”¨ï¼Ÿ\nã‚ã€ãˆãƒ¼ã¨ã­ã€%usernameã«ä¼è¨€ã ã‚ˆã€‚ã„ã„ï¼Ÿ\n\nã€Œã•ãã‚‰ã«ã¯æ¨™æº–ã‚³ãƒãƒ³ãƒ‰ã®ã»ã‹ã«ã€\nã€€ã„ãã¤ã‹ã®ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ãŒç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚\nã€€ãã‚ã—ãã¯ï½¢helpï½£ã‚³ãƒãƒ³ãƒ‰ã«ã¦ã€‚ã€\n\nâ€¦â€¦ã ã£ã¦ã€‚
 
 
-//ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh‚Ìà–¾‘‚«
+//ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ã®èª¬æ˜æ›¸ã
 $PrivateCommandMessage
-u‚³‚­‚ç‚Ì”F¯‚Å‚«‚éƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh‚Í\n@ˆÈ‰º‚Ì’Ê‚è‚Å‚·B\n\n@w‚¢‚Ü‰½Hx\n@w¡“ú‚Í‰½“úHx\n@wI—¹x (wexitx)\n@wƒŠƒ‚[ƒgƒ}ƒVƒ“‚ğƒVƒƒƒbƒgƒ_ƒEƒ“x\n@whelpx\n\n@cc—]’k‚Å‚·‚ªA‚³‚­‚ç‚ª‚·‚Ë‚Ä‚µ‚Ü‚Á‚½‚Æ‚«‚Í\n@‘f’¼‚ÉwƒSƒƒ“x‚Á‚Ä‚ ‚â‚Ü‚é‚Ì‚àè‚Å‚·Bv\n
+ã€Œã•ãã‚‰ã®èªè­˜ã§ãã‚‹ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰ã¯\nã€€ä»¥ä¸‹ã®é€šã‚Šã§ã™ã€‚\n\nã€€ã€ã„ã¾ä½•æ™‚ï¼Ÿã€\nã€€ã€ä»Šæ—¥ã¯ä½•æ—¥ï¼Ÿã€\nã€€ã€çµ‚äº†ã€ (ã€exitã€)\nã€€ã€ãƒªãƒ¢ãƒ¼ãƒˆãƒã‚·ãƒ³ã‚’ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ã€\nã€€ã€helpã€\n\nã€€â€¦â€¦ä½™è«‡ã§ã™ãŒã€ã•ãã‚‰ãŒã™ã­ã¦ã—ã¾ã£ãŸã¨ãã¯\nã€€ç´ ç›´ã«ã€ã‚´ãƒ¡ãƒ³ã€ã£ã¦ã‚ã‚„ã¾ã‚‹ã®ã‚‚æ‰‹ã§ã™ã€‚ã€\n
 
 
-//DOSƒRƒ}ƒ“ƒh‚Ì”N—î§ŒÀƒ`ƒFƒbƒN
+//DOSã‚³ãƒãƒ³ãƒ‰ã®å¹´é½¢åˆ¶é™ãƒã‚§ãƒƒã‚¯
 $isExecutable
 {
 {@cmd = {@argv[0]}}
@@ -185,7 +185,7 @@ $isExecutable
 }
 
 
-//Às‰Â”\‚ÈDOSƒRƒ}ƒ“ƒh‚Ì—ñ‹“
+//å®Ÿè¡Œå¯èƒ½ãªDOSã‚³ãƒãƒ³ãƒ‰ã®åˆ—æŒ™
 $listExecutableCommands
 {
 {@cmds = ""}
@@ -193,18 +193,18 @@ $listExecutableCommands
 {@cmds}
 }
 
-//‹L”O“úŒŸõ
+//è¨˜å¿µæ—¥æ¤œç´¢
 $getMemorialDay
 {
-{@date = "{$month}Œ{$day}“ú"}
+{@date = "{$month}æœˆ{$day}æ—¥"}
 {$for ({@i = 0};{@i} < {$count($MemorialDate)};{@i++}) { {$if ({@date} == {$MemorialDate[{@i}]}) {{@j = {@i}}} } } }
 {$if ({$age} < 12) {{$MemorialDesc_u12[{@j}]}} else {{$MemorialDesc[{@j}]}}}
 }
 
 
-//‚²‹@Œ™Î‚ßƒ‚[ƒh‚ÌÅ’áŒp‘±ŠúŒÀİ’è
-//Œ»s‚Å‚Í‚P•ªŒã‚É‰ğœ
-//23:59ˆÈ~‚Í‘¦‰ğœ‚Ì‰Â”\«‚ ‚è
+//ã”æ©Ÿå«Œæ–œã‚ãƒ¢ãƒ¼ãƒ‰ã®æœ€ä½ç¶™ç¶šæœŸé™è¨­å®š
+//ç¾è¡Œã§ã¯ï¼‘åˆ†å¾Œã«è§£é™¤
+//23:59ä»¥é™ã¯å³æ™‚è§£é™¤ã®å¯èƒ½æ€§ã‚ã‚Š
 $setTimeLimit
 {
 {@limit = {$hour}*3600 + {$minute}*60 + {$second} + 90}
@@ -213,8 +213,8 @@ $setTimeLimit
 }
 
 
-//‚²‹@Œ™Î‚ßƒ‚[ƒh§ŒÀŠÔ’Ê‰ßƒ`ƒFƒbƒN
-//’Ê‰ßŒã‚È‚çtrue
+//ã”æ©Ÿå«Œæ–œã‚ãƒ¢ãƒ¼ãƒ‰åˆ¶é™æ™‚é–“é€šéãƒã‚§ãƒƒã‚¯
+//é€šéå¾Œãªã‚‰true
 $isTimeUp
 {
 {@bool = false}
@@ -224,7 +224,7 @@ $isTimeUp
 }
 
 
-//‚²‹@Œ™Î‚ß‚Ìs“®Œˆ’è
+//ã”æ©Ÿå«Œæ–œã‚æ™‚ã®è¡Œå‹•æ±ºå®š
 $shiftStatus
 {
 {@p = {$random(5)}}
@@ -237,8 +237,8 @@ $destroy
 {$if ({$allowoperate} == true) {\r[shutdown]} elseif ({$connecting} == true) {\r[disconnection]}}
 
 
-//ƒT[ƒtƒFƒXØ‚è‘Ö‚¦
-//@argv[1]:idÅ‘å’lC@argv[0]:idÅ¬’l
+//ã‚µãƒ¼ãƒ•ã‚§ã‚¹åˆ‡ã‚Šæ›¿ãˆ
+//@argv[1]:idæœ€å¤§å€¤ï¼Œ@argv[0]:idæœ€å°å€¤
 $setSurfaceRange
 {
 {@id = {$random({@argv[1]} + 1 - {@argv[0]})} + {@argv[0]}}

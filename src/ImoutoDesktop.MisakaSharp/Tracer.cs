@@ -11,7 +11,7 @@ namespace ImoutoDesktop.MisakaSharp
             this.isEnable = isEnable;
             if (isEnable)
             {
-                writer = new StreamWriter(path, false, Encoding.Default);
+                writer = new StreamWriter(path, false, Encoding.UTF8);
                 // 時間を記録する
                 writer.WriteLine("{0}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
             }

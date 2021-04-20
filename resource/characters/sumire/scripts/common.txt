@@ -1,7 +1,7 @@
-// ‹¤’Ê«‘
+// å…±é€šè¾æ›¸
 
 
-// ‹N“®
+// èµ·å‹•æ™‚
 $OnBoot
 {
 {$init}
@@ -9,24 +9,24 @@ $OnBoot
 }
 
 
-// ƒƒOƒCƒ“
+// ãƒ­ã‚°ã‚¤ãƒ³æ™‚
 $OnLogin
 {$if ({$connecting} == true) {{$alreadyConnected}} else {{$OnLogin_default}}}
 
 
-//ƒOƒ[ƒoƒ‹•Ï”‚Ì‰Šú‰»
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã®åˆæœŸåŒ–
 $init
 {
 {$failCount = 0}
 {$CommandName = {$array("di","ve","mk","rm","co","de","mo","re","cd","ty","ls","ch","cp","cl","xc","st")}}
 {$CommandFullName = {$array("dir","ver","mkdir","rmdir\nrm","copy","del","move","ren","cd","type","ls","chdir","cp","cls","xcopy","start")}}
 {$CommandAge = {$array(6,6,12,12,12,12,9,6,6,6,6,6,12,6,15,9)}}
-//‹C•ªó‘Ô true:—‹‰JAfalse:°‚ê
+//æ°—åˆ†çŠ¶æ…‹ true:é›·é›¨ã€false:æ™´ã‚Œ
 {$if ({$thunderstorm} == true && {$isTimeUp} == true) {{$thunderstorm = false}}}
 }
 
 
-//ƒRƒ}ƒ“ƒh¬Œ÷‚Ítrue
+//ã‚³ãƒãƒ³ãƒ‰æˆåŠŸæ™‚ã¯true
 $commandSucceed
 {
 {$if ((100 * {$log10(11 - {$tsunderelevel})}) >= {$random(101)}) { {@b = true} } else { {@b = false} } }
@@ -34,22 +34,22 @@ $commandSucceed
 }
 
 
-//¸”sƒJƒEƒ“ƒg’Ç‰Á
+//å¤±æ•—ã‚«ã‚¦ãƒ³ãƒˆè¿½åŠ 
 $addCount
 {
 {$failCount += 1}
 }
 
 
-//‚¨•Ê‚ê‚Ìˆ¥A
+//ãŠåˆ¥ã‚Œã®æŒ¨æ‹¶
 $getLastMessage
 {
-{$if ({$failCount} >= 10) {{@msg = "¸”s‚Î‚©‚è‚Å‚²‚ß‚ñ‚È‚³‚¢B\n\w5"}} else {{@msg = ""}}}
+{$if ({$failCount} >= 10) {{@msg = "å¤±æ•—ã°ã‹ã‚Šã§ã”ã‚ã‚“ãªã•ã„ã€‚\n\w5"}} else {{@msg = ""}}}
 {@msg}
 }
 
 
-//DOSƒRƒ}ƒ“ƒhŒn‚Ì{$parameter(0)}‚©‚çDOSƒRƒ}ƒ“ƒh–¼‚ğ’Šo
+//DOSã‚³ãƒãƒ³ãƒ‰ç³»ã®{$parameter(0)}ã‹ã‚‰DOSã‚³ãƒãƒ³ãƒ‰åã‚’æŠ½å‡º
 $ExtractCommandName
 {
 {@idx = {$index(" ",{$parameter(0)})}}
@@ -57,8 +57,8 @@ $ExtractCommandName
 }
 
 
-//ƒtƒ@ƒCƒ‹ƒpƒX‚ğˆø”‚É‚Æ‚éƒRƒ}ƒ“ƒh‚Ì{$parameter(0)}‚©‚çƒtƒ@ƒCƒ‹–¼‚ğ’Šo
-//ƒpƒX‚ª\‚ÅI‚í‚é‚ÆƒoƒO‚é‚©‚à
+//ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å¼•æ•°ã«ã¨ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®{$parameter(0)}ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŠ½å‡º
+//ãƒ‘ã‚¹ãŒ\ã§çµ‚ã‚ã‚‹ã¨ãƒã‚°ã‚‹ã‹ã‚‚
 $ExtractFileName
 {
 {@idx1 = {$lastindex(\\,{$parameter(0)})}}
@@ -67,7 +67,7 @@ $ExtractFileName
 }
 
 
-// ƒfƒBƒŒƒNƒgƒŠˆÚ“®¸”s
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªç§»å‹•å¤±æ•—
 $OnChangeDirectoryFailure
 {
 {@value = {$getValue}}
@@ -75,7 +75,7 @@ $OnChangeDirectoryFailure
 }
 
 
-// ƒtƒ@ƒCƒ‹•\¦¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«è¡¨ç¤ºå¤±æ•—
 $OnOpenFileFailure
 {
 {@value = {$getValue}}
@@ -83,7 +83,7 @@ $OnOpenFileFailure
 }
 
 
-// ƒtƒ@ƒCƒ‹Às¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å®Ÿè¡Œå¤±æ•—
 $OnExecuteFileFailure
 {
 {@value = {$getValue}}
@@ -91,12 +91,12 @@ $OnExecuteFileFailure
 }
 
 
-//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹å¤±æ•—
 $OnCloseFileFailure
 {$OnCloseFileFailure_normal}
 
 
-// ƒtƒ@ƒCƒ‹íœ¸”s
+// ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤å¤±æ•—
 $OnDeleteFileFailure
 {
 {@value = {$getValue}}
@@ -104,7 +104,7 @@ $OnDeleteFileFailure
 }
 
 
-//ƒtƒ@ƒCƒ‹óM¸”s
+//ãƒ•ã‚¡ã‚¤ãƒ«å—ä¿¡å¤±æ•—
 $OnDownloadFailure
 {
 {@value = {$getValue}}
@@ -112,8 +112,8 @@ $OnDownloadFailure
 }
 
 
-//ƒRƒ}ƒ“ƒh¸”s‚ÌƒŠƒAƒNƒVƒ‡ƒ“‚Ì•ª—ŞŒvZ
-//@value = 15:not exist, 5:unknown, 25:cancel(OnDownloadFailure‚Ì‚İ)
+//ã‚³ãƒãƒ³ãƒ‰å¤±æ•—æ™‚ã®ãƒªã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®åˆ†é¡è¨ˆç®—
+//@value = 15:not exist, 5:unknown, 25:cancel(OnDownloadFailureã®ã¿)
 $getValue
 {
 {@value = 5}
@@ -123,7 +123,7 @@ $getValue
 
 
 
-//‚ğ12ŠÔ•û®‚É•ÏŠ·i–¢g—pj
+//æ™‚åˆ»ã‚’12æ™‚é–“æ–¹å¼ã«å¤‰æ›ï¼ˆæœªä½¿ç”¨ï¼‰
 $getHalfHour
 {
 {$if ({$hour}>12) {{@h = {$hour}-12}} else {{@h = {$hour}}}}
@@ -132,29 +132,29 @@ $getHalfHour
 }
 
 
-//$OnUnknownCommand‚Ìˆø”‚©‚çPrivateCommand‚ğU‚è•ª‚¯‚é
+//$OnUnknownCommandã®å¼•æ•°ã‹ã‚‰PrivateCommandã‚’æŒ¯ã‚Šåˆ†ã‘ã‚‹
 $parsePrivateCommand
 {$if ({$thunderstorm} == true) {{$parsePrivateCommand_anger}} else {{$parsePrivateCommand_default}}}
 
 $parsePrivateCommand_default
 {
 {@param = {$tolower({$parameter(0)})}}
-{$if ({@param} == "I—¹" || {@param} == "exit") {{$Exit}} elseif ({@param} == "help") {{$help}} elseif ({@param} == "help -dos") {{$help_dos}} elseif ({@param} == "help -private") {{$OnUnknownCommand_default}}  elseif ({@param} == "‚Ø‚Á‚½‚ñ‚±") {{$OnSecretFileFound}} elseif ({$talk} != "") {{$talk}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
+{$if ({@param} == "çµ‚äº†" || {@param} == "exit") {{$Exit}} elseif ({@param} == "help") {{$help}} elseif ({@param} == "help -dos") {{$help_dos}} elseif ({@param} == "help -private") {{$OnUnknownCommand_default}}  elseif ({@param} == "ãºã£ãŸã‚“ã“") {{$OnSecretFileFound}} elseif ({$talk} != "") {{$talk}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
 }
 
 $parsePrivateCommand_anger
 {
 {@param = {$tolower({$parameter(0)})}}
-{$if ({@param} == "I—¹" || {@param} == "exit") {{$Exit}} elseif ({@param} == "ƒSƒƒ“") {{$ImSorry}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
+{$if ({@param} == "çµ‚äº†" || {@param} == "exit") {{$Exit}} elseif ({@param} == "ã‚´ãƒ¡ãƒ³") {{$ImSorry}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
 }
 
 
-//I—¹ - ƒvƒ‰ƒCƒx[ƒgƒRƒ}ƒ“ƒh
+//çµ‚äº† - ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã‚³ãƒãƒ³ãƒ‰
 $Exit
 {$OnClose}\w7\-
 
 
-//DOSƒRƒ}ƒ“ƒh‚Ì”N—î§ŒÀƒ`ƒFƒbƒN
+//DOSã‚³ãƒãƒ³ãƒ‰ã®å¹´é½¢åˆ¶é™ãƒã‚§ãƒƒã‚¯
 $isExecutable
 {
 {@cmd = {@argv[0]}}
@@ -164,7 +164,7 @@ $isExecutable
 }
 
 
-//Às‰Â”\‚ÈDOSƒRƒ}ƒ“ƒh‚Ì—ñ‹“
+//å®Ÿè¡Œå¯èƒ½ãªDOSã‚³ãƒãƒ³ãƒ‰ã®åˆ—æŒ™
 $listExecutableCommands
 {
 {@cmds = ""}
@@ -173,8 +173,8 @@ $listExecutableCommands
 }
 
 
-//ƒT[ƒtƒFƒXØ‚è‘Ö‚¦
-//@argv[1]:idÅ‘å’lC@argv[0]:idÅ¬’l
+//ã‚µãƒ¼ãƒ•ã‚§ã‚¹åˆ‡ã‚Šæ›¿ãˆ
+//@argv[1]:idæœ€å¤§å€¤ï¼Œ@argv[0]:idæœ€å°å€¤
 $setSurfaceRange
 {
 {@id = {$random({@argv[1]} + 1 - {@argv[0]})} + {@argv[0]}}
