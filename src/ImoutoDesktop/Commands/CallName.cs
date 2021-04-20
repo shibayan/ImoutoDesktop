@@ -1,9 +1,11 @@
-﻿namespace ImoutoDesktop.Commands
+﻿using ImoutoDesktop.Remoting;
+
+namespace ImoutoDesktop.Commands
 {
     public class CallName : CommandBase
     {
-        public CallName(string name)
-            : base(name)
+        public CallName(string name, RemoteConnectionManager remoteConnectionManager)
+            : base(name, remoteConnectionManager)
         {
         }
 

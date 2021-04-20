@@ -1,9 +1,11 @@
-﻿namespace ImoutoDesktop.Commands
+﻿using ImoutoDesktop.Remoting;
+
+namespace ImoutoDesktop.Commands
 {
     public class Close : CommandBase
     {
-        public Close()
-            : base("終了")
+        public Close(RemoteConnectionManager remoteConnectionManager)
+            : base("終了", remoteConnectionManager)
         {
         }
 

@@ -1,44 +1,34 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+
+using ImoutoDesktop.IO;
+using ImoutoDesktop.Remoting;
 
 namespace ImoutoDesktop.Commands
 {
-    public static class CommandManager
+    public class CommandManager
     {
-        private static readonly List<CommandBase> _registedCommands = new();
-
-        public static void Rebuild(string directory)
+        public CommandManager(Character character, RemoteConnectionManager remoteConnectionManager)
         {
-            _registedCommands.Clear();
-
-            // システムコマンドを登録
-            _registedCommands.AddRange(new CommandBase[]
+            _commands = new CommandBase[]
             {
-                new Connect(),
-                new Disconnect(),
-                new ChangeDirectory(),
-                new DosCommand(),
-                new ExecuteFile(),
-                new OpenFile(),
-                new DeleteFile(),
-                new ScreenShot(),
-                new Close()
-            });
+                new CallName(character.Name, remoteConnectionManager),
+                new Connect(remoteConnectionManager),
+                new Disconnect(remoteConnectionManager),
+                new ChangeDirectory(remoteConnectionManager),
+                new DosCommand(remoteConnectionManager),
+                new ExecuteFile(remoteConnectionManager),
+                new OpenFile(remoteConnectionManager),
+                new DeleteFile(remoteConnectionManager),
+                new ScreenShot(remoteConnectionManager),
+                new Close(remoteConnectionManager)
+            };
         }
 
-        public static CommandBase Get(string input)
-        {
-            return _registedCommands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.IsExecute(input));
-        }
+        private readonly CommandBase[] _commands;
 
-        public static void Add(CommandBase command)
+        public CommandBase Get(string input)
         {
-            _registedCommands.Add(command);
-        }
-
-        public static void Remove(CommandBase command)
-        {
-            _registedCommands.Remove(command);
+            return _commands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.IsExecute(input));
         }
     }
 }

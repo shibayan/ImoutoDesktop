@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using ImoutoDesktop.Remoting;
 
@@ -7,8 +8,8 @@ namespace ImoutoDesktop.Commands
 {
     public class DosCommand : CommandBase
     {
-        public DosCommand()
-            : base(@".+")
+        public DosCommand(RemoteConnectionManager remoteConnectionManager)
+            : base(@".+", remoteConnectionManager)
         {
         }
 
@@ -26,16 +27,18 @@ namespace ImoutoDesktop.Commands
 
         public override bool IsExecute(string input)
         {
-            return Array.Exists(_allow, p => input == p || input.StartsWith(p + " ")) && ConnectionPool.IsConnected;
+            return Array.Exists(_allow, p => input == p || input.StartsWith(p + " "));
         }
 
-        public override CommandResult PreExecute(string input)
+        public override Task<CommandResult> PreExecute(string input)
         {
-            return Succeeded(new[] { Escape(input) });
+            return Task.FromResult(Succeeded(new[] { Escape(input) }));
         }
 
-        public override CommandResult Execute(string input)
+        public override async Task<CommandResult> Execute(string input)
         {
+            var serviceClient = RemoteConnectionManager.GetServiceClient();
+
             foreach (var item in _replace)
             {
                 if (input.StartsWith(item.Key + " "))
@@ -45,9 +48,9 @@ namespace ImoutoDesktop.Commands
                 }
             }
 
-            var result = ConnectionPool.Connection.ExecuteCommand(input);
+            var response = await serviceClient.RunShellAsync(new RunShellRequest { Command = input });
 
-            return Succeeded(result);
+            return Succeeded(response.Result);
         }
     }
 }

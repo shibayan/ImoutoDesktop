@@ -1,84 +1,105 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+
+using Google.Protobuf.WellKnownTypes;
 
 using ImoutoDesktop.Remoting;
+
+using Enum = System.Enum;
 
 namespace ImoutoDesktop.Commands
 {
     public class ChangeDirectory : CommandBase
     {
-        public ChangeDirectory()
-            : base(@"^(.+?)[へに]移動")
+        public ChangeDirectory(RemoteConnectionManager remoteConnectionManager)
+            : base(@"^(.+?)[へに]移動", remoteConnectionManager)
         {
         }
 
         private string _directory;
 
-        private static readonly Dictionary<string, Environment.SpecialFolder> _table = new()
+        private static readonly Dictionary<string, SpecialDirectory> _table = new()
         {
-            { "デスクトップ", Environment.SpecialFolder.Desktop },
-            { "ミュージック", Environment.SpecialFolder.MyMusic },
-            { "マイミュージック", Environment.SpecialFolder.MyMusic },
-            { "ドキュメント", Environment.SpecialFolder.MyDocuments },
-            { "マイドキュメント", Environment.SpecialFolder.MyDocuments },
-            { "ピクチャ", Environment.SpecialFolder.MyPictures },
-            { "マイピクチャ", Environment.SpecialFolder.MyPictures }
+            { "デスクトップ", SpecialDirectory.Desktop },
+            { "ミュージック", SpecialDirectory.MyMusic },
+            { "マイミュージック", SpecialDirectory.MyMusic },
+            { "ドキュメント", SpecialDirectory.MyDocuments },
+            { "マイドキュメント", SpecialDirectory.MyDocuments },
+            { "ピクチャ", SpecialDirectory.MyPictures },
+            { "マイピクチャ", SpecialDirectory.MyPictures }
         };
 
-        public override CommandResult PreExecute(string input)
+        public override async Task<CommandResult> PreExecute(string input)
         {
             var match = Pattern.Match(input);
             var target = match.Groups[1].Value;
 
-            _directory = ConnectionPool.Connection.CurrentDirectory;
+            var serviceClient = RemoteConnectionManager.GetServiceClient();
 
-            _directory = _table.ContainsKey(target) ? ConnectionPool.Connection.GetFolderPath(_table[target]) : AbsolutePath(_directory, target);
+            _directory = (await serviceClient.GetCurrentDirectoryAsync(new Empty())).Path;
+
+            if (_table.TryGetValue(target, out var specialDirectory))
+            {
+                var response = await serviceClient.GetDirectoryPathAsync(new GetDirectoryPathRequest { SpecialDirectory = specialDirectory });
+
+                _directory = response.Path;
+            }
+            else
+            {
+                _directory = AbsolutePath(_directory, target);
+            }
 
             if (!_directory.EndsWith(@"\"))
             {
                 _directory += @"\";
             }
 
-            var type = DirectoryType.None;
+            var type = DirectoryType.Empty;
 
             if (Settings.Default.AutoDetectDirectoryType)
             {
-                type = ConnectionPool.Connection.GetDirectoryType(_directory);
+                var typeResponse = await serviceClient.GetDirectoryTypeAsync(new GetDirectoryTypeRequest { Path = _directory });
+
+                type = typeResponse.DirectoryType;
             }
 
-            return Succeeded(Escape(_directory), Enum.GetName(typeof(DirectoryType), type));
+            return Succeeded(new[] { Escape(_directory), Enum.GetName(typeof(DirectoryType), type) });
         }
 
-        public override CommandResult Execute(string input)
+        public override async Task<CommandResult> Execute(string input)
         {
-            if (ConnectionPool.Connection.Exists(_directory) != Exists.Directory)
+            var serviceClient = RemoteConnectionManager.GetServiceClient();
+
+            var existResponse = serviceClient.Exists(new ExistsRequest { Path = _directory });
+
+            if (!existResponse.Exists)
             {
-                return Failed(new[] {Escape(_directory), "not exist"});
+                return Failed(new[] { Escape(_directory), "not exist" });
             }
 
             try
             {
-                ConnectionPool.Connection.CurrentDirectory = _directory;
+                await serviceClient.SetCurrentDirectoryAsync(new SetCurrentDirectoryRequest { Path = _directory });
 
                 if (Settings.Default.ShowFileList)
                 {
-                    var files = ConnectionPool.Connection.GetFiles(_directory, "*");
-                    var directories = ConnectionPool.Connection.GetDirectories(_directory, "*");
+                    var files = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.File });
+                    var directories = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.Directory });
 
                     var ret = new StringBuilder();
 
                     ret.Append(@"■ディレクトリ\n");
 
-                    foreach (var item in directories)
+                    foreach (var item in directories.Files)
                     {
                         ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
                     }
 
                     ret.Append(@"■ファイル\n");
 
-                    foreach (var item in files)
+                    foreach (var item in files.Files)
                     {
                         ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
                     }

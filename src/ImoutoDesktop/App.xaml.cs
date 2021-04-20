@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 
-using ImoutoDesktop.Commands;
 using ImoutoDesktop.IO;
 
 namespace ImoutoDesktop
@@ -38,9 +37,6 @@ namespace ImoutoDesktop
 
             // インストールされている吹き出しを読み込む
             BalloonManager.Rebuild(Path.Combine(RootDirectory, "balloons"));
-
-            // コマンドライブラリを読み込む
-            CommandManager.Rebuild(Path.Combine(RootDirectory, "commands"));
 
             // テンポラリディレクトリを作成
             if (!Directory.Exists(Path.Combine(RootDirectory, "temp")))

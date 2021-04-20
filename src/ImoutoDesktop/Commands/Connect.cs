@@ -1,34 +1,28 @@
-﻿namespace ImoutoDesktop.Commands
+﻿using System.Threading.Tasks;
+
+using ImoutoDesktop.Remoting;
+
+namespace ImoutoDesktop.Commands
 {
     public class Connect : CommandBase
     {
-        public Connect()
-            : base("接続")
+        public Connect(RemoteConnectionManager remoteConnectionManager)
+            : base("接続", remoteConnectionManager)
         {
         }
 
         public override Priority Priority => Priority.Highest;
 
-        public override CommandResult PreExecute(string input)
+        public override Task<CommandResult> PreExecute(string input)
         {
-            return Succeeded(new[] { Settings.Default.ServerAddress });
+            return Task.FromResult(Succeeded(new[] { Settings.Default.ServerAddress }));
         }
 
-        public override CommandResult Execute(string input)
+        public override async Task<CommandResult> Execute(string input)
         {
-            if (!ConnectionPool.IsConnected)
+            if (RemoteConnectionManager.GetServiceClient() == null)
             {
-                var ret = ConnectionPool.Connect(Settings.Default.ServerAddress, Settings.Default.PortNumber, Settings.Default.Password);
-
-                if (!ret.HasValue)
-                {
-                    return Failed();
-                }
-
-                if (!ret.Value)
-                {
-                    return Failed();
-                }
+                await RemoteConnectionManager.ConnectAsync(Settings.Default.ServerAddress, Settings.Default.PortNumber);
             }
 
             return Succeeded();

@@ -1,14 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+using ImoutoDesktop.Remoting;
 
 namespace ImoutoDesktop.Commands
 {
     public abstract class CommandBase
     {
-        protected CommandBase(string pattern)
+        protected CommandBase(string pattern, RemoteConnectionManager remoteConnectionManager)
         {
             Pattern = new Regex(pattern);
+            RemoteConnectionManager = remoteConnectionManager;
         }
 
         public virtual Priority Priority => Priority.Normal;
@@ -18,17 +22,19 @@ namespace ImoutoDesktop.Commands
             return Pattern.IsMatch(input);
         }
 
-        public virtual CommandResult PreExecute(string input)
+        public virtual Task<CommandResult> PreExecute(string input)
         {
-            return Succeeded();
+            return Task.FromResult(Succeeded());
         }
 
-        public virtual CommandResult Execute(string input)
+        public virtual Task<CommandResult> Execute(string input)
         {
-            return Succeeded();
+            return Task.FromResult(Succeeded());
         }
 
         protected Regex Pattern { get; }
+
+        protected RemoteConnectionManager RemoteConnectionManager { get; }
 
         protected CommandResult Failed()
         {

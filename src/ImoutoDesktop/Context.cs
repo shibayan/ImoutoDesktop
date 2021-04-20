@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using ImoutoDesktop.Commands;
+using Google.Protobuf.WellKnownTypes;
+
 using ImoutoDesktop.IO;
+using ImoutoDesktop.Remoting;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Windows;
 
@@ -54,6 +57,10 @@ namespace ImoutoDesktop
 
             // スクリプトプレイヤーを作成
             ScriptPlayer = new ScriptPlayer(this);
+
+            RemoteConnectionManager = new RemoteConnectionManager();
+
+            CommandManager = new Commands.CommandManager(Character, RemoteConnectionManager);
 
             InitializeScriptEngine();
         }
@@ -105,13 +112,13 @@ namespace ImoutoDesktop
 
         public ScriptPlayer ScriptPlayer { get; }
 
+        public Commands.CommandManager CommandManager { get; }
+
+        public RemoteConnectionManager RemoteConnectionManager { get; }
+
         public int HistoryIndex { get; set; } = -1;
 
         public List<string> CommandHistory { get; } = new();
-
-        private Commands.CommandBase _callCommand;
-
-        private Remoting.RemoteService.RemoteServiceClient _remoteServiceClient;
 
         public void Run()
         {
@@ -123,9 +130,6 @@ namespace ImoutoDesktop
             contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Option, OptionCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Version, VersionCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseCommand_Executed));
-            // コマンド追加
-            _callCommand = new CallName(Character.Name);
-            Commands.CommandManager.Add(_callCommand);
             // 初期サーフェスを表示して起動
             CharacterWindow.ChangeSurface(0);
             BalloonWindow.Show();
@@ -142,8 +146,6 @@ namespace ImoutoDesktop
             // メニュー周りクリーンアップ
             var contextMenu = (ContextMenu)Application.Current.Resources["ContextMenuKey"];
             contextMenu.CommandBindings.Clear();
-            // コマンド削除
-            Commands.CommandManager.Remove(_callCommand);
             // リソースを破棄する
             CharacterWindow.Close();
             BalloonWindow.Close();
@@ -173,21 +175,30 @@ namespace ImoutoDesktop
             ScriptPlayer.Play(script);
         }
 
-        public void ExecCommand(string input)
+        public async Task ExecCommand(string input)
         {
             var script = CreateScript();
 
             script.AppendLine(Script.Scope.User, input.Replace(@"\", @"\\"));
 
-            ScriptEngine.Connecting = Remoting.ConnectionPool.IsConnected;
+            if (RemoteConnectionManager.GetServiceClient() != null)
+            {
+                var heartbeatResponse = await RemoteConnectionManager.GetServiceClient().HeartbeatAsync(new Empty());
 
-            var command = Commands.CommandManager.Get(input);
+                ScriptEngine.Connecting = heartbeatResponse.Succeeded;
+            }
+            else
+            {
+                ScriptEngine.Connecting = false;
+            }
+
+            var command = CommandManager.Get(input);
 
             // コマンドが見つかったか調べる
             if (command != null)
             {
                 // コマンド実行前準備
-                var canExecuteResult = command.PreExecute(input);
+                var canExecuteResult = await command.PreExecute(input);
 
                 // 事前イベントのスクリプトを実行
                 var preEventResult = ScriptEngine.Invoke($"OnPre{canExecuteResult.EventId}", canExecuteResult.Arguments);
@@ -202,7 +213,7 @@ namespace ImoutoDesktop
                 if (!ScriptEngine.Reject)
                 {
                     // コマンドを実行する
-                    var executeResult = command.Execute(input);
+                    var executeResult = await command.Execute(input);
 
                     // イベントのスクリプトを実行
                     var eventResult = ScriptEngine.Invoke($"On{executeResult.EventId}", executeResult.Arguments);
