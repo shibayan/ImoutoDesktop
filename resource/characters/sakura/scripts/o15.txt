@@ -1,0 +1,707 @@
+// 辞書 - おとな
+
+#Common
+{$if ({$age} >= 15 && {$thunderstorm} == false)}
+
+
+// 起動時
+$OnBoot_default; {$if ({$hour} < 6 || {$hour} >= 23)}
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnBoot_night_normal} } else { {$OnBoot_night_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnBoot_night_dere} } else { {$OnBoot_night_normal} } } } }
+
+$OnBoot_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnBoot_normal} } else { {$OnBoot_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnBoot_dere} } else { {$OnBoot_normal} } } } }
+
+$OnBoot_tsun
+なに？\w5相手してほしいの？\n\w5少しだけならいいわよ。
+相変わらずヒマそうね。
+あら%usernameじゃないの。どうしたのよ。
+
+$OnBoot_normal
+%username、どうしたの？
+どうしたの？何か用事？
+
+$OnBoot_dere
+%username、元気？
+あ、%username。どうしたの？
+
+$OnBoot_night_tsun
+なに？\w5相手してほしいの？\n\w5少しだけならいいわよ。
+こんな時間に何の用？
+もう夜{$getHalfHour}時{$minute}分よ？\n非常識にも程があるわね。
+いま何時だと思ってんのよ。非常識ね。
+
+$OnBoot_night_normal
+%username、どうしたの？もう夜更けだよ。
+こんな夜中に何か用事？
+
+$OnBoot_night_dere
+%username、どうしたの？\nもう夜も遅いのに。
+まだ起きてたんだ、あまり夜更かしはよくないよ？\w5\n……アタシもひとのことはいえないか。
+
+
+// 終了時
+$OnClose; {$if ({$hour} < 6 || {$hour} >= 23)}
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnClose_night_normal} } else { {$OnClose_night_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnClose_night_dere} } else { {$OnClose_night_normal} } } } }
+
+$OnClose
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnClose_normal} } else { {$OnClose_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnClose_dere} } else { {$OnClose_normal} } } } }
+
+$OnClose_tsun
+……もういいの？あらそう。\n\w5べ、別にアンタの顔なんてみたくないんだから。
+はいはいお疲れ様。\n\w5またたまには相手してあげてもいいわよ？
+
+$OnClose_normal
+じゃあね。
+じゃ、またね。
+
+$OnClose_dere
+もう終わりなの？なんか寂しいな…。\w5じゃあ、ね。
+それじゃあ、またね♪
+
+$OnClose_night_tsun
+……もういいの？あらそう。\n\w5べ、別にアンタの顔なんてみたくないんだから。
+はいはいおやすみなさい。\n\w5またたまには相手してあげてもいいわよ？
+あんまり夜更かししてないでさっさと寝なさいよね。
+
+$OnClose_night_normal
+じゃあね。
+じゃ、またね。おやすみなさい。
+
+$OnClose_night_dere
+もうおしまい？\w5じゃあ、おやすみなさい。
+それじゃあ、おやすみなさい。
+あまり夜更かししないほうがいいよ？
+
+
+// ログイン時
+$OnLogin_default
+//none
+
+
+//すでに接続している
+$alreadyConnected
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$alreadyConnected_normal} } else { {$alreadyConnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$alreadyConnected_dere} } else { {$alreadyConnected_normal} } } } }
+
+$alreadyConnected_tsun
+{$reject = true}さっき接続したじゃないの。
+{$reject = true}さっきログインしたじゃないの。
+
+$alreadyConnected_normal
+{$reject = true}もう接続してるわよ？
+{$reject = true}もうログインしてるわよ？
+
+$alreadyConnected_dere
+{$reject = true}もう接続済みよ？
+{$reject = true}もうログイン済みよ？
+
+
+
+// 正常にログインした
+$OnLogined_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnLogined_normal} } else { {$OnLogined_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnLogined_dere} } else { {$OnLogined_normal} } } } }
+
+$OnLogined_tsun
+「{$parameter(0)}」にログインしたわよ。\w5で、\w5つぎは？
+「{$parameter(0)}」にログインしたわよ。
+
+$OnLogined_normal
+「{$parameter(0)}」にログインしたよ。
+
+$OnLogined_dere
+「{$parameter(0)}」にログインできたよ。
+
+
+
+// 接続失敗
+$OnConnectFailure
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnConnectFailure_normal} } else { {$OnConnectFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnConnectFailure_dere} } else { {$OnConnectFailure_normal} } } } }
+
+$OnConnectFailure_tsun
+「{$parameter(0)}」に接続できなかったみたい。\n\w5アタシのせいじゃない…と、おもうんだけど……。
+接続できなかったわよ？\n\w5アンタの設定が間違ってるんじゃないの？
+「{$parameter(0)}」に接続できなかったみたい。\n\w5設定あってんの？
+
+$OnConnectFailure_normal
+「{$parameter(0)}」に接続できないよ。
+接続できないみたい。どうしようか。
+
+$OnConnectFailure_dere
+「{$parameter(0)}」との接続に失敗しちゃった。ごめんなさい。
+あれ？うまく接続できないみたいね。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnecting_normal} } else { {$OnDisconnecting_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnecting_dere} } else { {$OnDisconnecting_normal} } } } }
+
+$OnDisconnecting_tsun
+サーバと接続されてないじゃない。なにやってんのよ。
+サーバと接続されてないじゃない。
+
+$OnDisconnecting_normal
+サーバと接続されてないみたい。
+
+$OnDisconnecting_dere
+いまはサーバと接続されてないよ？
+
+
+// 鯖との接続が切れた
+$OnDisconnected_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnected_normal} } else { {$OnDisconnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnected_dere} } else { {$OnDisconnected_normal} } } } }
+
+$OnDisconnected_tsun
+「{$ServerName}」との接続が切れたわね。
+「{$ServerName}」との接続が切れたみたい。\n再接続してみたら？
+サーバとの接続が切れたわね。
+サーバとの接続が切れたみたい。\n再接続してみたら？
+
+$OnDisconnected_normal
+「{$ServerName}」との接続が切れちゃった。
+サーバとの接続が切れちゃった。
+
+$OnDisconnected_dere
+「{$ServerName}」との接続が切れちゃった。
+「{$ServerName}」との接続が切れちゃった。\n再接続してみたらどうかな？
+サーバとの接続が切れちゃった。
+サーバとの接続が切れちゃった。\n再接続してみたらどうかな？
+
+
+// パスワード間違い
+$OnIncorrectPassword
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnIncorrectPassword_normal} } else { {$OnIncorrectPassword_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnIncorrectPassword_dere} } else { {$OnIncorrectPassword_normal} } } } }
+
+$OnIncorrectPassword_tsun
+パスワードが違うって。ダメねぇ。
+パスワードあってないんじゃない？
+
+$OnIncorrectPassword_normal
+ログインできなかったよ。\n\w5パスワードが違うみたい。
+
+$OnIncorrectPassword_dere
+えっと、ログインに失敗しちゃった。\nパスワードが違うみたい。
+なんかパスワードが違うんだって。
+
+
+// DOS コマンド実行
+$OnDosCommand
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDosCommand_normal} } else { {$OnDosCommand_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDosCommand_dere} } else { {$OnDosCommand_normal} } } } }
+
+$OnDosCommand_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDosCommand_tsun
+{$ExtractCommandName} コマンドを実行したわよ。\n\w5ありがたく思いなさい。
+{$ExtractCommandName} コマンドを実行したわよ。
+
+$OnDosCommand_normal
+{$ExtractCommandName} コマンドを実行したよ。
+
+$OnDosCommand_dere; {$if ({$random(6)} == 0)}
+{$OnCommandReject_dere}
+
+$OnDosCommand_dere
+{$ExtractCommandName} コマンドを実行したよ。
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDosCommandFailure_normal} } else { {$OnDosCommandFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDosCommandFailure_dere} } else { {$OnDosCommandFailure_normal} } } } }
+
+$OnDosCommandFailure_tsun
+{$ExtractCommandName} コマンドが失敗したようね。
+
+$OnDosCommandFailure_normal
+{$ExtractCommandName} コマンドの実行に失敗しちゃった。
+
+$OnDosCommandFailure_dere
+{$ExtractCommandName} コマンドの実行に失敗したみたい。ごめんね。
+
+
+// ディレクトリ移動
+$OnChangeDirectory
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnChangeDirectory_normal} } else { {$OnChangeDirectory_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnChangeDirectory_dere} } else { {$OnChangeDirectory_normal} } } } }
+
+$OnChangeDirectory_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnChangeDirectory_tsun
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_tsun_empty} } else { {$OnChangeDirectory_tsun_default} }}
+
+$OnChangeDirectory_tsun_empty
+指定された場所へ移動したわ。\n\w5……なにもないじゃない。
+
+$OnChangeDirectory_tsun_default
+指定された場所へ移動したわ。
+
+$OnChangeDirectory_normal
+指定された場所へ移動したよ。
+
+$OnChangeDirectory_dere
+{$if ({$parameter(1)} == "Picture") { {$OnChangeDirectory_dere_picture} } elseif ({$parameter(1)} == "Movie") { {$OnChangeDirectory_dere_movie} } elseif ({$parameter(1)} == "Music") { {$OnChangeDirectory_dere_music} } else { {$OnChangeDirectory_dere_default} }}
+
+$OnChangeDirectory_dere_picture
+{$OnChangeDirectory_dere_default}
+画像ファイルじゃない。\n\w5ねえ、ちょっとみてもいい？
+
+$OnChangeDirectory_dere_movie
+{$OnChangeDirectory_dere_default}
+動画じゃない。\n\w5ねえ、ちょっとみてもいい？
+
+$OnChangeDirectory_dere_music
+{$OnChangeDirectory_dere_default}
+音楽ファイルじゃない。\n\w5ねえ、ちょっとかけてみてもいい？
+
+$OnChangeDirectory_dere_default
+指定された場所へ移動したよ。
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_tsun
+そんなディレクトリないわよ。
+そんなディレクトリないわよ。\nまったく、なにやってんのかしらね。
+ありもしないディレクトリにどうやって移動しろってのよ。
+
+$NoSuchDirectory_normal
+指定されたディレクトリがないみたい。
+指定されたディレクトリがみつからないみたい。
+
+$NoSuchDirectory_dere
+指定されたディレクトリがないみたいよ？
+指定されたディレクトリがみつからないよ？
+
+$OnChangeDirectoryFailure_tsun_default
+指定された場所に移動できないようね。
+指定された場所に移動できないみたい。\n\w5本当にそのディレクトリはあるんでしょうね。
+
+$OnChangeDirectoryFailure_normal_default
+指定された場所に移動できなかったよ。
+指定された場所に移動できなかったよ。\nパスあってる？
+
+$OnChangeDirectoryFailure_dere_default
+指定された場所に移動できなかったよ。
+
+
+// ファイル表示・開く
+$OnOpenFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnOpenFile_normal} } else { {$OnOpenFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnOpenFile_dere} } else { {$OnOpenFile_normal} } } } }
+
+$OnOpenFile_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnOpenFile_tsun
+{$ExtractFileName} を開いたわよ。
+{$ExtractFileName} を表示したわよ。
+
+$OnOpenFile_normal
+{$ExtractFileName} を開いたよ。
+{$ExtractFileName} を表示したよ。
+
+$OnOpenFile_dere
+{$ExtractFileName} を開いたよ。
+{$ExtractFileName} を表示したよ。
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_tsun_default
+{$ExtractFileName} が開けなかったわ。
+{$ExtractFileName} が表示できなかったようね。
+
+$OnOpenFileFailure_normal_default
+{$ExtractFileName} が開けなかったみたい。
+{$ExtractFileName} の表示に失敗したみたい。
+
+$OnOpenFileFailure_dere_default
+{$ExtractFileName} が開けなかったよ。
+{$ExtractFileName} が表示できなかったみたい。
+
+$NoSuchFile_tsun
+そんなファイルないわよ。
+そんなファイルないじゃないの。
+ファイルがないじゃないの。\n\w5…またそうやってアタシをからかうんだから。
+
+$NoSuchFile_normal
+指定されたファイルがないみたい。
+指定されたファイルがみつからないみたい。
+
+$NoSuchFile_dere
+指定されたファイルがないみたいよ？
+指定されたファイルがみつからないよ？
+
+
+// ファイル実行
+$OnExecuteFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnExecuteFile_normal} } else { {$OnExecuteFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnExecuteFile_dere} } else { {$OnExecuteFile_normal} } } } }
+
+$OnExecuteFile_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnExecuteFile_tsun
+{$ExtractFileName} を実行したわよ。
+
+$OnExecuteFile_normal
+{$ExtractFileName} を実行したよ。
+
+$OnExecuteFile_dere
+{$ExtractFileName} を実行したよ。
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_tsun_default
+{$ExtractFileName} を実行できなかったみたい。
+{$ExtractFileName} の実行に失敗したようね。
+
+$OnExecuteFileFailure_normal_default
+{$ExtractFileName} が実行できなかったみたい。
+
+$OnExecuteFileFailure_dere_default
+{$ExtractFileName} を実行できなかったみたい。
+{$ExtractFileName} の実行に失敗しちゃった。
+
+
+//ファイルを閉じる
+$OnCloseFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCloseFile_normal} } else { {$OnCloseFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCloseFile_dere} } else { {$OnCloseFile_normal} } } } }
+
+$OnCloseFile_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnCloseFile_tsun
+{$ExtractFileName} を閉じたわよ。
+
+$OnCloseFile_normal
+{$ExtractFileName} を閉じたよ。
+
+$OnCloseFile_dere
+{$ExtractFileName} を閉じたよ。
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_tsun
+{$ExtractFileName} を閉じれらないみたい。
+
+$OnCloseFileFailure_normal
+{$ExtractFileName} を閉じるのに失敗しちゃった。
+
+$OnCloseFileFailure_dere
+{$ExtractFileName} を閉じるのに失敗しちゃった。
+
+
+// ファイル削除
+$OnDeleteFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDeleteFile_normal} } else { {$OnDeleteFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDeleteFile_dere} } else { {$OnDeleteFile_normal} } } } }
+
+$OnDeleteFile_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDeleteFile_tsun
+{$ExtractFileName} を削除したわよ。
+
+$OnDeleteFile_normal
+{$ExtractFileName} を削除したよ。
+
+$OnDeleteFile_dere; {$if ({$random(6)} == 0)}
+{$OnCommandReject_dere}
+
+$OnDeleteFile_dere
+{$ExtractFileName} を削除したよ。
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_tsun_default
+{$ExtractFileName} が削除できないわね。
+{$ExtractFileName} が削除できなかったようね。
+{$ExtractFileName} が削除できないわね。\n\w5…\w5…日頃の行いかしら？
+
+$OnDeleteFileFailure_normal_default
+{$ExtractFileName} が削除できなかったみたい。
+
+$OnDeleteFileFailure_dere_default
+{$ExtractFileName} が削除できなかったよ。
+
+
+
+//ファイル受信開始
+$OnDownloading
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDownloading_normal} } else { {$OnDownloading_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDownloading_dere} } else { {$OnDownloading_normal} } } } }
+
+$OnDownloaded_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDownloaded_tsun
+
+$OnDownloaded_normal
+
+$OnDownloaded_dere; {$if ({$random(6)} == 0)}
+{$OnCommandReject_dere}
+
+$OnDownloaded_dere
+
+
+
+// ファイル受信完了
+$OnDownloaded
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDownloaded_normal} } else { {$OnDownloaded_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDownloaded_dere} } else { {$OnDownloaded_normal} } } } }
+
+$OnDownloaded_tsun
+ファイルの受信が終わったみたいよ。
+受信が終わったわよ。\n\w5……その、なんか変なファイルじゃないでしょうね。
+
+$OnDownloaded_normal
+受信完了しました。
+受信できたよ。
+受信終わったよ。
+
+$OnDownloaded_dere
+受信が終わったよ。
+受信できたみたいね。
+
+
+//ファイル受信失敗
+$OnDownloadFailure_tsun_default
+ファイルの受信に失敗したようね。
+
+$OnDownloadFailure_normal_default
+受信失敗しちゃった。
+受信できなかったよ。
+
+$OnDownloadFailure_dere_default
+受信できなかったみたいね。
+
+$OnDownloadFailure_tsun_cancel
+なによ、途中でやめるくらいなら最初からやらせないでよね。
+
+$OnDownloadFailure_normal_cancel
+あれ？やめるんだ。
+キャンセルしたよ。
+
+$OnDownloadFailure_dere_cancel
+あれ？やめちゃうの？
+
+
+//スクリーンショット撮影
+$OnScreenShot
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnScreenShot_normal} } else { {$OnScreenShot_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnScreenShot_dere} } else { {$OnScreenShot_normal} } } } }
+
+$OnScreenShot_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnScreenShot_tsun
+スクリーンショット撮ったわよ。
+
+$OnScreenShot_normal
+スクリーンショット撮ったよ。
+
+$OnScreenShot_dere
+スクリーンショット撮れたよ。
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnScreenShotFailure_normal} } else { {$OnScreenShotFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnScreenShotFailure_dere} } else { {$OnScreenShotFailure_normal} } } } }
+
+$OnScreenShotFailure_tsun
+あら？スクリーンショットがうまく撮れないわね。
+
+$OnScreenShotFailure_normal
+スクリーンショットが撮れなかったみたい。
+
+$OnScreenShotFailure_dere
+ごめんなさい。\nスクリーンショット撮るの失敗しちゃった。
+
+
+// 理解できないコマンド
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+$OnUnknownCommand_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnUnknownCommand_normal} } else { {$OnUnknownCommand_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnUnknownCommand_dere} } else { {$OnUnknownCommand_normal} } } } }
+
+$OnUnknownCommand_tsun
+なんていったの？もう少しわかりやすく話しなさいよ。
+あーごめん、聞いてなかった。
+なにかいった？
+
+$OnUnknownCommand_normal
+ごめん、\w5わかんない。
+あーごめん、聞いてなかった。
+
+$OnUnknownCommand_dere
+えっと、なんていったの？
+ごめんなさい、わかんなかった。
+
+
+//いま何時？ - プライベートコマンド
+$WhatTimeIsIt
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$WhatTimeIsIt_normal} } else { {$WhatTimeIsIt_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$WhatTimeIsIt_dere} } else { {$WhatTimeIsIt_normal} } } } }
+
+$WhatTimeIsIt_tsun
+いまは{$getHalfHour}時{$minute}分よ。
+自分で時計みなさいよ。
+自分で時計みたら？\n\w5……{$getHalfHour}時{$minute}分よ。
+
+$WhatTimeIsIt_normal
+いまは{$getHalfHour}時{$minute}分。
+{$getHalfHour}時{$minute}分だよ。
+
+$WhatTimeIsIt_dere
+いまは{$getHalfHour}時{$minute}分だよ。
+えーとね、{$getHalfHour}時{$minute}分だよ。
+
+
+//今日は何日？ - プライベートコマンド
+$WhatDateIsIt
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$WhatDateIsIt_normal} } else { {$WhatDateIsIt_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$WhatDateIsIt_dere} } else { {$WhatDateIsIt_normal} } } } }
+
+$WhatDateIsIt_tsun
+今日は{$month}月{$day}日よ。
+{$month}月{$day}日よ。
+今日は{$month}月{$day}日よ。{$if ({$dayofweek} == 0) {"明日は月曜日ね♪"}}
+今日は{$month}月{$day}日よ。{$if ({$getMemorialDay} != "") {{$getMemorialDay}ね。} }
+自分でカレンダーみなさいよ。
+
+$WhatDateIsIt_normal
+今日は{$month}月{$day}日。
+{$month}月{$day}日だよ。
+今日は{$month}月{$day}日。{$if ({$getMemorialDay} != "") {{$getMemorialDay}ね。} }
+{$month}月{$day}日だよ。{$if ({$getMemorialDay} != "") {{$getMemorialDay}ね。} }
+
+$WhatDateIsIt_dere
+今日は{$month}月{$day}日だよ。
+えーとね、{$month}月{$day}日だよ。
+今日は{$month}月{$day}日だよ。{$if ({$getMemorialDay} != "") {{$getMemorialDay}だね。} }
+えーとね、{$month}月{$day}日だよ。{$if ({$getMemorialDay} != "") {{$getMemorialDay}だね。} }
+
+
+//リモートマシンをシャットダウン - プライベートコマンド
+$ShutdownServerPCEnabled
+{
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$ShutdownServerPCEnabled_normal} } else { {$ShutdownServerPCEnabled_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$ShutdownServerPCEnabled_dere} } else { {$ShutdownServerPCEnabled_normal} } } } }
+\r[shutdown]
+}
+
+$ShutdownServerPCEnabled_tsun
+あっちのマシンをシャットダウンするわよ？
+本当にむこうを終了しちゃっていいのね？
+
+$ShutdownServerPCEnabled_normal
+あっちのパソコン終了すればいいのね？
+あっち側のパソコンを終了するよ。
+
+$ShutdownServerPCEnabled_dere
+あっちのパソコン終了すればいいのね？
+あっちのパソコン終了しちゃうよー？
+
+$ShutdownServerPCDisabled
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$ShutdownServerPCDisabled_normal} } else { {$ShutdownServerPCDisabled_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$ShutdownServerPCDisabled_dere} } else { {$ShutdownServerPCDisabled_normal} } } } }
+
+$ShutdownServerPCDisabled_tsun
+無理よ。勝手な事するなっていったのはアンタでしょ。
+アンタねぇ…。勝手な事するなっていったのは誰かしら？
+
+$ShutdownServerPCDisabled_normal
+あれ？この前勝手な事しちゃダメっていってなかった？
+勝手な事しないようにっていわれた気がするんだけど…。
+
+$ShutdownServerPCDisabled_dere
+えー？前に勝手な事しちゃダメっていってたじゃない。
+えー？前に勝手な事するなっていってたくせに。
+
+
+//"help" - プライベートコマンド
+$help
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_normal} } else { {$help_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_dere} } else { {$help_normal} } } } }
+
+$help_tsun
+このコマンドにはふたつオプションがあるわ。\n -dos オプションで使えるDOSコマンド、\n -private でプライベートコマンドの\n説明をしてあげるわ。いい？
+
+$help_normal
+このコマンドにはふたつオプションがあるよ。\n -dos オプションで使えるDOSコマンド、\n -private でプライベートコマンドの\n説明をしてあげるね。
+
+$help_dere
+このコマンドにはふたつオプションがあるよ。\n -dos オプションで使えるDOSコマンド、\n -private でプライベートコマンドの\n説明をしてあげるよ。
+
+
+//"help -dos" - プライベートコマンド
+$help_dos
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_dos_normal} } else { {$help_dos_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_dos_dere} } else { {$help_dos_normal} } } } }
+
+$help_dos_tsun
+アタシはなんでもできるわよ？
+ふふん、アタシはなんでもできるわよ？
+アタシにできるのは……\n\w5{$listExecutableCommands}…ね。
+
+$help_dos_normal
+アタシが使えるのは……\n\w5{$listExecutableCommands}…ね。
+DOSコマンドは全部使えるよ。
+DOSコマンドなら全部使えるよ。
+
+$help_dos_dere
+アタシが使えるのは……\n\w5{$listExecutableCommands}…ね。
+DOSコマンドは全部使えるよ。
+DOSコマンドは全部大丈夫だよ。
+
+
+//"help -private" - プライベートコマンド
+$help_private
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_private_normal} } else { {$help_private_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_private_dere} } else { {$help_private_normal} } } } }
+
+$help_private_tsun
+なんか書き置きを読めって言われてるんだけど…\n\n{$PrivateCommandMessage}\n……だって。\n\w5ちょっと、最後のはなんなのよ。
+なんか書き置きを読めって言われてるんだけど…\n\n{$PrivateCommandMessage}\n……だって。\n\w5最後のは聞かなかったことにして頂戴。
+
+$help_private_normal
+えっと、書き置きがあるんだけど…\n\n{$PrivateCommandMessage}\n……だって。
+
+$help_private_dere
+えっと、書き置きがあるんだけど…\n\n{$PrivateCommandMessage}\n……だって。\n\w5最後のはなんなのかなぁ？
+
+
+// 話しかけ
+$OnCallName
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCallName_normal} } else { {$OnCallName_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCallName_dere} } else { {$OnCallName_normal} } } } }
+
+$OnCallName_tsun
+なにか用？
+どうしたのよ。
+えぇ！？\w5き、気安く呼ばないでよね。
+
+$OnCallName_normal
+なにか用？
+呼んだ？
+
+$OnCallName_dere
+ん？なぁに？
+%username。\w5…ふふ、これでおあいこ。
+
+
+//コマンド拒否時のリアクション
+$OnCommandReject_tsun
+{$reject = true}なんでアタシがそんなことしなきゃいけないのよ。
+{$reject = true}イ・ヤ・よ♪
+{$reject = true}面倒臭いからパス。
+
+$OnCommandReject_dere
+{$reject = true}どうしよっかな～、やーめた♪
+
+
+//ヒミツのファイルを見つけてしまったとき
+$OnSecretFileFound
+{
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnSecretFileFound_normal} } else { {$OnSecretFileFound_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnSecretFileFound_dere} } else { {$OnSecretFileFound_normal} } } } }
+{$setTimeLimit}
+{$thunderstorm = true}
+{$if ({$allowoperate} == true) {\r[delete,directory]} else {{$destroy}}}
+}
+
+$OnSecretFileFound_tsun
+え？何コレ……。\w5\n信じらんない！
+あれ？\w5\nうっわー、サイテー…。
+ふーん、こーゆーのが好みなんだぁ…。\nへーえ……。
+
+$OnSecretFileFound_normal
+えーと、コレはなんなのかなぁ……。
+なに、これ……。
+
+$OnSecretFileFound_dere
+…………（ぷつん）。
+え？何コレ……。\w5\n信じらんない！

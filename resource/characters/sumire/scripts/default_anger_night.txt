@@ -1,0 +1,319 @@
+// 辞書 - （ご機嫌斜めモード）（夜間）
+
+#Common
+{$if ({$age} >= 6 && ({$hour} < 6 || {$hour} >= 20) && ({$thunderstorm} == true))}
+
+
+
+// 起動時
+$OnBoot_default
+\s[0]…………。
+\s[0]……その、なにかご用？
+\s[0]……っ！{$escape}
+
+
+// 終了時
+$OnClose
+…………。
+……バカ。
+……それじゃっ。
+
+
+// ログイン時
+$OnLogin_default; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnLogin_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnConnectFailure}
+
+$OnLogin_default; {$if ({$random(3)} == 0)}
+{$escape}
+
+
+
+// ログイン時
+$OnLogined
+{$parameter(0)}に接続したよ。
+サーバに接続したよ。
+
+//すでに接続されている
+$alreadyConnected
+{$reject = true}もうつながってるよ？
+{$reject = true}もう接続されてるよ？
+
+
+// 接続失敗
+$OnConnectFailure
+…あっちにつながらなかったみたい。
+サーバにつながらなかったみたい。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+いまはサーバと接続されてないよ？
+あっちとつながってないよ？
+
+
+// 鯖との接続が切れた
+$OnDisconnected
+サーバとの接続が切れちゃったみたい。
+あ……\w5接続が切れちゃった。
+
+
+// パスワード間違い
+$OnIncorrectPassword
+ログインに失敗しちゃった。\nパスワードが違うみたい。
+パスワードが違うよ？
+
+
+
+// DOS コマンド実行
+$OnDosCommand; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnDosCommand; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDosCommandFailure}
+
+$OnDosCommand
+{$ExtractCommandName} コマンドを実行したよ。
+コマンドを実行したよ。
+
+$OnDosCommand; {$if ({$random(3)} == 0)}
+{$escape}
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+{$ExtractCommandName} コマンド、失敗しちゃった。
+失敗しちゃった。
+
+
+
+// ディレクトリ移動
+$OnChangeDirectory; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnChangeDirectory; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnChangeDirectoryFailure}
+
+$OnChangeDirectory; {$if ({$random(3)} == 0)}
+{$escape}
+
+$OnChangeDirectory
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_empty} } else { {$OnChangeDirectory_default} }}
+
+$OnChangeDirectory_empty
+いわれた場所へ移動したよ。\n\w5……空っぽだね。
+
+$OnChangeDirectory_default
+いわれた場所へ移動したよ。
+
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_normal
+いわれたディレクトリがないみたい。
+
+
+$OnChangeDirectoryFailure_normal_default
+いわれた場所に移動できなかったよ。
+
+
+
+// ファイル表示・開く
+$OnOpenFile; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnOpenFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnOpenFileFailure}
+
+$OnOpenFile; {$if ({$random(3)} == 0)}
+{$escape}
+
+$OnOpenFile
+{$ExtractFileName}をひらいたよ。
+
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_normal_default
+{$ExtractFileName} がひらけなかったみたい。
+
+
+$NoSuchFile_normal
+ファイルがないみたい。
+ファイルがなかったよ。
+
+
+
+// ファイル実行
+$OnExecuteFile; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnExecuteFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnExecuteFileFailure}
+
+$OnExecuteFile; {$if ({$random(3)} == 0)}
+{$escape}
+
+$OnExecuteFile
+{$ExtractFileName}を実行したよ。
+いわれたファイルを実行したよ。
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_normal_default
+{$ExtractFileName} が実行できなかったみたい。
+いわれたファイル が実行できなかったみたい。
+……失敗しちゃった。
+
+
+
+//ファイルを閉じる
+$OnCloseFile; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnCloseFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnCloseFileFailure}
+
+$OnCloseFile; {$if ({$random(3)} == 0)}
+{$escape}
+
+$OnCloseFile
+{$ExtractFileName}をおしまいにしたよ。
+いわれたファイルをとじたよ。
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_normal
+あれ？\w5…失敗しちゃった。
+
+
+
+// ファイル削除
+$OnDeleteFile; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnDeleteFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDeleteFileFailure}
+
+$OnDeleteFile; {$if ({$random(3)} == 0)}
+{$escape}
+
+$OnDeleteFile
+{$ExtractFileName}を消したよ。
+いわれたファイルを消したよ。
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_normal_default
+{$ExtractFileName} が消せなかったみたい。
+いわれたファイルが消せなかったみたい。
+
+
+
+//ファイル受信開始
+$OnDownloading; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnDownloading; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDownloadFailure}
+
+$OnDownloading; {$if ({$random(3)} == 0)}
+{$escape}
+
+
+// ファイル受信完了
+$OnDownloaded
+{$ExtractFileName}を受けとったよ。
+いわれたファイルを受けとったよ。
+
+
+//ファイル受信失敗
+$OnDownloadFailure_normal_default
+ファイルがとどかなかったみたい。
+
+
+$OnDownloadFailure_normal_cancel
+あれ？やめちゃうの？
+
+
+
+//スクリーンショット撮影
+$OnScreenShot; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnScreenShot; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnScreenShotFailure}
+
+$OnScreenShot; {$if ({$random(3)} == 0)}
+{$escape}
+
+$OnScreenShot
+スクリーンショットとったよ。
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+失敗しちゃった。
+
+
+// 理解できないコマンド
+$OnUnknownCommand; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+$OnUnknownCommand_default
+え？なに？
+\w5…よくわかんない。
+\w5……？
+
+
+
+// 話しかけ？
+$OnCallName
+なぁに？
+{$setSurfaceRange(3,5)}……\w5もうねよ？
+
+
+//おねむ
+$OnSleeping
+（zzz……）
+（zzz……）%usernameのバカ……。
+（zzz……）え？なぁに？
+（……すやすや）
+（……すーすー）
+
+
+//"help" - プライベートコマンド
+//"help -dos"へ転送
+$help; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+
+$help
+{$help_dos}
+
+
+//"help -dos" - プライベートコマンド
+$help_dos; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$help_dos
+つかえるDOSコマンドは、\n\w5{$listExecutableCommands} …だよ。
+
+
+$ImSorry; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$ImSorry
+{$excuse}
+
+
+
+//仕方ないので許してやる
+$excuse
+{$thunderstorm = false}うん、わかった。
+{$thunderstorm = false}うん、もうだいじょうぶ。
+

@@ -1,0 +1,206 @@
+// 辞書 - 幼女
+
+#Common
+{$if ({$age} < 6 && {$hour} >= 6 && {$hour} < 20)}
+
+
+
+// 起動時
+$OnBoot_default
+なにかごよう？
+
+
+// 終了時
+$OnClose
+じゃあね。
+
+
+// ログイン時
+$OnLogin_default
+//none
+
+//すでに接続されている
+$alreadyConnected
+{$reject = true}もうつながってるよ？
+{$reject = true}もうせつぞくされてるよ？
+
+
+// ログイン時
+$OnLogined
+{$parameter(0)}にせつぞくしたよ。
+むこうにつながったよ。
+
+
+// 接続失敗
+$OnConnectFailure
+…あっちにつながらなかったみたい。
+サーバにつながらなかったみたい。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+いまはサーバとせつぞくされてないよ？
+あっちとつながってないよ？
+
+
+// 鯖との接続が切れた
+$OnDisconnected
+せつぞくがきれちゃった。
+あ……\w5せつぞくがきれちゃった。
+
+
+// パスワード間違い
+$OnIncorrectPassword
+ログインにしっぱいしちゃった。
+パスワードがちがうよ？
+
+
+
+// DOS コマンド実行
+$OnDosCommand
+{$OnCommandDisabled}
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+//none
+
+
+// ディレクトリ移動
+$OnChangeDirectory
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_empty} } else { {$OnChangeDirectory_default} }}
+
+$OnChangeDirectory_empty
+いどうできたよ。\n\w5……からっぽだね。
+
+$OnChangeDirectory_default
+いどうできたよ。
+いわれたところへいどうしたよ。
+
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_normal
+みつからないよ……。
+そんなところなかったよ。
+
+
+$OnChangeDirectoryFailure_normal_default
+しっぱいしちゃった。
+
+
+
+// ファイル表示・開く
+$OnOpenFile
+{$OnCommandDisabled}
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_normal_default
+//none
+
+
+$NoSuchFile_normal
+//none
+
+
+
+// ファイル実行
+$OnExecuteFile
+{$OnCommandDisabled}
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_normal_default
+//none
+
+
+//ファイルを閉じる
+$OnCloseFile
+{$OnCommandDisabled}
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_normal
+//none
+
+
+
+// ファイル削除
+$OnDeleteFile
+{$OnCommandDisabled}
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_normal_default
+//none
+
+
+
+//ファイル受信開始
+$OnDownloading
+//none
+
+
+// ファイル受信完了
+$OnDownloaded
+{$OnCommandDisabled}
+
+
+//ファイル受信失敗
+$OnDownloadFailure_normal_default
+//none
+
+
+$OnDownloadFailure_normal_cancel
+//none
+
+
+
+//スクリーンショット撮影
+$OnScreenShot
+{$OnCommandDisabled}
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+//none
+
+
+
+// 理解できないコマンド
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+
+
+$OnUnknownCommand_default
+え？なに？
+\w5…よくわかんない。
+\w5……？
+
+
+//実行不能コマンド
+$OnCommandDisabled
+{$reject = true}{$OnUnknownCommand_default}
+{$reject = true}むずかしいよ……。
+{$reject = true}できないよぉ……。
+
+
+// 話しかけ？
+$OnCallName
+なぁに？
+\w5……？
+
+
+//"help" - プライベートコマンド
+//"help -dos"へ転送
+$help
+{$help_dos}
+
+
+//"help -dos" - プライベートコマンド
+$help_dos
+ごめんなさい、いっこもできないの……。
+{$OnDosCommand}
+

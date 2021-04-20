@@ -1,0 +1,407 @@
+// 辞書 - プロトタイプ
+
+#Common
+
+
+// 起動時
+$OnBoot_dafault; {$if ({$hour} < 6 || {$hour} >= 23)}
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnBoot_night_dere} } else { {$OnBoot_night_tsun} } }
+
+$OnBoot_dafault
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnBoot_dere} } else { {$OnBoot_tsun} } }
+
+$OnBoot_tsun
+%username、どうかした？
+……何か用？
+
+$OnBoot_dere
+%username、どうしたの？
+どうしたの？何か困ったことでもあった？
+
+
+$OnBoot_night_tsun
+%username、どうかした？
+夜更かしは感心しないわね。\n\w5……で、何か用？
+
+$OnBoot_night_dere
+%username、何か用事？明日じゃいけないかしら？
+こんな時間にどうしたの？夜更かしはいけないわよ？
+
+
+// 終了時
+$OnClose; {$if ({$hour} < 6 || {$hour} >= 23)}
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnClose_night_dere} } else { {$OnClose_night_tsun} } }
+
+$OnClose
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnClose_dere} } else { {$OnClose_tsun} } }
+
+$OnClose_tsun
+それじゃ。
+じゃあね。
+
+$OnClose_dere
+それじゃあ、またね♪
+じゃ、私は戻るけど、一人で大丈夫？
+
+$OnClose_night_tsun
+おやすみなさい。
+早く寝なさいよ？
+
+$OnClose_night_dere
+それじゃあ、おやすみなさい。
+あまり夜更かししないほうがいいわよ？
+私は寝るけど、%usernameも早く寝たほうがいいわよ？
+
+
+
+// ログイン時
+$OnLogin
+
+
+// 正常にログインした
+$OnLogined
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnLogined_dere} } else { {$OnLogined_tsun} } }
+
+$OnLogined_tsun
+ログインしたみたい。
+接続できたみたい。
+
+$OnLogined_dere
+サーバに接続できたわよ。
+サーバに接続できたわよ。\nこれで準備オッケーね。
+
+
+// 接続失敗
+$OnConnectFailure
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnConnectFailure_dere} } else { {$OnConnectFailure_tsun} } }
+
+$OnConnectFailure_tsun
+接続できないみたい。
+うまくいかないわね。どうしたのかしら？
+
+$OnConnectFailure_dere
+あれ？うまく接続できないみたいね。
+あれ？うまく接続できないみたいね。\nどうしようか……。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDisconnecting_dere} } else { {$OnDisconnecting_tsun} } }
+
+$OnDisconnecting_tsun
+サーバと接続されてないみたい。
+いまは接続してないじゃないの。
+
+$OnDisconnecting_dere
+いまはサーバと接続されてないわよ？
+いまはサーバと接続されてないわよ？\n先に接続してからでないと、ね。
+
+
+
+// 鯖との接続が切れた
+$OnDisconnected
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDisconnected_dere} } else { {$OnDisconnected_tsun} } }
+
+$OnDisconnected_tsun
+接続が切れたみたい。
+
+$OnDisconnected_dere
+サーバとの接続が切れたわね。
+サーバとの接続が切れたわね。\n再接続してみよっか？
+
+
+// パスワード間違い
+$OnIncorrectPassword
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnIncorrectPassword_dere} } else { {$OnIncorrectPassword_tsun} } }
+
+$OnIncorrectPassword_tsun
+ログインできないみたい。
+パスワードが違うじゃないの。
+
+$OnIncorrectPassword_dere
+ログインできないわね。\nパスワードが違うみたいよ。
+パスワードが違うみたいよ？\nもう一度落ち着いて確認してみてね。
+
+
+// DOS コマンド実行
+$OnDosCommand
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDosCommand_dere} } else { {$OnDosCommand_tsun} } }
+
+$OnDosCommand_tsun; {$if ({$random(3)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDosCommand_tsun
+{$ExtractCommandName} コマンドを実行したわ。
+
+$OnDosCommand_dere
+{$ExtractCommandName} コマンドを実行したわよ。{$appendMessage}
+{$ExtractCommandName} コマンドを実行したわよ。\nこれが結果。{$appendMessage}
+
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDosCommandFailure_dere} } else { {$OnDosCommandFailure_tsun} } }
+
+$OnDosCommandFailure_tsun
+{$ExtractCommandName} コマンドに失敗したみたい。
+
+$OnDosCommandFailure_dere
+ごめんなさい。\n{$ExtractCommandName} コマンドの実行に失敗したみたい。
+ごめんなさい。\nコマンドの実行に失敗したみたい。
+
+
+// ディレクトリ移動
+$OnChangeDirectory
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnChangeDirectory_dere} } else { {$OnChangeDirectory_tsun} } }
+
+$OnChangeDirectory_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnChangeDirectory_tsun
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_tsun_empty} } else { {$OnChangeDirectory_tsun_default} }}
+
+$OnChangeDirectory_tsun_empty
+指定された場所へ移動したわ。\n\w5……なにもないわね。
+
+$OnChangeDirectory_tsun_default
+指定された場所へ移動したわ。
+
+$OnChangeDirectory_dere
+指定された場所へ移動したわよ。{$appendMessage}
+ディレクトリを移動したわよ。{$appendMessage}
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_tsun
+ディレクトリがないみたい。
+ディレクトリがないわね。
+ディレクトリがみつからないみたい。
+
+$NoSuchDirectory_dere
+ディレクトリがないみたいよ？場所をもう一度確認してね。
+ディレクトリがみつからないよ？
+
+
+$OnChangeDirectoryFailure_tsun_default
+移動できなかったみたい。
+
+$OnChangeDirectoryFailure_dere_default
+ごめんなさい。\n指定された場所に移動できなかったみたいね。
+ごめんなさい。\nディレクトリを移動できなかったみたいよ。
+
+
+// ファイル表示・開く
+$OnOpenFile
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnOpenFile_dere} } else { {$OnOpenFile_tsun} } }
+
+$OnOpenFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnOpenFile_tsun
+{$ExtractFileName} を開いたわ。
+{$ExtractFileName} を表示したわ。
+
+$OnOpenFile_dere
+{$ExtractFileName} を開いたわよ。{$appendMessage}
+{$ExtractFileName} を表示したわよ。{$appendMessage}
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_tsun_default
+{$ExtractFileName} が開けなかったみたい。
+{$ExtractFileName} の表示に失敗したみたい。
+
+$OnOpenFileFailure_dere_default
+ごめんなさい。\n{$ExtractFileName} が開けなかったみたいよ。
+ごめんなさい。\n{$ExtractFileName} が表示できなかったようね。
+
+
+$NoSuchFile_tsun
+ファイルがないみたい。
+ファイルがないわね。
+
+$NoSuchFile_dere
+ファイルがないみたいよ？場所をもう一度確認してね。
+ファイルがみつからないよ？
+
+
+
+// ファイル実行
+$OnExecuteFile
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnExecuteFile_dere} } else { {$OnExecuteFile_tsun} } }
+
+$OnExecuteFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnExecuteFile_tsun
+{$ExtractFileName} を実行したわ。
+
+$OnExecuteFile_dere
+{$ExtractFileName} を実行したわよ。{$appendMessage}
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_tsun_default
+{$ExtractFileName} が実行できなかったみたい。
+失敗したみたいね。
+
+$OnExecuteFileFailure_dere_default
+ごめんなさい。\n{$ExtractFileName} を実行できなかったみたいね。
+ごめんなさい。\n{$ExtractFileName} の実行に失敗しちゃった。
+
+
+//ファイルを閉じる
+$OnCloseFile
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnCloseFile_dere} } else { {$OnCloseFile_tsun} } }
+
+$OnCloseFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnCloseFile_tsun
+{$ExtractFileName} を終了したわ。
+
+$OnCloseFile_dere
+{$ExtractFileName} を終了したわよ。{$appendMessage}
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_tsun
+{$ExtractFileName} が終了できないみたい。
+
+$OnCloseFileFailure_dere
+ごめんなさい。\n{$ExtractFileName} の終了に失敗しちゃった。
+
+
+// ファイル削除
+$OnDeleteFile
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDeleteFile_dere} } else { {$OnDeleteFile_tsun} } }
+
+$OnDeleteFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDeleteFile_tsun
+{$ExtractFileName} を削除したわ。
+
+$OnDeleteFile_dere
+{$ExtractFileName} を削除したわよ。{$appendMessage}
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_tsun_default
+{$ExtractFileName} を削除できなかったみたい。
+
+$OnDeleteFileFailure_dere_default
+ごめんなさい。\n{$ExtractFileName} を削除できなかったわ。
+
+
+
+//ファイル受信開始
+$OnDownloading
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDownloading_dere} } else { {$OnDownloading_tsun} } }
+
+$OnDownloaded_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDownloaded_tsun
+
+$OnDownloaded_dere
+
+
+
+// ファイル受信完了
+$OnDownloaded
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDownloaded_dere} } else { {$OnDownloaded_tsun} } }
+
+$OnDownloaded_tsun
+受信できたみたい。
+
+
+$OnDownloaded_dere
+受信が終わったわよ。{$appendMessage}
+受信できたみたいね。{$appendMessage}
+
+
+//ファイル受信失敗
+$OnDownloadFailure_tsun_default
+受信に失敗したみたい。
+
+$OnDownloadFailure_dere_default
+ごめんなさい。\n受信できなかったみたいね。
+
+
+$OnDownloadFailure_tsun_cancel
+中断したわよ？
+
+$OnDownloadFailure_dere_cancel
+あれ？やめちゃうの？
+中断したけどほんとにいいのね？
+
+
+//スクリーンショット撮影
+$OnScreenShot
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnScreenShot_dere} } else { {$OnScreenShot_tsun} } }
+
+$OnScreenShot_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnScreenShot_tsun
+スクリーンショットを撮ったわ。
+
+$OnScreenShot_dere
+スクリーンショット撮れたわよ。{$appendMessage}
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnScreenShotFailure_dere} } else { {$OnScreenShotFailure_tsun} } }
+
+$OnScreenShotFailure_tsun
+スクリーンショットが撮れなかったみたい。
+
+$OnScreenShotFailure_dere
+ごめんなさい。\nスクリーンショット撮るの失敗しちゃったわ。
+
+
+// 理解できないコマンド
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+$OnUnknownCommand_default
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnUnknownCommand_dere} } else { {$OnUnknownCommand_tsun} } }
+
+$OnUnknownCommand_tsun
+ごめん、わかんない。
+
+$OnUnknownCommand_dere
+%username、なんていったの？
+%username、なんていったの？\nもう一回いって？
+ごめんなさい、聞いてなかった。
+
+
+
+// 話しかけ
+$OnCallName
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnCallName_dere} } else { {$OnCallName_tsun} } }
+
+$OnCallName_tsun
+呼んだ？
+なによいきなり。
+
+$OnCallName_dere
+なぁに？%username。
+呼んだかしら？%username。
+
+
+
+//コマンド拒否時のリアクション
+$OnCommandReject_tsun
+{$reject = true}やーよ。自分でやんなさい。
+{$reject = true}私を使おうなんていい度胸ね。
+
+
+
+//デレのときの追加メッセージ
+$appendMessage; {$if ({$random(4)} == 0)}
+ふふ。
+くすくす。

@@ -1,0 +1,185 @@
+// 共通辞書
+
+
+// 起動時
+$OnBoot
+{
+{$init}
+{$OnBoot_default}
+}
+
+
+// ログイン時
+$OnLogin
+{$if ({$connecting} == true) {{$alreadyConnected}} else {{$OnLogin_default}}}
+
+
+//グローバル変数の初期化
+$init
+{
+{$failCount = 0}
+{$CommandName = {$array("di","ve","mk","rm","co","de","mo","re","cd","ty","ls","ch","cp","cl","xc","st")}}
+{$CommandFullName = {$array("dir","ver","mkdir","rmdir\nrm","copy","del","move","ren","cd","type","ls","chdir","cp","cls","xcopy","start")}}
+{$CommandAge = {$array(6,6,12,12,12,12,9,6,6,6,6,6,12,6,15,9)}}
+//気分状態 true:雷雨、false:晴れ
+{$if ({$thunderstorm} == true && {$isTimeUp} == true) {{$thunderstorm = false}}}
+}
+
+
+//コマンド成功時はtrue
+$commandSucceed
+{
+{$if ((100 * {$log10(11 - {$tsunderelevel})}) >= {$random(101)}) { {@b = true} } else { {@b = false} } }
+{@b}
+}
+
+
+//失敗カウント追加
+$addCount
+{
+{$failCount += 1}
+}
+
+
+//お別れの挨拶
+$getLastMessage
+{
+{$if ({$failCount} >= 10) {{@msg = "失敗ばかりでごめんなさい。\n\w5"}} else {{@msg = ""}}}
+{@msg}
+}
+
+
+//DOSコマンド系の{$parameter(0)}からDOSコマンド名を抽出
+$ExtractCommandName
+{
+{@idx = {$index(" ",{$parameter(0)})}}
+{$if ({@idx} > 0) {{$substringl({$parameter(0)},{@idx})}} else { {$parameter(0)} } }
+}
+
+
+//ファイルパスを引数にとるコマンドの{$parameter(0)}からファイル名を抽出
+//パスが\で終わるとバグるかも
+$ExtractFileName
+{
+{@idx1 = {$lastindex(\\,{$parameter(0)})}}
+{@idx2 = {$lastindex("/",{$parameter(0)})}}
+{$if ({@idx1} > {@idx2}) {{$substringr({$parameter(0)},{$length({$parameter(0)})}-{@idx1}-2)}} elseif({@idx1} < {@idx2}) {{$substringr({$parameter(0)},{$length({$parameter(0)})}-{@idx2}-1)}} else {{$parameter(0)}}}
+}
+
+
+// ディレクトリ移動失敗
+$OnChangeDirectoryFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 15) { {$NoSuchDirectory_normal} } else { {$OnChangeDirectoryFailure_normal_default} } }
+}
+
+
+// ファイル表示失敗
+$OnOpenFileFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 15) { {$NoSuchFile_normal} } else ({@value} == 5) { {$OnOpenFileFailure_normal_default} } }
+}
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 15) { {$NoSuchFile_normal} } else { {$OnExecuteFileFailure_normal_default} } }
+}
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure
+{$OnCloseFileFailure_normal}
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 15) { {$NoSuchFile_normal} } else { {$OnDeleteFileFailure_normal_default} } }
+}
+
+
+//ファイル受信失敗
+$OnDownloadFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 15) { {$NoSuchFile_normal} } elseif ({@value} == 25) { {$OnDownloadFailure_normal_cancel} }  else { {$OnDownloadFailure_normal_default} }}
+}
+
+
+//コマンド失敗時のリアクションの分類計算
+//@value = 15:not exist, 5:unknown, 25:cancel(OnDownloadFailureのみ)
+$getValue
+{
+{@value = 5}
+{$if ({$parameter(1)} == "not exist") { {@value += 10} } elseif ({$parameter(1)} == "cancel") { {@value += 20} } elseif ({$parameter(1)} == "unknown") { {@value += 0} } else { {@value += 0} }}
+{@value}
+}
+
+
+
+//時刻を12時間方式に変換（未使用）
+$getHalfHour
+{
+{$if ({$hour}>12) {{@h = {$hour}-12}} else {{@h = {$hour}}}}
+{$if ({@h} == 0) {{@h = 12}}}
+{@h}
+}
+
+
+//$OnUnknownCommandの引数からPrivateCommandを振り分ける
+$parsePrivateCommand
+{$if ({$thunderstorm} == true) {{$parsePrivateCommand_anger}} else {{$parsePrivateCommand_default}}}
+
+$parsePrivateCommand_default
+{
+{@param = {$tolower({$parameter(0)})}}
+{$if ({@param} == "終了" || {@param} == "exit") {{$Exit}} elseif ({@param} == "help") {{$help}} elseif ({@param} == "help -dos") {{$help_dos}} elseif ({@param} == "help -private") {{$OnUnknownCommand_default}}  elseif ({@param} == "ぺったんこ") {{$OnSecretFileFound}} elseif ({$talk} != "") {{$talk}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
+}
+
+$parsePrivateCommand_anger
+{
+{@param = {$tolower({$parameter(0)})}}
+{$if ({@param} == "終了" || {@param} == "exit") {{$Exit}} elseif ({@param} == "ゴメン") {{$ImSorry}} elseif ({$connecting} == false) {{$OnDisconnecting}} else {{$OnUnknownCommand_default}}}
+}
+
+
+//終了 - プライベートコマンド
+$Exit
+{$OnClose}\w7\-
+
+
+//DOSコマンドの年齢制限チェック
+$isExecutable
+{
+{@cmd = {@argv[0]}}
+{$for ({@i = 0};{@i} < {$count($CommandName)};{@i++}) { {$if ({@cmd} == {$CommandName[{@i}]}) {{@limit = {$CommandAge[{@i}]}}} } } }
+{$if ({$age} >= {@limit}) {{@bool = true}} else {{@bool = false}}}
+{@bool}
+}
+
+
+//実行可能なDOSコマンドの列挙
+$listExecutableCommands
+{
+{@cmds = ""}
+{$for ({@i = 0};{@i} < {$count($CommandName)};{@i++}) { {$if ($age >= {$CommandAge[{@i}]}) {{@cmds += "{$CommandFullName[{@i}]}\n"}} } } }
+{@cmds}
+}
+
+
+//サーフェス切り替え
+//@argv[1]:id最大値，@argv[0]:id最小値
+$setSurfaceRange
+{
+{@id = {$random({@argv[1]} + 1 - {@argv[0]})} + {@argv[0]}}
+\s[{@id}]
+}
+
+$escape
+\n{$OnClose}\-

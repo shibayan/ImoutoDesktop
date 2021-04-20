@@ -1,0 +1,252 @@
+// 辞書 - プロトタイプ
+
+#Common
+{$if ({$age} >= 15 ({$thunderstorm} == false))}
+
+
+
+// 起動時
+$OnBoot_dafault; {$if ({$hour} < 6 || {$hour} >= 21)}
+なにか御用？
+
+$OnBoot_default
+なにか御用？
+
+
+// 終了時
+$OnClose; {$if ({$hour} < 6 || {$hour} >= 23)}
+{$getLastMessage}おやすみなさい。
+{$getLastMessage}じゃ、またね。
+
+
+$OnClose
+{$getLastMessage}じゃ、またね。
+{$getLastMessage}それじゃ。
+
+
+
+// ログイン時
+$OnLogin_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnConnectFailure}
+
+//すでに接続されている
+$alreadyConnected
+{$reject = true}もう繋がってるよ？
+{$reject = true}もう接続されてるよ？
+
+
+// ログイン時
+$OnLogined
+{$parameter(0)}に接続したよ。
+サーバに接続したよ。
+
+
+// 接続失敗
+$OnConnectFailure
+……接続に失敗したみたい。
+サーバにつながらなかったみたい。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+いまはサーバと接続されてないよ？
+サーバとつながってないよ？
+
+
+// 鯖との接続が切れた
+$OnDisconnected
+サーバとの接続が切れちゃったみたい。
+あ……\w5接続が切れちゃった。
+
+
+// パスワード間違い
+$OnIncorrectPassword
+ログインに失敗しちゃった。\nパスワードが違うみたい。
+パスワードが違うって。
+
+
+
+// DOS コマンド実行
+$OnDosCommand; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDosCommandFailure}
+
+$OnDosCommand
+{$ExtractCommandName} コマンドを実行したよ。
+コマンドを実行したよ。
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+{$ExtractCommandName} コマンド、失敗しちゃった。
+失敗しちゃった。
+
+
+// ディレクトリ移動
+$OnChangeDirectory; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnChangeDirectoryFailure}
+
+$OnChangeDirectory
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_empty} } else { {$OnChangeDirectory_default} }}
+
+$OnChangeDirectory_empty
+いわれた場所へ移動したよ。\n\w5……空っぽだね。
+
+$OnChangeDirectory_default
+いわれた場所へ移動したよ。
+
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_normal
+いわれたディレクトリがないみたい。
+
+
+$OnChangeDirectoryFailure_normal_default
+いわれた場所に移動できなかったよ。
+
+
+
+// ファイル表示・開く
+$OnOpenFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnOpenFileFailure}
+
+$OnOpenFile
+{$ExtractFileName}を開いたよ。
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_normal_default
+{$ExtractFileName} が開けなかったみたい。
+
+
+$NoSuchFile_normal
+ファイルがないみたい。
+ファイルがなかったよ。
+
+
+
+// ファイル実行
+$OnExecuteFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnExecuteFileFailure}
+
+$OnExecuteFile
+{$ExtractFileName}を実行したよ。
+いわれたファイルを実行したよ。
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_normal_default
+{$ExtractFileName} が実行できなかったみたい。
+いわれたファイル が実行できなかったみたい。
+……失敗しちゃった。
+
+
+//ファイルを閉じる
+$OnCloseFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnCloseFileFailure}
+
+$OnCloseFile
+{$ExtractFileName}を終了したよ。
+いわれたファイルを閉じたよ。
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_normal
+あれ？\w5……失敗しちゃった。
+
+
+
+// ファイル削除
+$OnDeleteFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDeleteFileFailure}
+
+$OnDeleteFile
+{$ExtractFileName}を削除したよ。
+いわれたファイルを削除したよ。
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_normal_default
+{$ExtractFileName} を消せなかったみたい。
+いわれたファイルを削除できなかったみたい。
+
+
+
+//ファイル受信開始
+$OnDownloading; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDownloadFailure}
+
+
+// ファイル受信完了
+$OnDownloaded
+{$ExtractFileName}を受けとったよ。
+いわれたファイルを受けとったよ。
+
+
+//ファイル受信失敗
+$OnDownloadFailure_normal_default
+ファイルが届かなかったみたい。
+
+
+$OnDownloadFailure_normal_cancel
+あれ？\w5やめちゃうの？
+うん、中断したよ。
+
+
+
+//スクリーンショット撮影
+$OnScreenShot; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnScreenShotFailure}
+
+$OnScreenShot
+スクリーンショット撮ったよ。
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+失敗しちゃった。
+
+
+
+// 理解できないコマンド
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+
+
+$OnUnknownCommand_default
+え？なに？
+\w5……よくわかんない。
+\w5……？
+
+
+
+// 話しかけ？
+$OnCallName
+なぁに？
+
+
+
+//"help" - プライベートコマンド
+//"help -dos"へ転送
+$help
+{$help_dos}
+
+
+//"help -dos" - プライベートコマンド
+$help_dos
+つかえるDOSコマンドは、\n\w5{$listExecutableCommands} …だよ。
+
+
+
+//ヒミツのファイルを見つけてしまったとき
+$OnSecretFileFound
+{
+{$OnSecretFileFound_message}
+{$thunderstorm = true}
+{$escape}
+}
+
+$OnSecretFileFound_message
+え……\w5と、ごめんなさいっ。
+あ……。

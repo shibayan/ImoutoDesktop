@@ -1,0 +1,248 @@
+// 辞書 - 12歳以上15歳未満（ご機嫌斜めモード）
+
+#Common
+{$if ({$age} >= 12 && {$age} < 15 && ({$thunderstorm} == true))}
+
+
+// 起動時
+$OnBoot_default
+{$setSurfaceRange(11,13)}なによ！まだなにか用？
+{$setSurfaceRange(11,13)}話しかけないでっていったでしょ。
+
+
+// 終了時
+$OnClose
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnClose_normal} } else { {$OnClose_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnClose_dere} } else { {$OnClose_normal} } } } }
+
+$OnClose_tsun
+{$setSurfaceRange(11,13)}もう二度と話しかけないでっ！
+{$setSurfaceRange(11,13)}もう知らないっ！
+
+$OnClose_normal
+{$setSurfaceRange(11,13)}%usernameのバカ！
+
+$OnClose_dere
+{$setSurfaceRange(05,06)}…………ふん、だ。
+{$setSurfaceRange(11,13)}じゃあねっ！
+
+
+
+// ログイン時
+$OnLogin_default
+{
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnLogin_normal} } else { {$OnLogin_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnLogin_dere} } else { {$OnLogin_normal} } } } }
+{$shiftStatus}
+}
+
+$OnLogin_tsun
+{$reject = true}{$setSurfaceRange(05,06)}あーあ、なんでアタシがこんなのの相手しなきゃいけないのよ……。
+
+$OnLogin_normal
+{$reject = true}{$setSurfaceRange(05,06)}はーあ、どこか遠くへ行きたいなぁ……。
+
+$OnLogin_dere
+{$reject = true}{$setSurfaceRange(05,06)}…少しは反省してる？
+
+
+//すでに接続している
+$alreadyConnected
+{$OnCommandIgnored}
+
+
+// ログイン完了
+$OnLogined_default
+//なし
+
+
+// 接続失敗
+$OnConnectFailure
+//なし
+
+
+// 鯖と接続してない
+$OnDisconnecting
+{$OnCommandIgnored}
+//要検討
+
+
+// 鯖との接続が切れた
+$OnDisconnected_default
+{$OnCommandIgnored}
+//要検討
+
+
+// パスワード間違い
+$OnIncorrectPassword
+//なし?
+
+
+// DOS コマンド実行
+$OnDosCommand
+{$OnCommandIgnored}
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+//なし
+
+
+// ディレクトリ移動
+$OnChangeDirectory
+{$OnCommandIgnored}
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_tsun
+$NoSuchDirectory_normal
+$NoSuchDirectory_dere
+//なし
+
+$OnChangeDirectoryFailure_tsun_default
+$OnChangeDirectoryFailure_normal_default
+$OnChangeDirectoryFailure_dere_default
+//なし
+
+
+// ファイル表示・開く
+$OnOpenFile
+{$OnCommandIgnored}
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_tsun_default
+$OnOpenFileFailure_normal_default
+$OnOpenFileFailure_dere_default
+//なし
+
+
+// ファイル実行
+$OnExecuteFile
+{$OnCommandIgnored}
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_tsun_default
+$OnExecuteFileFailure_normal_default
+$OnExecuteFileFailure_dere_default
+//なし
+
+
+//ファイルを閉じる
+$OnCloseFile
+{$OnCommandIgnored}
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_tsun
+$OnCloseFileFailure_normal
+$OnCloseFileFailure_dere
+//なし
+
+
+// ファイル削除
+$OnDeleteFile
+{$OnCommandIgnored}
+{$if ({$allowoperate} == true) {\r[delete,directory]あら、手元が狂っちゃった。} else {{$OnCommandIgnored}}}
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_tsun_default
+$OnDeleteFileFailure_normal_default
+$OnDeleteFileFailure_dere_default
+//なし
+
+
+//ファイル受信開始
+$OnDownloading
+{$OnCommandIgnored}
+
+
+// ファイル受信完了
+$OnDownloaded
+//なし
+
+
+//ファイル受信失敗
+$OnDownloadFailure_tsun_default
+$OnDownloadFailure_normal_default
+$OnDownloadFailure_dere_default
+$OnDownloadFailure_tsun_cancel
+$OnDownloadFailure_normal_cancel
+$OnDownloadFailure_dere_cancel
+//なし
+
+
+//スクリーンショット撮影
+$OnScreenShot
+{$OnCommandIgnored}
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+//なし
+
+
+// 理解できないコマンド
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+$OnUnknownCommand_default
+{$OnCommandIgnored}
+
+$ImSorry
+{$if ({$random(3)} == 0) {{$excuse}} else {{$OnCommandIgnored}}}
+
+
+// 話しかけ
+$OnCallName
+{$OnCommandIgnored}
+
+
+//コマンド実行不能時
+$OnCommandDisabled
+{$OnCommandIgnored}
+
+
+//コマンド無視時のリアクション
+$OnCommandIgnored
+{
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCommandIgnored_normal} } else { {$OnCommandIgnored_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCommandIgnored_dere} } else { {$OnCommandIgnored_normal} } } } }
+{$shiftStatus}
+}
+
+$OnCommandIgnored_tsun
+{$reject = true}{$setSurfaceRange(05,06)}…………。
+{$reject = true}{$setSurfaceRange(11,13)}なによっ！このヘンタイっ。
+{$reject = true}{$setSurfaceRange(11,13)}こっちみないで！
+
+$OnCommandIgnored_normal
+{$reject = true}{$setSurfaceRange(05,06)}…………。
+{$reject = true}{$setSurfaceRange(05,06)}…………、ふん、だ。
+{$reject = true}{$setSurfaceRange(11,13)}なによっ！
+
+$OnCommandIgnored_dere
+{$reject = true}{$setSurfaceRange(05,06)}…………。
+{$reject = true}{$setSurfaceRange(11,13)}なによっ！
+{$reject = true}{$setSurfaceRange(11,13)}%usernameなんて知らないっ！
+{$reject = true}{$setSurfaceRange(11,13)}話しかけないで！
+
+
+
+//仕方ないので許してやる
+$excuse
+{
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$excuse_normal} } else { {$excuse_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$excuse_dere} } else { {$excuse_normal} } } } }
+{$thunderstorm = false}
+}
+
+$excuse_tsun
+\w5{$setSurfaceRange(05,06)}今回だけは許してあげるわ。次はないからねっ。
+\w5{$setSurfaceRange(05,06)}ホントどうしようもないわね。今回だけよ？
+
+$excuse_normal
+\w5{$setSurfaceRange(05,06)}しょうがないなぁ、まったく。
+
+$excuse_dere
+\w5{$setSurfaceRange(05,06)}しょうがないから今回だけは許してあげるけど……。
+\w5{$setSurfaceRange(05,06)}うー、今回だけは許してあげるけど……。
+

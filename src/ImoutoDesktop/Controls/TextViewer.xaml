@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="ImoutoDesktop.Controls.TextViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ScrollBar.LineUpCommand" Executed="LineUpCommand_Executed" />
+        <CommandBinding Command="ScrollBar.LineDownCommand" Executed="LineDownCommand_Executed" />
+    </UserControl.CommandBindings>
+    <RichTextBox x:Name="richTextBox" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"
+                 BorderThickness="0" Background="{x:Null}" IsReadOnly="True" FocusVisualStyle="{x:Null}"
+                 Cursor="Arrow" Focusable="False" Padding="0" ScrollViewer.ScrollChanged="RichTextBox_ScrollChanged">
+        <RichTextBox.Document>
+            <FlowDocument />
+        </RichTextBox.Document>
+    </RichTextBox>
+</UserControl>

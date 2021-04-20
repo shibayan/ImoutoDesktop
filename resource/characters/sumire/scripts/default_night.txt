@@ -1,0 +1,308 @@
+// 辞書 - プロトタイプ（夜間）
+
+#Common
+{$if ({$age} >= 6 && {$age} < 15 && ({$hour} < 6 || {$hour} >= 20) && ({$thunderstorm} == false))}
+
+
+
+// 起動時
+$OnBoot_default
+なにかご用？
+
+
+// 終了時
+$OnClose
+{$setSurfaceRange(0,2)}{$getLastMessage}おやすみなさい。
+{$setSurfaceRange(0,2)}{$getLastMessage}じゃ、またね。
+
+
+
+// ログイン時
+$OnLogin_default; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnLogin_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnConnectFailure}
+
+//すでに接続されている
+$alreadyConnected
+{$reject = true}もうつながってるよ？
+{$reject = true}もう接続されてるよ？
+
+
+// ログイン時
+$OnLogined
+{$setSurfaceRange(0,2)}{$parameter(0)}に接続したよ。
+{$setSurfaceRange(0,2)}サーバに接続したよ。
+
+
+// 接続失敗
+$OnConnectFailure
+{$setSurfaceRange(0,2)}…あっちにつながらなかったみたい。
+{$setSurfaceRange(0,2)}サーバにつながらなかったみたい。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+{$setSurfaceRange(0,2)}いまはサーバと接続されてないよ？
+{$setSurfaceRange(0,2)}あっちとつながってないよ？
+
+
+// 鯖との接続が切れた
+$OnDisconnected
+{$setSurfaceRange(0,2)}サーバとの接続が切れちゃったみたい。
+{$setSurfaceRange(0,2)}あ……\w5接続が切れちゃった。
+
+
+// パスワード間違い
+$OnIncorrectPassword
+{$setSurfaceRange(0,2)}ログインに失敗しちゃった。\nパスワードが違うみたい。
+{$setSurfaceRange(0,2)}パスワードが違うよ？
+
+
+
+// DOS コマンド実行
+$OnDosCommand; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnDosCommand; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDosCommandFailure}
+
+$OnDosCommand
+{
+{@cmd = {$substringl({$parameter(0)},2)}}
+{$if ({$isExecutable({@cmd})}) {{$OnDosCommandAccepted}} else {{$OnCommandDisabled}}}
+}
+
+$OnDosCommandAccepted
+{$setSurfaceRange(0,2)}{$ExtractCommandName} コマンドを実行したよ。
+{$setSurfaceRange(0,2)}コマンドを実行したよ。
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+{$setSurfaceRange(0,2)}{$ExtractCommandName} コマンド、失敗しちゃった。
+{$setSurfaceRange(0,2)}失敗しちゃった。
+
+
+
+// ディレクトリ移動
+$OnChangeDirectory; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnChangeDirectory; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnChangeDirectoryFailure}
+
+$OnChangeDirectory
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_empty} } else { {$OnChangeDirectory_default} }}
+
+$OnChangeDirectory_empty
+{$setSurfaceRange(0,2)}いわれた場所へ移動したよ。\n\w5……空っぽだね。
+
+$OnChangeDirectory_default
+{$setSurfaceRange(0,2)}いわれた場所へ移動したよ。
+
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_normal
+{$setSurfaceRange(0,2)}いわれたディレクトリがないみたい。
+
+
+$OnChangeDirectoryFailure_normal_default
+{$setSurfaceRange(0,2)}いわれた場所に移動できなかったよ。
+
+
+
+// ファイル表示・開く
+$OnOpenFile; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnOpenFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnOpenFileFailure}
+
+$OnOpenFile
+{$setSurfaceRange(0,2)}{$ExtractFileName}をひらいたよ。
+
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_normal_default
+{$setSurfaceRange(0,2)}{$ExtractFileName} がひらけなかったみたい。
+
+
+$NoSuchFile_normal
+{$setSurfaceRange(0,2)}ファイルがないみたい。
+{$setSurfaceRange(0,2)}ファイルがなかったよ。
+
+
+
+// ファイル実行
+$OnExecuteFile; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnExecuteFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnExecuteFileFailure}
+
+$OnExecuteFile
+{$setSurfaceRange(0,2)}{$ExtractFileName}を実行したよ。
+{$setSurfaceRange(0,2)}いわれたファイルを実行したよ。
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_normal_default
+{$setSurfaceRange(0,2)}{$ExtractFileName} が実行できなかったみたい。
+{$setSurfaceRange(0,2)}いわれたファイル が実行できなかったみたい。
+{$setSurfaceRange(0,2)}……失敗しちゃった。
+
+
+
+//ファイルを閉じる
+$OnCloseFile; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnCloseFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnCloseFileFailure}
+
+$OnCloseFile
+{$setSurfaceRange(0,2)}{$ExtractFileName}をおしまいにしたよ。
+{$setSurfaceRange(0,2)}いわれたファイルをとじたよ。
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_normal
+{$setSurfaceRange(0,2)}あれ？\w5……失敗しちゃった。
+
+
+
+// ファイル削除
+$OnDeleteFile
+{$if ({$age} >= 12) {{$OnDeleteFile_default}} else {{$OnCommandDisabled}}}
+
+$OnDeleteFile_default; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnDeleteFile_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDeleteFileFailure}
+
+$OnDeleteFile_default
+{$setSurfaceRange(0,2)}{$ExtractFileName}を消したよ。
+{$setSurfaceRange(0,2)}いわれたファイルを消したよ。
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_normal_default
+{$setSurfaceRange(0,2)}{$ExtractFileName} が消せなかったみたい。
+{$setSurfaceRange(0,2)}いわれたファイルが消せなかったみたい。
+
+
+
+//ファイル受信開始
+$OnDownloading
+{$if ({$age} >= 12) {{$OnDownloading_default}} else {{$OnCommandDisabled}}}
+
+$OnDownloading_default; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnDownloading_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDownloadFailure}
+
+
+// ファイル受信完了
+$OnDownloaded
+{$setSurfaceRange(0,2)}{$ExtractFileName}を受けとったよ。
+{$setSurfaceRange(0,2)}いわれたファイルを受けとったよ。
+
+
+//ファイル受信失敗
+$OnDownloadFailure_normal_default
+{$setSurfaceRange(0,2)}ファイルがとどかなかったみたい。
+
+
+$OnDownloadFailure_normal_cancel
+{$setSurfaceRange(0,2)}あれ？やめちゃうの？
+
+
+
+//スクリーンショット撮影
+$OnScreenShot; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnScreenShot; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnScreenShotFailure}
+
+$OnScreenShot
+{$setSurfaceRange(0,2)}スクリーンショットとったよ。
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+{$setSurfaceRange(0,2)}失敗しちゃった。
+
+
+// 理解できないコマンド
+$OnUnknownCommand; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+$OnUnknownCommand_default
+{$setSurfaceRange(0,2)}え？なに？
+{$setSurfaceRange(0,2)}\w5……よくわかんない。
+{$setSurfaceRange(0,2)}\w5……？
+
+
+$OnCommandDisabled
+{$reject = true}{$OnUnknownCommand_default}
+{$reject = true}むずかしいよ……。
+{$reject = true}できないよ……。
+
+
+
+// 話しかけ？
+$OnCallName
+{$setSurfaceRange(0,2)}なぁに？
+{$setSurfaceRange(3,5)}……\w5もうねよ？
+
+
+//おねむ
+$OnSleeping
+{$setSurfaceRange(3,4)}（zzz……）
+{$setSurfaceRange(3,4)}（zzz……）%username……。
+{$setSurfaceRange(3,4)}（zzz……）え？なぁに？
+{$setSurfaceRange(3,4)}（……すやすや）
+{$setSurfaceRange(3,4)}（……すーすー）
+
+
+//"help" - プライベートコマンド
+//"help -dos"へ転送
+$help; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+
+$help
+{$help_dos}
+
+
+//"help -dos" - プライベートコマンド
+$help_dos; {$if ({$random(3)} == 0)}
+{$reject = true}{$OnSleeping}
+
+$help_dos
+{$setSurfaceRange(0,2)}つかえるDOSコマンドは、\n\w5{$listExecutableCommands} …だよ。
+
+
+//ヒミツのファイルを見つけてしまったとき
+$OnSecretFileFound
+{
+{$OnSecretFileFound_message}
+{$setTimeLimit}
+{$thunderstorm = true}
+{$escape}
+}
+
+$OnSecretFileFound_message
+え……\w5と、ごめんなさいっ。
+あ……。
+あの、その、えーと、えーとね？

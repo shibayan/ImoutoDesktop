@@ -1,0 +1,263 @@
+// 辞書 - プロトタイプ
+
+#Common
+{$if ({$age} >= 6 && {$age} < 15 && {$hour} >= 6 && {$hour} < 20 && ({$thunderstorm} == false))}
+
+
+
+// 起動時
+$OnBoot_default
+なにかご用？
+
+
+// 終了時
+$OnClose
+{$getLastMessage}じゃ、またね。
+{$getLastMessage}それじゃ。
+
+
+
+// ログイン時
+$OnLogin_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnConnectFailure}
+
+
+//すでに接続されている
+$alreadyConnected
+{$reject = true}もうつながってるよ？
+{$reject = true}もう接続されてるよ？
+
+
+// ログイン時
+$OnLogined
+{$parameter(0)}に接続したよ。
+サーバに接続したよ。
+
+
+// 接続失敗
+$OnConnectFailure
+……あっちにつながらなかったみたい。
+サーバにつながらなかったみたい。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+いまはサーバと接続されてないよ？
+あっちとつながってないよ？
+
+
+// 鯖との接続が切れた
+$OnDisconnected
+サーバとの接続が切れちゃったみたい。
+あ……\w5接続が切れちゃった。
+
+
+// パスワード間違い
+$OnIncorrectPassword
+ログインに失敗しちゃった。\nパスワードが違うみたい。
+パスワードが違うよ？
+
+
+
+// DOS コマンド実行
+$OnDosCommand; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDosCommandFailure}
+
+$OnDosCommand
+{
+{@cmd = {$substringl({$parameter(0)},2)}}
+{$if ({$isExecutable({@cmd})}) {{$OnDosCommandAccepted}} else {{$OnCommandDisabled}}}
+}
+
+$OnDosCommandAccepted
+{$ExtractCommandName} コマンドを実行したよ。
+コマンドを実行したよ。
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+{$ExtractCommandName} コマンド、失敗しちゃった。
+失敗しちゃった。
+
+
+// ディレクトリ移動
+$OnChangeDirectory; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnChangeDirectoryFailure}
+
+$OnChangeDirectory
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_empty} } else { {$OnChangeDirectory_default} }}
+
+$OnChangeDirectory_empty
+いわれた場所へ移動したよ。\n\w5……空っぽだね。
+
+$OnChangeDirectory_default
+いわれた場所へ移動したよ。
+
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_normal
+いわれたディレクトリがないみたい。
+
+
+$OnChangeDirectoryFailure_normal_default
+いわれた場所に移動できなかったよ。
+
+
+
+// ファイル表示・開く
+$OnOpenFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnOpenFileFailure}
+
+$OnOpenFile
+{$ExtractFileName}をひらいたよ。
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_normal_default
+{$ExtractFileName} がひらけなかったみたい。
+
+
+$NoSuchFile_normal
+ファイルがないみたい。
+ファイルがなかったよ。
+
+
+
+// ファイル実行
+$OnExecuteFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnExecuteFileFailure}
+
+$OnExecuteFile
+{$ExtractFileName}を実行したよ。
+いわれたファイルを実行したよ。
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_normal_default
+{$ExtractFileName} が実行できなかったみたい。
+いわれたファイル が実行できなかったみたい。
+……失敗しちゃった。
+
+
+//ファイルを閉じる
+$OnCloseFile; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnCloseFileFailure}
+
+$OnCloseFile
+{$ExtractFileName}をおしまいにしたよ。
+いわれたファイルをとじたよ。
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_normal
+あれ？\w5……失敗しちゃった。
+
+
+
+// ファイル削除
+$OnDeleteFile
+{$if ({$age} >= 12) {{$OnDeleteFile_default}} else {{$OnCommandDisabled}}}
+
+$OnDeleteFile_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDeleteFileFailure}
+
+$OnDeleteFile_default
+{$ExtractFileName}を消したよ。
+いわれたファイルを消したよ。
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_normal_default
+{$ExtractFileName} が消せなかったみたい。
+いわれたファイルが消せなかったみたい。
+
+
+
+//ファイル受信開始
+$OnDownloading
+{$if ({$age} >= 12) {{$OnDownloading_default}} else {{$OnCommandDisabled}}}
+
+$OnDownloading_default; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnDownloadFailure}
+
+
+// ファイル受信完了
+$OnDownloaded
+{$ExtractFileName}を受けとったよ。
+いわれたファイルを受けとったよ。
+
+
+//ファイル受信失敗
+$OnDownloadFailure_normal_default
+ファイルがとどかなかったみたい。
+
+
+$OnDownloadFailure_normal_cancel
+あれ？\w5やめちゃうの？
+
+
+
+//スクリーンショット撮影
+$OnScreenShot; {$if ({$commandSucceed} == false)}
+{$reject = true}{$addCount}{$OnScreenShotFailure}
+
+$OnScreenShot
+スクリーンショットとったよ。
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+失敗しちゃった。
+
+
+
+// 理解できないコマンド
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+
+
+$OnUnknownCommand_default
+え？なに？
+\w5……よくわかんない。
+\w5……？
+
+
+$OnCommandDisabled
+{$reject = true}{$OnUnknownCommand_default}
+{$reject = true}むずかしいよ……。
+{$reject = true}できないよ……。
+
+
+
+// 話しかけ？
+$OnCallName
+なぁに？
+
+
+
+//"help" - プライベートコマンド
+//"help -dos"へ転送
+$help
+{$help_dos}
+
+
+//"help -dos" - プライベートコマンド
+$help_dos
+つかえるDOSコマンドは、\n\w5{$listExecutableCommands} …だよ。
+
+
+
+//ヒミツのファイルを見つけてしまったとき
+$OnSecretFileFound
+{
+{$OnSecretFileFound_message}
+{$thunderstorm = true}
+{$escape}
+}
+
+$OnSecretFileFound_message
+え……\w5と、ごめんなさいっ。
+あ……。
+あの、その、えーと、えーとね？

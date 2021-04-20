@@ -1,0 +1,149 @@
+// 共通辞書
+
+
+// 起動時
+$OnBoot
+{
+{$OnBoot_dafault}
+{$checkNotify}
+}
+
+
+//DOSコマンド系の{$parameter(0)}からDOSコマンド名を抽出
+$ExtractCommandName
+{
+{@idx = {$index(" ",{$parameter(0)})}}
+{$if ({@idx} > 0) {{$substringl({$parameter(0)},{@idx})}} else { {$parameter(0)} } }
+}
+
+
+//ファイルパスを引数にとるコマンドの{$parameter(0)}からファイル名を抽出
+//パスが\で終わるとバグるかも
+$ExtractFileName
+{
+{@idx1 = {$lastindex(\\,{$parameter(0)})}}
+{@idx2 = {$lastindex("/",{$parameter(0)})}}
+{$if ({@idx1} > {@idx2}) {{$substringr({$parameter(0)},{$length({$parameter(0)})}-{@idx1}-2)}} elseif({@idx1} < {@idx2}) {{$substringr({$parameter(0)},{$length({$parameter(0)})}-{@idx2}-1)}} else {{$parameter(0)}}}
+}
+
+
+// ディレクトリ移動失敗
+$OnChangeDirectoryFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 11) { {$NoSuchDirectory_tsun} } elseif ({@value} == 1) { {$OnChangeDirectoryFailure_tsun_default} } elseif ({@value} == 19) { {$NoSuchDirectory_dere} } elseif ({@value} == 9) { {$OnChangeDirectoryFailure_dere_default} } }
+}
+
+
+// ファイル表示失敗
+$OnOpenFileFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 11) { {$NoSuchFile_tsun} } elseif ({@value} == 1) { {$OnOpenFileFailure_tsun_default} } elseif ({@value} == 19) { {$NoSuchFile_dere} } elseif ({@value} == 9) { {$OnOpenFileFailure_dere_default} } }
+}
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 11) { {$NoSuchFile_tsun} } elseif ({@value} == 1) { {$OnExecuteFileFailure_tsun_default} } elseif ({@value} == 19) { {$NoSuchFile_dere} } elseif ({@value} == 9) { {$OnExecuteFileFailure_dere_default} } }
+}
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnCloseFileFailure_dere} } else { {$OnCloseFileFailure_tsun} } }
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 11) { {$NoSuchFile_tsun} } elseif ({@value} == 1) { {$OnDeleteFileFailure_tsun_default} } elseif ({@value} == 19) { {$NoSuchFile_dere} } elseif ({@value} == 9) { {$OnDeleteFileFailure_dere_default} } }
+}
+
+
+//ファイル受信失敗
+$OnDownloadFailure
+{
+{@value = {$getValue}}
+{$if ({@value} == 11) { {$NoSuchFile_tsun} } elseif ({@value} == 1) { {$OnDownloadFailure_tsun_default} } elseif ({@value} == 21) { {$OnDownloadFailure_tsun_cancel} } elseif ({@value} == 19) { {$NoSuchFile_dere} } elseif ({@value} == 9) { {$OnDownloadFailure_dere_default} } elseif ({@value} == 29) { {$OnDownloadFailure_dere_cancel} } }
+}
+
+
+//コマンド失敗時のリアクションの分類計算
+//@value = 1:tsun, 9:dere
+//         10:not exist, 0:unknown, 20:cancel(OnDownloadFailureのみ)
+$getValue
+{
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {@value = 1} } else { {@value = 9} } }
+{$if ({$parameter(1)} == "not exist") { {@value += 10} } elseif ({$parameter(1)} == "cancel") { {@value += 20} } elseif ({$parameter(1)} == "unknown") { {@value += 0} } else { {@value += 0} }}
+{@value}
+}
+
+
+//$OnUnknownCommandの引数からPrivateCommandを振り分ける
+$parsePrivateCommand
+{
+{@param = {$tolower({$parameter(0)})}}
+{$if ({@param} == "終了" || {@param} == "exit") {{$Exit}} elseif ({$connecting} != true) {{$OnDisconnecting}} elseif ({$isReserveCommand({@param})} == true) {{$reserveNotify({@param})}} else {{$OnUnknownCommand_default}}}
+}
+
+//今日がお知らせの日で，かつ，まだお知らせしていない場合に実行
+$checkNotify
+{
+{$if ({$reserveDate} == "{$month}月{$day}日") {{$notify}} elseif ({$isMicrosoftUpdateDay} == true) {{$notifyMicrosoftUpdate}} }
+}
+
+
+//お知らせ
+$notify
+{
+{@message = "\n今日は{$reserveContent}の日ね。\nちゃんと覚えてた？"}
+{$reserveDate = ""}
+{$reserveContent = ""}
+{@message}
+}
+
+//MicrosoftUpdateのお知らせ
+$notifyMicrosoftUpdate
+{
+{$lastNotifiedDate = "{$month}月{$day}日"}
+{@message = "\n今日はMicrosoftUpdateの日ね。もうやった？"}
+{@message}
+}
+
+//今日がMicrosoftUpdateの月例日かどうか
+$isMicrosoftUpdateDay
+{
+{$if ({$dayofweek} == 4 && (({$day} - 1) / 7) == 2) {{@b = true}} else {{@b = false}}}
+{$if ({$lastNotifiedDate} == "{$month}月{$day}日") {{@b = false}} }
+{@b}
+}
+
+//引数が予約コマンドであるかのチェック
+//引数が"予約:…日:…"という構造で，…は0文字以上のときtrue
+$isReserveCommand
+{
+{@len = {$length({@argv[0]})}}
+{$if (len > 3) {{@key = {$substringl({@argv[0]},3)}}} else {{@key = ""}}}
+{$if (({$insentence({@argv[0]},"予約:","日:")} == true) && ({@key} == "予約:")) {{@b = true}} else {{@b = false}}}
+{@b}
+}
+
+//お知らせ予約 - プライベートコマンド
+//この関数が呼ばれている時点で引数が"予約:a:b"（aは一文字以上）であることは保障されている
+$reserveNotify
+{
+{@lidx = {$lastindex(":",{@argv[0]})}}
+{$reserveDate = {$substring({@argv[0]},3,{@lidx} - 3)}}
+{$reserveContent = {$substringr({@argv[0]},{$length({@argv[0]})}-{@lidx}-1)}}
+{@message = "{$reserveDate}に{$reserveContent}のことをいえばいいのね？\nいいわよ。"}
+{@message}
+}
+
+
+//終了 - プライベートコマンド
+$Exit
+{$OnClose}\w7\-

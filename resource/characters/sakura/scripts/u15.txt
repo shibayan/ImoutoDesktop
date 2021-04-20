@@ -1,0 +1,642 @@
+// 辞書 - 12歳以上15歳未満
+
+#Common
+{$if ({$age} >= 12 && {$age} < 15 && ({$hour} >= 6 && {$hour} < 22) && ({$thunderstorm} == false))}
+
+
+// 起動時
+$OnBoot_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnBoot_normal} } else { {$OnBoot_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnBoot_dere} } else { {$OnBoot_normal} } } } }
+
+$OnBoot_tsun
+{$setSurfaceRange(01,03)}なに？\w5相手してほしいの？\n\w5\s[00]少しだけならいいわよ。
+{$setSurfaceRange(01,03)}相変わらずヒマそうね。
+
+$OnBoot_normal
+\s[00]%username、どうしたの？
+\s[00]%username、何か用？
+
+$OnBoot_dere
+{$setSurfaceRange(07,10)}やっほー、元気？
+{$setSurfaceRange(07,10)}あー、%usernameだ！遊ぼうよ。
+
+
+// 終了時？
+$OnClose
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnClose_normal} } else { {$OnClose_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnClose_dere} } else { {$OnClose_normal} } } } }
+
+$OnClose_tsun
+{$setSurfaceRange(01,03)}……もういいの？あらそう。\n{$setSurfaceRange(05,06)}べ、別にアンタの顔なんてみたくないんだから。
+{$setSurfaceRange(01,03)}じゃあね。\n\w5\s[00]またたまには相手してあげてもいいわよ？
+
+$OnClose_normal
+\s[00]じゃーね。
+\s[00]じゃ、またね。
+
+$OnClose_dere
+{$setSurfaceRange(05,06)}もう終わり？つまんないの。
+{$setSurfaceRange(07,10)}それじゃあ、またね♪
+
+
+// ログイン時
+$OnLogin_default
+//none
+
+
+//すでに接続している
+$alreadyConnected
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$alreadyConnected_normal} } else { {$alreadyConnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$alreadyConnected_dere} } else { {$alreadyConnected_normal} } } } }
+
+$alreadyConnected_tsun
+{$reject = true}さっきログインしたばかりじゃないの。
+{$reject = true}さっきログインしたばかりじゃない。\n健忘症かしら？
+{$reject = true}さっき接続したばかりよ？忘れたの？
+
+$alreadyConnected_normal
+{$reject = true}もう接続してるわよ？
+
+$alreadyConnected_dere
+{$reject = true}もうログインしてるわよ？
+
+
+
+// ログイン時
+$OnLogined_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnLogined_normal} } else { {$OnLogined_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnLogined_dere} } else { {$OnLogined_normal} } } } }
+
+$OnLogined_tsun
+{$setSurfaceRange(01,03)}「{$parameter(0)}」にログインしたわよ。\w5で、\w5つぎは？
+
+$OnLogined_normal
+\s[00]「{$parameter(0)}」にログインしたよ。
+
+$OnLogined_dere
+{$setSurfaceRange(07,10)}「{$parameter(0)}」にログインしたよ。
+{$setSurfaceRange(07,10)}ログイン成功。やったね！
+
+
+// 接続失敗
+$OnConnectFailure
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnConnectFailure_normal} } else { {$OnConnectFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnConnectFailure_dere} } else { {$OnConnectFailure_normal} } } } }
+
+$OnConnectFailure_tsun
+{$setSurfaceRange(05,06)}「{$parameter(0)}」に接続できなかったみたい。\n\w5アタシのせいじゃない…と、おもうんだけど……。
+{$setSurfaceRange(01,03)}接続できなかったわよ？\n\w5{$setSurfaceRange(05,06)}アンタの設定が間違ってるんじゃないの？
+
+$OnConnectFailure_normal
+\s[04]「{$parameter(0)}」に接続できないよ。
+
+$OnConnectFailure_dere
+{$setSurfaceRange(01,03)}「{$parameter(0)}」との接続に失敗しちゃった。ごめんなさい。
+\s[04]あれれ？うまくつながらないよー。
+
+
+// 鯖と接続してない
+$OnDisconnecting
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnecting_normal} } else { {$OnDisconnecting_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnecting_dere} } else { {$OnDisconnecting_normal} } } } }
+
+$OnDisconnecting_tsun
+{$setSurfaceRange(05,06)}サーバと接続されてないじゃない。なにやってんのよ。
+{$setSurfaceRange(05,06)}サーバと接続されてないじゃない。
+
+$OnDisconnecting_normal
+{$setSurfaceRange(00,03)}サーバと接続されてないみたい。
+
+$OnDisconnecting_dere
+{$setSurfaceRange(00,03)}いまはサーバと接続されてないよ？
+
+
+// 鯖との接続が切れた
+$OnDisconnected_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnected_normal} } else { {$OnDisconnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnected_dere} } else { {$OnDisconnected_normal} } } } }
+
+$OnDisconnected_tsun
+{$setSurfaceRange(01,03)}「{$ServerName}」との接続が切れたわね。つなぎなおしてみたら？
+{$setSurfaceRange(01,03)}「{$ServerName}」との接続が切れたわね。
+{$setSurfaceRange(01,03)}サーバとの接続が切れたわね。つなぎなおしてみたら？
+{$setSurfaceRange(01,03)}サーバとの接続が切れたわね。
+
+$OnDisconnected_normal
+{$setSurfaceRange(00,03)}「{$ServerName}」との接続が切れたみたいね。
+{$setSurfaceRange(00,03)}サーバとの接続が切れたみたいね。
+
+$OnDisconnected_dere
+{$setSurfaceRange(00,03)}「{$ServerName}」との接続が切れちゃったみたい。
+{$setSurfaceRange(00,03)}サーバとの接続が切れちゃったみたい。
+
+
+// パスワード間違い
+$OnIncorrectPassword
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnIncorrectPassword_normal} } else { {$OnIncorrectPassword_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnIncorrectPassword_dere} } else { {$OnIncorrectPassword_normal} } } } }
+
+$OnIncorrectPassword_tsun
+{$setSurfaceRange(01,03)}パスワードが違うって。
+{$setSurfaceRange(01,03)}パスワードが違うって。\nパスワードひとつ満足に覚えられないの？
+{$setSurfaceRange(01,03)}パスワードあってないんじゃない？
+{$setSurfaceRange(05,06)}パスワードあってないんじゃない？
+
+$OnIncorrectPassword_normal
+{$setSurfaceRange(00,03)}ログインできなかったよ。\w5パスワードが違うみたい。
+
+$OnIncorrectPassword_dere
+{$setSurfaceRange(00,03)}えっと、ログインに失敗しちゃった。\nパスワードが違うみたい。
+{$setSurfaceRange(00,03)}なんかパスワードが違うんだって。
+
+
+// DOS コマンド実行
+$OnDosCommand
+{
+{@cmd = {$substringl({$parameter(0)},2)}}
+{$if ({$isExecutable({@cmd})}) {{$OnDosCommandAccepted}} else {{$OnDosCommandRejected}}}
+}
+
+$OnDosCommandAccepted
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDosCommandAccepted_normal} } else { {$OnDosCommandAccepted_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDosCommandAccepted_dere} } else { {$OnDosCommandAccepted_normal} } } } }
+
+$OnDosCommandAccepted_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDosCommandAccepted_tsun
+{$setSurfaceRange(00,03)}{$ExtractCommandName} コマンドを実行したわよ。\n\w5\s[00]ありがたく思いなさい。
+{$setSurfaceRange(01,03)}{$ExtractCommandName} コマンドを実行したわよ。
+
+$OnDosCommandAccepted_normal
+\s[00]{$ExtractCommandName} コマンドを実行したよ。
+
+$OnDosCommandAccepted_dere
+{$setSurfaceRange(07,10)}{$ExtractCommandName} コマンドを実行したよ。
+
+$OnDosCommandRejected
+{$OnCommandDisabled}
+
+
+// DOS コマンド失敗
+$OnDosCommandFailure
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDosCommandFailure_normal} } else { {$OnDosCommandFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDosCommandFailure_dere} } else { {$OnDosCommandFailure_normal} } } } }
+
+$OnDosCommandFailure_tsun
+{$setSurfaceRange(05,06)}{$ExtractCommandName} コマンドがうまく実行できなかったみたい。
+{$setSurfaceRange(01,03)}{$ExtractCommandName} コマンドに失敗しちゃった。\n\w5\s[04]ア、アタシのせいじゃないわよ？
+
+$OnDosCommandFailure_normal
+{$setSurfaceRange(00,03)}{$ExtractCommandName} コマンドがうまく実行できなかったみたい。
+{$setSurfaceRange(01,03)}{$ExtractCommandName} コマンドに失敗しちゃった。
+
+$OnDosCommandFailure_dere
+{$setSurfaceRange(00,03)}{$ExtractCommandName} コマンドがうまく実行できなかったみたい。
+{$setSurfaceRange(00,03)}{$ExtractCommandName} コマンドに失敗しちゃった。
+
+
+// ディレクトリ移動
+$OnChangeDirectory
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnChangeDirectory_normal} } else { {$OnChangeDirectory_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnChangeDirectory_dere} } else { {$OnChangeDirectory_normal} } } } }
+
+$OnChangeDirectory_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnChangeDirectory_tsun
+{$if ({$parameter(1)} == "Empty") { {$OnChangeDirectory_tsun_empty} } else { {$OnChangeDirectory_tsun_default} }}
+
+$OnChangeDirectory_tsun_empty
+{$setSurfaceRange(01,03)}指定された場所へ移動したわ。\n\w5{$setSurfaceRange(05,06)}……なにもないじゃない。
+
+$OnChangeDirectory_tsun_default
+{$setSurfaceRange(01,03)}指定された場所へ移動したわ。
+
+$OnChangeDirectory_normal
+\s[00]指定された場所へ移動したよ。
+
+$OnChangeDirectory_dere
+{$if ({$parameter(1)} == "Picture") { {$OnChangeDirectory_dere_picture} } elseif ({$parameter(1)} == "Movie") { {$OnChangeDirectory_dere_movie} } elseif ({$parameter(1)} == "Music") { {$OnChangeDirectory_dere_music} } else { {$OnChangeDirectory_dere_default} }}
+
+$OnChangeDirectory_dere_picture
+{$OnChangeDirectory_dere_default}
+\s[00]画像ファイルだ。\n\w5{$setSurfaceRange(07,10)}ねえ、ちょっとみてもいい？
+
+$OnChangeDirectory_dere_movie
+{$OnChangeDirectory_dere_default}
+\s[00]動画だ。\n\w5{$setSurfaceRange(07,10)}ねえ、ちょっとみてもいい？
+
+$OnChangeDirectory_dere_music
+{$OnChangeDirectory_dere_default}
+\s[00]音楽ファイルだ。\n\w5{$setSurfaceRange(07,10)}ねえ、ちょっとかけてみてもいい？
+
+$OnChangeDirectory_dere_default
+{$setSurfaceRange(07,10)}指定された場所へ移動したよ。
+
+
+// ディレクトリ移動失敗
+$NoSuchDirectory_tsun
+{$setSurfaceRange(05,06)}そんなディレクトリないじゃない。
+{$setSurfaceRange(01,03)}そんなディレクトリないじゃない。
+
+$NoSuchDirectory_normal
+{$setSurfaceRange(01,03)}指定されたディレクトリがないみたい。
+
+$NoSuchDirectory_dere
+{$setSurfaceRange(00,03)}指定されたディレクトリがないみたいなんだけど……。
+
+$OnChangeDirectoryFailure_tsun_default
+{$setSurfaceRange(01,03)}指定された場所に移動できないみたい。\n\w5{$setSurfaceRange(05,06)}パスあってんの？
+{$setSurfaceRange(01,03)}指定された場所に移動できないみたい。
+
+$OnChangeDirectoryFailure_normal_default
+{$setSurfaceRange(01,03)}指定された場所に移動できなかったよ。
+{$setSurfaceRange(01,03)}指定された場所に移動できなかったよ。\nパスあってる？
+
+$OnChangeDirectoryFailure_dere_default
+{$setSurfaceRange(00,03)}移動に失敗しちゃった。
+
+
+// ファイル表示・開く
+$OnOpenFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnOpenFile_normal} } else { {$OnOpenFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnOpenFile_dere} } else { {$OnOpenFile_normal} } } } }
+
+$OnOpenFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnOpenFile_tsun
+{$setSurfaceRange(01,03)}{$ExtractFileName} を開いたわよ。
+{$setSurfaceRange(01,03)}{$ExtractFileName} を表示したわよ。
+
+$OnOpenFile_normal
+\s[00]{$ExtractFileName} を開いたよ。
+\s[00]{$ExtractFileName} を表示したよ。
+{$setSurfaceRange(07,10)}{$ExtractFileName} を開いたよ。
+{$setSurfaceRange(07,10)}{$ExtractFileName} を表示したよ。
+
+$OnOpenFile_dere
+{$setSurfaceRange(07,10)}{$ExtractFileName} を開いたよ。
+{$setSurfaceRange(07,10)}{$ExtractFileName} を表示したよ。
+
+
+// ファイル表示失敗
+$OnOpenFileFailure_tsun_default
+{$setSurfaceRange(01,03)}{$ExtractFileName} が開けなかったわ。
+{$setSurfaceRange(01,03)}{$ExtractFileName} が表示できなかったみたい。
+
+$OnOpenFileFailure_normal_default
+{$setSurfaceRange(01,03)}{$ExtractFileName} が開けなかったみたい。
+{$setSurfaceRange(01,03)}{$ExtractFileName} の表示に失敗したみたい。
+
+$OnOpenFileFailure_dere_default
+{$setSurfaceRange(00,03)}{$ExtractFileName} が開けなかったよ。
+{$setSurfaceRange(00,03)}{$ExtractFileName} が表示できなかったみたい。
+
+$NoSuchFile_tsun
+{$setSurfaceRange(04,06)}そんなファイルないじゃない。
+
+$NoSuchFile_normal
+{$setSurfaceRange(01,03)}指定されたファイルがないみたい。
+
+$NoSuchFile_dere
+{$setSurfaceRange(01,03)}指定されたファイルがないみたいなんだけど……。
+
+
+// ファイル実行
+$OnExecuteFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnExecuteFile_normal} } else { {$OnExecuteFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnExecuteFile_dere} } else { {$OnExecuteFile_normal} } } } }
+
+$OnExecuteFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnExecuteFile_tsun
+{$setSurfaceRange(01,03)}{$ExtractFileName} を実行したわよ。
+
+$OnExecuteFile_normal
+\s[00]{$ExtractFileName} を実行したよ。
+
+$OnExecuteFile_dere
+{$setSurfaceRange(07,10)}{$ExtractFileName} を実行したよ。
+
+
+// ファイル実行失敗
+$OnExecuteFileFailure_tsun_default
+{$setSurfaceRange(01,03)}{$ExtractFileName} を実行できなかったみたい。
+{$setSurfaceRange(01,03)}{$ExtractFileName} の実行に失敗しちゃった。
+
+$OnExecuteFileFailure_normal_default
+{$setSurfaceRange(01,03)}{$ExtractFileName} が実行できなかったみたい。
+
+$OnExecuteFileFailure_dere_default
+{$setSurfaceRange(00,03)}{$ExtractFileName} を実行できなかったみたい。
+{$setSurfaceRange(00,03)}{$ExtractFileName} の実行に失敗しちゃった。
+
+
+//ファイルを閉じる
+$OnCloseFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCloseFile_normal} } else { {$OnCloseFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCloseFile_dere} } else { {$OnCloseFile_normal} } } } }
+
+$OnCloseFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnCloseFile_tsun
+{$setSurfaceRange(01,03)}{$ExtractFileName} を閉じたわよ。
+
+$OnCloseFile_normal
+\s[00]{$ExtractFileName} を閉じたよ。
+
+$OnCloseFile_dere
+{$setSurfaceRange(07,10)}{$ExtractFileName} を閉じたよ。
+
+
+//ファイルを閉じる失敗
+$OnCloseFileFailure_tsun
+{$setSurfaceRange(01,03)}{$ExtractFileName} を閉じれらないみたい。
+
+$OnCloseFileFailure_normal
+{$setSurfaceRange(01,03)}{$ExtractFileName} を閉じるのに失敗しちゃった。
+
+$OnCloseFileFailure_dere
+{$setSurfaceRange(00,03)}{$ExtractFileName} を閉じるのに失敗しちゃった。
+
+
+// ファイル削除
+$OnDeleteFile
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDeleteFile_normal} } else { {$OnDeleteFile_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDeleteFile_dere} } else { {$OnDeleteFile_normal} } } } }
+
+$OnDeleteFile_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDeleteFile_tsun
+{$setSurfaceRange(01,03)}{$ExtractFileName} を削除したわよ。
+
+$OnDeleteFile_normal
+\s[00]{$ExtractFileName} を削除したよ。
+
+$OnDeleteFile_dere
+{$setSurfaceRange(07,10)}{$ExtractFileName} を削除したよ。
+
+
+// ファイル削除失敗
+$OnDeleteFileFailure_tsun_default
+{$setSurfaceRange(01,03)}{$ExtractFileName} が削除できないわね。
+{$setSurfaceRange(00,03)}{$ExtractFileName} が削除できないわね。\n\w5\s[00]…\w5…日ごろの行いかしら？
+
+$OnDeleteFileFailure_normal_default
+{$setSurfaceRange(01,03)}{$ExtractFileName} が削除できなかったみたい。
+
+$OnDeleteFileFailure_dere_default
+{$setSurfaceRange(01,03)}{$ExtractFileName} が削除できなかったよ。
+
+
+//ファイル受信開始
+$OnDownloading
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDownloading_normal} } else { {$OnDownloading_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDownloading_dere} } else { {$OnDownloading_normal} } } } }
+
+$OnDownloaded_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnDownloaded_tsun
+
+$OnDownloaded_normal
+
+$OnDownloaded_dere
+
+
+// ファイル受信完了
+$OnDownloaded
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDownloaded_normal} } else { {$OnDownloaded_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDownloaded_dere} } else { {$OnDownloaded_normal} } } } }
+
+$OnDownloaded_tsun
+{$setSurfaceRange(01,03)}ファイルの受信が終わったみたいよ。
+{$setSurfaceRange(01,03)}受信が終わったわよ。\n\w5……その、なんか変なファイルじゃないよね？
+
+$OnDownloaded_normal
+\s[00]受信できたよ。
+\s[00]受信終わったよ。
+
+$OnDownloaded_dere
+{$setSurfaceRange(07,10)}{$ExtractFileName} の受信がおわったよ。
+{$setSurfaceRange(07,10)}受信できたー！
+
+
+//ファイル受信失敗
+$OnDownloadFailure_tsun_default
+{$setSurfaceRange(01,03)}ファイルの受信に失敗したみたいよ。
+
+$OnDownloadFailure_normal_default
+{$setSurfaceRange(01,03)}受信失敗しちゃった。
+{$setSurfaceRange(01,03)}受信できなかったよ。
+
+$OnDownloadFailure_dere_default
+{$setSurfaceRange(01,03)}受信できなかったみたいね。
+
+$OnDownloadFailure_tsun_cancel
+{$setSurfaceRange(05,06)}なによ、途中でやめるくらいなら最初からやらせないでよね。
+
+$OnDownloadFailure_normal_cancel
+\s[04]あれ？やめるんだ。
+\s[00]キャンセルしたよ。
+
+$OnDownloadFailure_dere_cancel
+\s[00]あれ？やめちゃうの？
+
+
+//スクリーンショット撮影
+$OnScreenShot
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnScreenShot_normal} } else { {$OnScreenShot_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnScreenShot_dere} } else { {$OnScreenShot_normal} } } } }
+
+$OnScreenShot_tsun; {$if ({$random(4)} == 0)}
+{$OnCommandReject_tsun}
+
+$OnScreenShot_tsun
+{$setSurfaceRange(01,03)}スクリーンショット撮ったわよ。
+
+$OnScreenShot_normal
+\s[00]スクリーンショット撮ったよ。
+
+$OnScreenShot_dere
+{$setSurfaceRange(07,10)}スクリーンショット撮れたよ。
+
+
+//スクリーンショット撮影失敗
+$OnScreenShotFailure
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnScreenShotFailure_normal} } else { {$OnScreenShotFailure_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnScreenShotFailure_dere} } else { {$OnScreenShotFailure_normal} } } } }
+
+$OnScreenShotFailure_tsun
+{$setSurfaceRange(01,03)}あれ？スクリーンショットが撮れないみたいね。
+{$setSurfaceRange(05,06)}あれ？スクリーンショットが撮れないみたいね。
+
+$OnScreenShotFailure_normal
+{$setSurfaceRange(01,03)}スクリーンショットが撮れなかったみたい。
+
+$OnScreenShotFailure_dere
+{$setSurfaceRange(01,03)}ごめんなさい。\nスクリーンショット撮るの失敗しちゃった。
+
+
+// 理解できないコマンド
+$OnUnknownCommand
+{$parsePrivateCommand}
+
+$OnUnknownCommand_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnUnknownCommand_normal} } else { {$OnUnknownCommand_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnUnknownCommand_dere} } else { {$OnUnknownCommand_normal} } } } }
+
+$OnUnknownCommand_tsun
+{$setSurfaceRange(01,03)}なんていったの？わかんないわよ。
+{$setSurfaceRange(05,06)}なんていったの？わかんないわよ。
+{$setSurfaceRange(01,03)}あーごめん、聞いてなかった。
+
+$OnUnknownCommand_normal
+{$setSurfaceRange(00,03)}ごめん、\w5わかんない。
+
+$OnUnknownCommand_dere
+\s[00]えっと、なんていったの？
+\s[00]ごめんなさい、わかんなかった。
+
+
+//いま何時？ - プライベートコマンド
+$WhatTimeIsIt
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$WhatTimeIsIt_normal} } else { {$WhatTimeIsIt_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$WhatTimeIsIt_dere} } else { {$WhatTimeIsIt_normal} } } } }
+
+$WhatTimeIsIt_tsun
+{$setSurfaceRange(01,03)}いまは{$getHalfHour}時{$minute}分よ。
+{$setSurfaceRange(05,06)}自分で時計みなさいよ。
+{$setSurfaceRange(05,06)}時計の場所も知らないの？
+{$setSurfaceRange(05,06)}自分で時計みたら？\n\w5{$setSurfaceRange(01,03)}……{$getHalfHour}時{$minute}分よ。
+
+$WhatTimeIsIt_normal
+\s[00]いまは{$getHalfHour}時{$minute}分。
+\s[00]{$getHalfHour}時{$minute}分だよ。
+
+$WhatTimeIsIt_dere
+{$setSurfaceRange(07,10)}いまは{$getHalfHour}時{$minute}分だよ。
+{$setSurfaceRange(01,03)}えーとね、{$setSurfaceRange(07,10)}{$getHalfHour}時{$minute}分だよ。
+
+
+//今日は何日？ - プライベートコマンド
+$WhatDateIsIt
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$WhatDateIsIt_normal} } else { {$WhatDateIsIt_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$WhatDateIsIt_dere} } else { {$WhatDateIsIt_normal} } } } }
+
+$WhatDateIsIt_tsun
+{$setSurfaceRange(01,03)}今日は{$month}月{$day}日よ。
+{$setSurfaceRange(00,03)}今日は{$month}月{$day}日よ。\s[00]{$if ({$getMemorialDay} != "") {{$getMemorialDay}ね。} }
+{$setSurfaceRange(05,06)}自分でカレンダーみなさいよ。
+{$setSurfaceRange(00,03)}{$year}年{$month}月{$day}日{$getHalfHour}時{$minute}分{$second}秒{$millisecond}よ。これで満足？
+
+$WhatDateIsIt_normal
+\s[00]今日は{$month}月{$day}日。
+\s[00]{$month}月{$day}日だよ。
+\s[00]今日は{$month}月{$day}日。{$if ({$getMemorialDay} != "") {{$getMemorialDay}ね。} }
+\s[00]{$month}月{$day}日だよ。{$if ({$getMemorialDay} != "") {{$getMemorialDay}ね。} }
+
+$WhatDateIsIt_dere
+\s[00]今日は{$month}月{$day}日だよ。
+{$setSurfaceRange(01,03)}えーとね、\w5{$setSurfaceRange(07,10)}{$month}月{$day}日だよ。
+{$setSurfaceRange(07,10)}今日は{$month}月{$day}日だよ。{$if ({$getMemorialDay} != "") {{$getMemorialDay}だね。} }
+{$setSurfaceRange(01,03)}えーとね、\w5{$setSurfaceRange(07,10)}{$month}月{$day}日だよ。{$if ({$getMemorialDay} != "") {{$getMemorialDay}だね。} }
+
+
+//"help" - プライベートコマンド
+$help
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_normal} } else { {$help_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_dere} } else { {$help_normal} } } } }
+
+$help_tsun
+{$setSurfaceRange(01,03)}このコマンドにはふたつオプションがあるんだけど、\n -dos オプションで使えるDOSコマンド、\n -private でプライベートコマンドの\n説明をしてあげる。いい？
+
+$help_normal
+\s[00]このコマンドにはふたつオプションがあるよ。\n -dos オプションで使えるDOSコマンド、\n -private でプライベートコマンドの\n説明をしてあげるね。
+
+$help_dere
+\s[00]このコマンドにはふたつオプションがあってね、\n -dos オプションで使えるDOSコマンド、\n -private でプライベートコマンドの\n説明をしてあげるよ。
+
+
+//"help -dos" - プライベートコマンド
+$help_dos
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_dos_normal} } else { {$help_dos_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_dos_dere} } else { {$help_dos_normal} } } } }
+
+$help_dos_tsun
+{$setSurfaceRange(01,03)}アタシにできるのは……\n\w5{$listExecutableCommands}…ね。
+{$setSurfaceRange(01,03)}アタシが使えるのは……\n\w5{$listExecutableCommands}…ね。
+{$setSurfaceRange(00,03)}アタシが使えるのは……\n\w5{$listExecutableCommands}…かな。
+
+$help_dos_normal
+\s[00]アタシにできるのは……\n\w5{$listExecutableCommands}…ね。
+\s[00]アタシが使えるのは……\n\w5{$listExecutableCommands}…ね。
+\s[00]アタシが使えるのは……\n\w5{$listExecutableCommands}…かな。
+
+$help_dos_dere
+\s[00]アタシにできるのは……\n\w5{$listExecutableCommands}…ね。
+\s[00]アタシが使えるのは……\n\w5{$listExecutableCommands}…ね。
+\s[00]アタシが使えるのは……\n\w5{$listExecutableCommands}…かな{$setSurfaceRange(07,10)}。
+
+
+//"help -private" - プライベートコマンド
+$help_private
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$help_private_normal} } else { {$help_private_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$help_private_dere} } else { {$help_private_normal} } } } }
+
+$help_private_tsun
+{$setSurfaceRange(01,03)}なんか書き置きを読めって言われてるんだけど…\n\n{$PrivateCommandMessage}\n……だって。\n\w5{$setSurfaceRange(05,06)}ちょっと、最後のはなによ。
+
+$help_private_normal
+\s[00]えっと、書き置きがあるんだけど…\n\n{$PrivateCommandMessage}\n……だって{$setSurfaceRange(01,03)}。
+
+$help_private_dere
+\s[00]えっと、書き置きがあるんだけど…読むね？\n\n{$PrivateCommandMessage}\n……だって。\n\w5最後のはなんなのかなぁ？
+
+
+
+// 話しかけ？
+$OnCallName
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCallName_normal} } else { {$OnCallName_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCallName_dere} } else { {$OnCallName_normal} } } } }
+
+$OnCallName_tsun
+{$setSurfaceRange(01,03)}なにか用？
+{$setSurfaceRange(00,03)}どうかした？
+{$setSurfaceRange(05,06)}なによ！\w5気安く呼ばないでよね。
+
+$OnCallName_normal
+\s[00]何か用？
+\s[00]呼んだ？
+
+$OnCallName_dere
+{$setSurfaceRange(07,10)}ん？なぁに？
+{$setSurfaceRange(07,10)}%username。えへへ。
+
+
+//コマンド拒否時のリアクション（ツン専用）
+$OnCommandReject_tsun
+{$reject = true}{$setSurfaceRange(05,06)}なんでアタシがそんなことしなきゃいけないのよ。
+{$reject = true}\s[00]イ・ヤ・よ♪
+
+
+//コマンド実行不能時
+$OnCommandDisabled
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnCommandDisabled_normal} } else { {$OnCommandDisabled_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnCommandDisabled_dere} } else { {$OnCommandDisabled_normal} } } } }
+
+$OnCommandDisabled_tsun
+{$reject = true}{$setSurfaceRange(05,06)}アタシにそんな難しいことやらせるつもり？
+{$reject = true}{$setSurfaceRange(01,03)}そーやってまたわかんないこといって…。\n{$setSurfaceRange(05,06)}アタシをからかってるんでしょ？
+{$reject = true}{$OnUnknownCommand_tsun}
+
+$OnCommandDisabled_normal
+{$reject = true}{$setSurfaceRange(01,03)}アタシにはちょっと難しいかも……。
+{$reject = true}{$setSurfaceRange(01,03)}アタシにはこれはちょっと無理。
+{$reject = true}{$OnUnknownCommand_normal}
+
+$OnCommandDisabled_dere
+{$reject = true}{$setSurfaceRange(00,03)}えーと、ちょっとアタシには難しいかな……。
+{$reject = true}{$setSurfaceRange(00,03)}ごめんなさい、アタシにはちょっと難しいかも。
+{$reject = true}{$OnUnknownCommand_dere}
+
+
+//ヒミツのファイルを見つけてしまったとき
+$OnSecretFileFound
+{
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnSecretFileFound_normal} } else { {$OnSecretFileFound_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnSecretFileFound_dere} } else { {$OnSecretFileFound_normal} } } } }
+{$setTimeLimit}
+{$thunderstorm = true}
+{$if ({$allowoperate} == true) {\r[delete,directory]} else {{$destroy}}}
+}
+
+$OnSecretFileFound_tsun
+\s[04]え？何コレ……。\w5\n{$setSurfaceRange(11,13)}信じらんない！
+\w5{$setSurfaceRange(11,13)}……ヘンタイ！チカン！犯罪者！！
+
+$OnSecretFileFound_normal
+{$setSurfaceRange(11,13)}えーと、何なのコレぇ……。
+{$setSurfaceRange(11,13)}%username、サイテー！！
+
+$OnSecretFileFound_dere
+{$setSurfaceRange(11,13)}…………（ぷつん）。
+\s[04]あれ？\n何これ？\w5\n{$setSurfaceRange(11,13)}%username、えっちな画像ばっかり！\nもう、しらない！
