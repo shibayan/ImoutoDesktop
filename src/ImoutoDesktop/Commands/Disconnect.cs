@@ -1,15 +1,15 @@
 ﻿namespace ImoutoDesktop.Commands
 {
-    public class CallName : CommandBase
+    public class Disconnect : CommandBase
     {
-        public CallName(string name)
-            : base(name)
+        public Disconnect()
+            : base("切断")
         {
         }
 
         public override Priority Priority
         {
-            get { return Priority.Lowest; }
+            get { return Priority.Highest; }
         }
 
         public override bool PreExecute(string input)
@@ -20,6 +20,10 @@
         public override bool Execute(string input, out string result)
         {
             result = null;
+            EventID = null;
+
+            ConnectionPool.Disconnect();
+
             return true;
         }
     }

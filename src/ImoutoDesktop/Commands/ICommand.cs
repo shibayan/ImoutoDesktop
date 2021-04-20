@@ -8,10 +8,6 @@
         string EventID { get; set; }
         // イベントパラメータ
         string[] Parameters { get; set; }
-        // コマンド初期化
-        void Initialize(string path);
-        // コマンド終了
-        void Uninitialize();
         // コマンドが実行可能か
         bool IsExecute(string input);
         // 実行前準備

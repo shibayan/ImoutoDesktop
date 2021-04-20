@@ -12,22 +12,24 @@ namespace ImoutoDesktop.Commands
         public ChangeDirectory()
             : base(@"^(.+?)[へに]移動")
         {
-            _table.Add("デスクトップ", Environment.SpecialFolder.Desktop);
-            _table.Add("ミュージック", Environment.SpecialFolder.MyMusic);
-            _table.Add("マイミュージック", Environment.SpecialFolder.MyMusic);
-            _table.Add("ドキュメント", Environment.SpecialFolder.MyDocuments);
-            _table.Add("マイドキュメント", Environment.SpecialFolder.MyDocuments);
-            _table.Add("ピクチャ", Environment.SpecialFolder.MyPictures);
-            _table.Add("マイピクチャ", Environment.SpecialFolder.MyPictures);
         }
 
         private string _directory;
 
-        private static readonly Dictionary<string, Environment.SpecialFolder> _table = new();
+        private static readonly Dictionary<string, Environment.SpecialFolder> _table = new()
+        {
+            { "デスクトップ", Environment.SpecialFolder.Desktop },
+            { "ミュージック", Environment.SpecialFolder.MyMusic },
+            { "マイミュージック", Environment.SpecialFolder.MyMusic },
+            { "ドキュメント", Environment.SpecialFolder.MyDocuments },
+            { "マイドキュメント", Environment.SpecialFolder.MyDocuments },
+            { "ピクチャ", Environment.SpecialFolder.MyPictures },
+            { "マイピクチャ", Environment.SpecialFolder.MyPictures },
+        };
 
         public override bool PreExecute(string input)
         {
-            var match = _pattern.Match(input);
+            var match = Pattern.Match(input);
             var target = match.Groups[1].Value;
 
             _directory = ConnectionPool.Connection.CurrentDirectory;

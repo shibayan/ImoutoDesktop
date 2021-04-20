@@ -51,10 +51,11 @@ namespace ImoutoDesktop
 
             // スクリプトエンジンを作成する
             ScriptEngine = new ScriptEngine(Path.Combine(RootDirectory, "scripts"));
-            InitializeScriptEngine();
 
             // スクリプトプレイヤーを作成
             ScriptPlayer = new ScriptPlayer(this);
+
+            InitializeScriptEngine();
         }
 
         private static readonly object _syncLock = new();
@@ -160,7 +161,7 @@ namespace ImoutoDesktop
         {
             var result = ScriptEngine.Invoke(id);
             var script = CreateScript();
-            Commands.CommandManager.ExecuteTranslate(ref result);
+            result = Commands.CommandManager.ExecuteTranslator(result);
             script.AppendLine(Script.Scope.Character, result);
             if (id == "OnClose")
             {
@@ -197,7 +198,7 @@ namespace ImoutoDesktop
                 // いもうとの反応を追加する
                 if (!string.IsNullOrEmpty(result))
                 {
-                    Commands.CommandManager.ExecuteTranslate(ref result);
+                    result = Commands.CommandManager.ExecuteTranslator(result);
                     script.AppendLine(Script.Scope.Character, result);
                 }
                 // 実行結果が存在すれば追加する
@@ -218,7 +219,7 @@ namespace ImoutoDesktop
                 // いもうとの反応を追加する
                 if (!string.IsNullOrEmpty(result))
                 {
-                    Commands.CommandManager.ExecuteTranslate(ref result);
+                    result = Commands.CommandManager.ExecuteTranslator(result);
                     script.AppendLine(Script.Scope.Character, result);
                 }
             }
@@ -226,7 +227,7 @@ namespace ImoutoDesktop
             ScriptPlayer.Play(script);
         }
 
-        public Script CreateScript()
+        private Script CreateScript()
         {
             var script = new Script
             {

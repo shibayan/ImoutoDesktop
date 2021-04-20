@@ -8,10 +8,10 @@ namespace ImoutoDesktop.Commands
     {
         protected CommandBase(string pattern)
         {
-            _pattern = new Regex(pattern);
+            Pattern = new Regex(pattern);
         }
 
-        protected readonly Regex _pattern;
+        protected Regex Pattern { get; }
 
         #region ICommand メンバ
 
@@ -24,20 +24,15 @@ namespace ImoutoDesktop.Commands
 
         public string[] Parameters { get; set; }
 
-        public virtual void Initialize(string path)
-        {
-        }
-
-        public virtual void Uninitialize()
-        {
-        }
-
         public virtual bool IsExecute(string input)
         {
-            return _pattern.IsMatch(input);
+            return Pattern.IsMatch(input);
         }
 
-        public abstract bool PreExecute(string input);
+        public virtual bool PreExecute(string input)
+        {
+            return true;
+        }
 
         public abstract bool Execute(string input, out string result);
 

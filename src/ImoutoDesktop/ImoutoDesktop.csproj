@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImoutoDesktop.Commands\ImoutoDesktop.Commands.csproj" />
     <ProjectReference Include="..\ImoutoDesktop.Scripting\ImoutoDesktop.Scripting.csproj" />
     <ProjectReference Include="..\ImoutoDesktop.Remoting\ImoutoDesktop.Remoting.csproj" />
   </ItemGroup>

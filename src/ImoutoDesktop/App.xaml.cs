@@ -78,8 +78,6 @@ namespace ImoutoDesktop
 
         private void App_Exit(object sender, ExitEventArgs e)
         {
-            CommandManager.Shutdown();
-
             if (!string.IsNullOrEmpty(RootDirectory))
             {
                 Settings.Save(Path.Combine(RootDirectory, "settings.xml"));

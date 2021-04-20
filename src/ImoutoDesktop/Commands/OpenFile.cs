@@ -13,7 +13,7 @@ namespace ImoutoDesktop.Commands
 
         public override bool PreExecute(string input)
         {
-            var match = _pattern.Match(input);
+            var match = Pattern.Match(input);
             var target = match.Groups[1].Value;
             var directory = ConnectionPool.Connection.CurrentDirectory;
 

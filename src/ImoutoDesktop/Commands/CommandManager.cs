@@ -4,14 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using ImoutoDesktop.Remoting;
-
 namespace ImoutoDesktop.Commands
 {
     public static class CommandManager
     {
         private static readonly List<ICommand> _registedCommands = new();
-        private static readonly List<ITranslate> _registedTranslators = new();
+        private static readonly List<ITranslator> _registedTranslators = new();
 
         public static void Rebuild(string directory)
         {
@@ -22,13 +20,14 @@ namespace ImoutoDesktop.Commands
             _registedCommands.AddRange(new ICommand[]
             {
                 new Connect(),
+                new Disconnect(),
                 new ChangeDirectory(),
                 new DosCommand(),
                 new ExecuteFile(),
                 new OpenFile(),
                 new DeleteFile(),
                 new ScreenShot(),
-                new ExitCommand()
+                new Close()
             });
 
             // 外部コマンドを登録
@@ -46,32 +45,20 @@ namespace ImoutoDesktop.Commands
                         continue;
                     }
 
-                    command.Initialize(directory);
-
                     _registedCommands.Add(command);
                 }
 
-                foreach (var type in types.Where(p => p.GetInterface(typeof(ITranslate).FullName) != null))
+                foreach (var type in types.Where(p => p.GetInterface(typeof(ITranslator).FullName) != null))
                 {
-                    var translate = (ITranslate)Activator.CreateInstance(type);
+                    var translate = (ITranslator)Activator.CreateInstance(type);
 
                     if (translate == null)
                     {
                         continue;
                     }
 
-                    translate.Initialize(directory);
-
                     _registedTranslators.Add(translate);
                 }
-            }
-        }
-
-        public static void Shutdown()
-        {
-            foreach (var command in _registedCommands)
-            {
-                command.Uninitialize();
             }
         }
 
@@ -90,15 +77,9 @@ namespace ImoutoDesktop.Commands
             _registedCommands.Remove(command);
         }
 
-        public static void ExecuteTranslate(ref string text)
+        public static string ExecuteTranslator(string text)
         {
-            foreach (var translator in _registedTranslators.OrderByDescending(p => p.Priority))
-            {
-                if (translator.Execute(text, out var result))
-                {
-                    text = result;
-                }
-            }
+            return _registedTranslators.OrderByDescending(p => p.Priority).Aggregate(text, (current, translator) => translator.Translate(current));
         }
     }
 }

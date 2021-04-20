@@ -1,6 +1,6 @@
 ﻿namespace ImoutoDesktop.Commands
 {
-    public class ExitCommand : ICommand
+    public class Close : ICommand
     {
         #region ICommand メンバ
 
