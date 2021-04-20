@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,8 +6,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ImoutoDesktop.Controls
 {
@@ -31,7 +26,7 @@ namespace ImoutoDesktop.Controls
         }
 
         private static readonly DependencyPropertyKey CanScrollUpPropertyKey =
-            DependencyProperty.RegisterReadOnly("CanScrollUp", typeof(bool), typeof(TextViewer), new PropertyMetadata(false));
+            DependencyProperty.RegisterReadOnly(nameof(CanScrollUp), typeof(bool), typeof(TextViewer), new PropertyMetadata(false));
 
         public static readonly DependencyProperty CanScrollUpProperty = CanScrollUpPropertyKey.DependencyProperty;
 
@@ -42,7 +37,7 @@ namespace ImoutoDesktop.Controls
         }
 
         private static readonly DependencyPropertyKey CanScrollDownPropertyKey =
-            DependencyProperty.RegisterReadOnly("CanScrollDown", typeof(bool), typeof(TextViewer), new PropertyMetadata(false));
+            DependencyProperty.RegisterReadOnly(nameof(CanScrollDown), typeof(bool), typeof(TextViewer), new PropertyMetadata(false));
 
         public static readonly DependencyProperty CanScrollDownProperty = CanScrollDownPropertyKey.DependencyProperty;
 
@@ -102,17 +97,27 @@ namespace ImoutoDesktop.Controls
         /// <param name="uri">追加する画像の URI。</param>
         public void AddImage(Uri uri)
         {
-            BitmapImage bitmap = new BitmapImage(uri);
-            Image image = new Image();
+            var bitmap = new BitmapImage(uri);
+
+            var binding = new Binding
+            {
+                Path = new PropertyPath("ActualWidth"),
+                Source = richTextBox
+            };
+
+            var image = new Image();
+
             image.BeginInit();
-            Binding binding = new Binding { Path = new PropertyPath("ActualWidth"), Source = richTextBox };
             image.SetBinding(Image.WidthProperty, binding);
             image.StretchDirection = StretchDirection.DownOnly;
             image.Source = bitmap;
             image.EndInit();
+
             _paragraph.Inlines.Add(image);
+
             // スクロール
             richTextBox.ScrollToEnd();
+
             // Run をリセット
             _run = null;
         }
@@ -125,16 +130,21 @@ namespace ImoutoDesktop.Controls
         /// <param name="height">画像の高さ。</param>
         public void AddImage(Uri uri, double width, double height)
         {
-            BitmapImage bitmap = new BitmapImage(uri);
-            Image image = new Image();
+            var bitmap = new BitmapImage(uri);
+
+            var image = new Image();
+
             image.BeginInit();
             image.Width = width;
             image.Height = height;
             image.Source = bitmap;
             image.EndInit();
+
             _paragraph.Inlines.Add(image);
+
             // スクロール
             richTextBox.ScrollToEnd();
+
             // Run をリセット
             _run = null;
         }
@@ -160,22 +170,27 @@ namespace ImoutoDesktop.Controls
         private Run CreateRun()
         {
             var run = new Run();
+
             if (_currentFontSize.HasValue)
             {
                 run.FontSize = _currentFontSize.Value;
             }
+
             if (_currentFontFamily != null)
             {
                 run.FontFamily = _currentFontFamily;
             }
+
             if (_currentFontColor != null)
             {
                 run.Foreground = _currentFontColor;
             }
+
             if (_currentFontWeight.HasValue)
             {
                 run.FontWeight = _currentFontWeight.Value;
             }
+
             return run;
         }
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace ImoutoDesktop.Server
@@ -64,7 +62,7 @@ namespace ImoutoDesktop.Server
             {
                 SetShutdownPrivilege();
             }
-            bool result = ExitWindowsEx(flag, 0);
+            var result = ExitWindowsEx(flag, 0);
             return result;
         }
 
@@ -76,11 +74,11 @@ namespace ImoutoDesktop.Server
             const int SE_PRIVILEGE_ENABLED = 0x00000002;
 
             // プロセスのハンドルを取得する。
-            IntPtr hproc = System.Diagnostics.Process.GetCurrentProcess().Handle;
+            var hproc = System.Diagnostics.Process.GetCurrentProcess().Handle;
             // IntPtr hproc = GetCurrentProcess(); // この方法でもＯＫ．
 
             // Token を取得する。
-            IntPtr hToken = IntPtr.Zero;
+            var hToken = IntPtr.Zero;
             OpenProcessToken(hproc, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, ref hToken);
 
             // LUID を取得する。
@@ -88,7 +86,7 @@ namespace ImoutoDesktop.Server
             LookupPrivilegeValue(null, SE_SHUTDOWN_NAME, ref luid);
 
             // 特権を設定する。
-            TOKEN_PRIVILEGES tp = new TOKEN_PRIVILEGES();
+            var tp = new TOKEN_PRIVILEGES();
             tp.PrivilegeCount = 1;
             tp.Privileges = new LUID_AND_ATTRIBUTES();
             tp.Privileges.Luid = luid;

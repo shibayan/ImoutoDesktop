@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -40,7 +40,7 @@ namespace ImoutoDesktop.MisakaSharp
             // ファイルストリームを作成
             baseStream = File.Open(path, FileMode.Open);
             // 暗号化ファイルかどうかを判別
-            string extension = Path.GetExtension(path);
+            var extension = Path.GetExtension(path);
             switch (extension)
             {
                 case ".__1":
@@ -121,10 +121,10 @@ namespace ImoutoDesktop.MisakaSharp
                     return streamReader.ReadLine();
                 case CryptType.Original:
                     {
-                        List<byte> bytes = new List<byte>();
+                        var bytes = new List<byte>();
                         while (true)
                         {
-                            byte c = (byte)((int)binaryReader.ReadByte() ^ 0xff);
+                            var c = (byte)((int)binaryReader.ReadByte() ^ 0xff);
                             if (c == '\n')
                             {
                                 break;
@@ -135,10 +135,10 @@ namespace ImoutoDesktop.MisakaSharp
                     }
                 case CryptType.Standard:
                     {
-                        List<byte> bytes = new List<byte>();
+                        var bytes = new List<byte>();
                         while (true)
                         {
-                            byte c = (byte)((int)binaryReader.ReadByte() ^ cryptKey);
+                            var c = (byte)((int)binaryReader.ReadByte() ^ cryptKey);
                             // 復号キーの更新
                             cryptKey = c;
                             // 改行の検出

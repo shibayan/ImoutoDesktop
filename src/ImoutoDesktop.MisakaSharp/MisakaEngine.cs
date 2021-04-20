@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -20,7 +17,7 @@ namespace ImoutoDesktop.MisakaSharp
             // トレーサを開始
             _vm.StartTrace();
             // 辞書のパース
-            foreach (string dictionary in _vm.Settings.Dictionaries)
+            foreach (var dictionary in _vm.Settings.Dictionaries)
             {
                 _vm.Parser.ParseDictionary(Path.Combine(_vm.RootDirectory, dictionary), _vm.Functions);
             }

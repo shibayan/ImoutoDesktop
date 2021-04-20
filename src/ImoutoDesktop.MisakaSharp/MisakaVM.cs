@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace ImoutoDesktop.MisakaSharp
@@ -34,7 +32,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 return string.Empty;
             }
-            Value retval = functions.ExecFunction(this, name);
+            var retval = functions.ExecFunction(this, name);
             return retval.ToString();
         }
 

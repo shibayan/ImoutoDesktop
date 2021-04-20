@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
@@ -244,7 +243,7 @@ namespace ImoutoDesktop.MisakaSharp
                 case ValueType.Double:
                     return (int)d_value;
                 case ValueType.String:
-                    int retval = 0;
+                    var retval = 0;
                     int.TryParse(s_value, out retval);
                     return retval;
                 case ValueType.Array:
@@ -269,7 +268,7 @@ namespace ImoutoDesktop.MisakaSharp
                 case ValueType.Double:
                     return d_value;
                 case ValueType.String:
-                    double retval = 0.0;
+                    var retval = 0.0;
                     double.TryParse(s_value, out retval);
                     return retval;
                 case ValueType.Array:
@@ -321,9 +320,9 @@ namespace ImoutoDesktop.MisakaSharp
                 case ValueType.Array:
                     if (a_value != null)
                     {
-                        int length = a_value.Count;
-                        StringBuilder retstr = new StringBuilder();
-                        for (int i = 0; i < length; ++i)
+                        var length = a_value.Count;
+                        var retstr = new StringBuilder();
+                        for (var i = 0; i < length; ++i)
                         {
                             retstr.Append(a_value[i].ToString());
                             retstr.Append(',');

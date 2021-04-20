@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -75,8 +74,8 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static bool IsExpression(string[] tokens)
         {
-            int length = tokens.Length;
-            for (int i = 0; i < length; i++)
+            var length = tokens.Length;
+            for (var i = 0; i < length; i++)
             {
                 if (Array.BinarySearch(opsubst, tokens[i]) >= 0)
                 {
@@ -97,13 +96,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static string[] SplitToken(string line)
         {
-            int index = 0;
-            int previndex = 0;
-            int depth = 0;
-            int length = line.Length;
+            var index = 0;
+            var previndex = 0;
+            var depth = 0;
+            var length = line.Length;
             string temp;
-            bool isDoubleQuote = false;
-            List<string> token = new List<string>();
+            var isDoubleQuote = false;
+            var token = new List<string>();
             while (index < length)
             {
                 if (line[index] == '\"')
@@ -182,13 +181,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static string[] SplitStatement(string line)
         {
-            int index = 0;
-            int depth = 0;
-            int previndex = 0;
-            int length = line.Length;
-            bool isDoubleQuote = false;
-            Stack<int> stack = new Stack<int>();
-            List<string> statement = new List<string>();
+            var index = 0;
+            var depth = 0;
+            var previndex = 0;
+            var length = line.Length;
+            var isDoubleQuote = false;
+            var stack = new Stack<int>();
+            var statement = new List<string>();
             while (index < length)
             {
                 if (line[index] == '\"')
@@ -220,7 +219,7 @@ namespace ImoutoDesktop.MisakaSharp
                         }
                         else if (line[index] == '}')
                         {
-                            int open = stack.Pop();
+                            var open = stack.Pop();
                             if (stack.Count == 0)
                             {
                                 statement.Add(line.Substring(open, index - open + 1));
@@ -248,13 +247,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static string[] SplitArrayIndexer(string line)
         {
-            int index = 0;
-            int depth = 0;
-            int previndex = 0;
-            int length = line.Length;
-            bool isDoubleQuote = false;
-            Stack<int> stack = new Stack<int>();
-            List<string> statement = new List<string>();
+            var index = 0;
+            var depth = 0;
+            var previndex = 0;
+            var length = line.Length;
+            var isDoubleQuote = false;
+            var stack = new Stack<int>();
+            var statement = new List<string>();
             while (index < length)
             {
                 if (line[index] == '\"')
@@ -286,7 +285,7 @@ namespace ImoutoDesktop.MisakaSharp
                         }
                         else if (line[index] == ']')
                         {
-                            int open = stack.Pop();
+                            var open = stack.Pop();
                             if (stack.Count == 0)
                             {
                                 statement.Add(line.Substring(open, index - open));
@@ -306,11 +305,11 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static string[] MakeFunctionStatement(string[] tokens)
         {
-            int length = tokens.Length;
-            List<string> values = new List<string>();
-            for (int i = 0; i < length; i++)
+            var length = tokens.Length;
+            var values = new List<string>();
+            for (var i = 0; i < length; i++)
             {
-                string value = tokens[i].Trim();
+                var value = tokens[i].Trim();
                 if (value.Length != 0)
                 {
                     values.Add(value);
@@ -321,11 +320,11 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static string[] MakeIfAndWhileStatement(string[] tokens)
         {
-            int depth = 0;
-            int index = 0;
-            int previndex = 0;
-            int length = tokens.Length;
-            List<string> value = new List<string>();
+            var depth = 0;
+            var index = 0;
+            var previndex = 0;
+            var length = tokens.Length;
+            var value = new List<string>();
             for (index = 0; index < length; index++)
             {
                 if (tokens[index] == "(")
@@ -361,7 +360,7 @@ namespace ImoutoDesktop.MisakaSharp
             }
             if (previndex != index)
             {
-                for (int i = previndex; i < tokens.Length; ++i)
+                for (var i = previndex; i < tokens.Length; ++i)
                 {
                     value.Add(tokens[i]);
                 }
@@ -371,11 +370,11 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static string[] MakeForAndForeachStatement(string[] tokens)
         {
-            int depth = 0;
-            int index = 0;
-            int previndex = 0;
-            int length = tokens.Length;
-            List<string> value = new List<string>();
+            var depth = 0;
+            var index = 0;
+            var previndex = 0;
+            var length = tokens.Length;
+            var value = new List<string>();
             for (index = 0; index < length; index++)
             {
                 if (tokens[index] == "(")
@@ -410,7 +409,7 @@ namespace ImoutoDesktop.MisakaSharp
             }
             if (previndex != index)
             {
-                for (int i = previndex; i < tokens.Length; ++i)
+                for (var i = previndex; i < tokens.Length; ++i)
                 {
                     value.Add(tokens[i]);
                 }
@@ -420,17 +419,17 @@ namespace ImoutoDesktop.MisakaSharp
 
         public static string[] MakeFunctionArguments(string[] tokens)
         {
-            int length = tokens.Length;
+            var length = tokens.Length;
             if (tokens[1] != "(")
             {
                 // 関数呼び出しではない
                 return null;
             }
             // 関数呼び出し演算子を探す
-            int index = 1;
-            int depth = 0;
-            int previndex = index + 1;
-            List<string> arguments = new List<string>();
+            var index = 1;
+            var depth = 0;
+            var previndex = index + 1;
+            var arguments = new List<string>();
             while (index < length)
             {
                 if (tokens[index] == "(")

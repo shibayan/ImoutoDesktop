@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -26,9 +26,9 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 return;
             }
-            using (StreamWriter writer = new StreamWriter(path, false, encoding))
+            using (var writer = new StreamWriter(path, false, encoding))
             {
-                foreach (KeyValuePair<string, Value> variable in variables)
+                foreach (var variable in variables)
                 {
                     if (!variable.Value.IsEmpty)
                     {
@@ -44,18 +44,18 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 return;
             }
-            using (StreamReader reader = new StreamReader(path, encoding))
+            using (var reader = new StreamReader(path, encoding))
             {
                 while (reader.Peek() != -1)
                 {
-                    string line = reader.ReadLine();
-                    string[] token = line.Split(',');
+                    var line = reader.ReadLine();
+                    var token = line.Split(',');
                     if (token.Length < 2)
                     {
                         continue;
                     }
                     Value variable;
-                    string name = token[0].Substring(1);
+                    var name = token[0].Substring(1);
                     if (token.Length == 2)
                     {
                         variable = GetValue(token[1]);
@@ -63,8 +63,8 @@ namespace ImoutoDesktop.MisakaSharp
                     else
                     {
                         variable = new Value();
-                        List<Value> array = variable.ToArray();
-                        for (int i = 1; i < token.Length; ++i)
+                        var array = variable.ToArray();
+                        for (var i = 1; i < token.Length; ++i)
                         {
                             array.Add(GetValue(token[i]));
                         }

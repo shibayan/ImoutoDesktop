@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace ImoutoDesktop.IO
 {
@@ -40,7 +36,7 @@ namespace ImoutoDesktop.IO
                 if (_animations != value)
                 {
                     _animations = value;
-                    OnPropertyChanged("Animations");
+                    OnPropertyChanged(nameof(Animations));
                 }
             }
         }
@@ -49,17 +45,17 @@ namespace ImoutoDesktop.IO
 
         public ImageSource Image
         {
-            get { return _image != null ? (ImageSource)_image.Target : null; }
+            get { return (ImageSource)_image?.Target; }
             set
             {
                 _image = new WeakReference(value);
-                OnPropertyChanged("Image");
+                OnPropertyChanged(nameof(Image));
             }
         }
 
         public override int GetHashCode()
         {
-            return _id;
+            return _id.GetHashCode();
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -39,17 +38,17 @@ namespace ImoutoDesktop.MisakaSharp
         /// <param name="functions">関数のコレクション。</param>
         public void ParseDictionary(string path, Functions functions)
         {
-            string dicname = Path.GetFileName(path);
-            using (MisakaReader reader = new MisakaReader(path, encoding))
+            var dicname = Path.GetFileName(path);
+            using (var reader = new MisakaReader(path, encoding))
             {
-                bool isCommonBody = false;
+                var isCommonBody = false;
                 Function function = null;
-                List<Define> defines = new List<Define>();
-                List<IExpression> commonExpressions = new List<IExpression>();
+                var defines = new List<Define>();
+                var commonExpressions = new List<IExpression>();
                 while (reader.Peek() != -1)
                 {
                     // 1行読み取ってインデントを削除
-                    string line = reader.ReadLine().Trim();
+                    var line = reader.ReadLine().Trim();
                     // コメント、空白文字を処理する
                     if (string.Compare(line, 0, "//", 0, 2) == 0 || line.Length == 0)
                     {
@@ -75,12 +74,12 @@ namespace ImoutoDesktop.MisakaSharp
                         }
                         else if (line == "#Define")
                         {
-                            Define define = new Define("", "");
+                            var define = new Define("", "");
                             defines.Add(define);
                         }
                         else if (line == "#GlobalDefine")
                         {
-                            Define define = new Define("", "");
+                            var define = new Define("", "");
                             globalDefines.Add(define);
                         }
                         continue;
@@ -102,13 +101,13 @@ namespace ImoutoDesktop.MisakaSharp
                     else if (function != null)
                     {
                         // 関数ステートメント
-                        IExpression[] functionStatements = MakeStatements(line);
+                        var functionStatements = MakeStatements(line);
                         function.Statements.Add(functionStatements);
                     }
                     else if (isCommonBody)
                     {
                         isCommonBody = false;
-                        IExpression[] expressions = MakeStatements(line);
+                        var expressions = MakeStatements(line);
                         commonExpressions.AddRange(expressions);
                     }
                 }
@@ -117,12 +116,12 @@ namespace ImoutoDesktop.MisakaSharp
 
         private static string CombineInBrace(MisakaReader reader)
         {
-            int depth = 1;
-            StringBuilder result = new StringBuilder();
+            var depth = 1;
+            var result = new StringBuilder();
             while (reader.Peek() != -1)
             {
                 // 1行読み取ってインデントを削除
-                string line = reader.ReadLine().Trim();
+                var line = reader.ReadLine().Trim();
                 // コメント、空白文字を処理する
                 if (string.Compare(line, 0, "//", 0, 2) == 0 || line.Length == 0)
                 {
@@ -152,13 +151,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         private string ExecPreProcessor(string line, List<Define> define)
         {
-            int length = define.Count;
-            for (int i = 0; i < length; i++)
+            var length = define.Count;
+            for (var i = 0; i < length; i++)
             {
                 line = define[i].Before.Replace(line, define[i].After);
             }
             length = globalDefines.Count;
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 line = globalDefines[i].Before.Replace(line, globalDefines[i].After);
             }
@@ -181,10 +180,10 @@ namespace ImoutoDesktop.MisakaSharp
 
         private Function MakeFunction(string line, Functions functions)
         {
-            Function function = new Function();
-            string[] statement = Lexer.MakeFunctionStatement(Lexer.SplitStatement(line));
-            int length = statement.Length;
-            for (int i = 1; i < length; i++)
+            var function = new Function();
+            var statement = Lexer.MakeFunctionStatement(Lexer.SplitStatement(line));
+            var length = statement.Length;
+            for (var i = 1; i < length; i++)
             {
                 if (statement[i] == "nonoverlap")
                 {
@@ -204,7 +203,7 @@ namespace ImoutoDesktop.MisakaSharp
                 }
                 else
                 {
-                    IExpression expression = MakeExpression(statement[i]);
+                    var expression = MakeExpression(statement[i]);
                     function.Expressions.Add(expression);
                 }
             }
@@ -215,24 +214,24 @@ namespace ImoutoDesktop.MisakaSharp
         public IExpression MakeExpression(string line)
         {
             IExpression statement = null;
-            string token = RemoveScope(line);
+            var token = RemoveScope(line);
             // トークンに分解する
-            string[] tokens = Lexer.SplitToken(token);
+            var tokens = Lexer.SplitToken(token);
             // トークンの種類を判別する
             if (tokens[0] == "$if")
             {
                 // if文
-                string[] value = Lexer.MakeIfAndWhileStatement(tokens);
-                List<IfSubExpression> ifexpressions = new List<IfSubExpression>();
-                int length = value.Length;
-                for (int i = 0; i < length; i += 3)
+                var value = Lexer.MakeIfAndWhileStatement(tokens);
+                var ifexpressions = new List<IfSubExpression>();
+                var length = value.Length;
+                for (var i = 0; i < length; i += 3)
                 {
                     IfSubExpression ifexpression;
                     if (value[i] == "$if" || value[i] == "elseif")
                     {
-                        string[] cells = Lexer.SplitToken(value[i + 1]);
+                        var cells = Lexer.SplitToken(value[i + 1]);
                         IExpression[] statements;
-                        IExpression expression = MakeExpression(cells);
+                        var expression = MakeExpression(cells);
                         if (i + 2 < length)
                         {
                             statements = MakeStatements(RemoveScope(value[i + 2]));
@@ -271,37 +270,37 @@ namespace ImoutoDesktop.MisakaSharp
             else if (tokens[0] == "$for")
             {
                 // for文
-                IExpression[] expressions = new IExpression[3];
-                string[] value = Lexer.MakeForAndForeachStatement(tokens);
-                for (int i = 0; i < 3; i++)
+                var expressions = new IExpression[3];
+                var value = Lexer.MakeForAndForeachStatement(tokens);
+                for (var i = 0; i < 3; i++)
                 {
-                    string[] cells = Lexer.SplitToken(value[i + 1]);
+                    var cells = Lexer.SplitToken(value[i + 1]);
                     expressions[i] = MakeExpression(cells);
                 }
-                IExpression[] statements = MakeStatements(RemoveScope(value[4]));
+                var statements = MakeStatements(RemoveScope(value[4]));
                 statement = new ForExpression(expressions, statements);
             }
             else if (tokens[0] == "$foreach")
             {
                 // foreach文
-                IExpression[] expressions = new IExpression[3];
-                string[] value = Lexer.MakeForAndForeachStatement(tokens);
-                for (int i = 0; i < 2; i++)
+                var expressions = new IExpression[3];
+                var value = Lexer.MakeForAndForeachStatement(tokens);
+                for (var i = 0; i < 2; i++)
                 {
-                    string[] cells = Lexer.SplitToken(value[i + 1]);
+                    var cells = Lexer.SplitToken(value[i + 1]);
                     expressions[i] = MakeExpression(cells);
                 }
-                IExpression[] statements = MakeStatements(RemoveScope(value[3]));
+                var statements = MakeStatements(RemoveScope(value[3]));
                 statement = new ForeachExpression(expressions, statements);
             }
             else if (tokens[0] == "$while")
             {
                 // while文
-                string[] value = Lexer.MakeIfAndWhileStatement(tokens);
-                string[] cells = Lexer.SplitToken(RemoveScope(value[1]));
-                IExpression expression = MakeExpression(cells);
+                var value = Lexer.MakeIfAndWhileStatement(tokens);
+                var cells = Lexer.SplitToken(RemoveScope(value[1]));
+                var expression = MakeExpression(cells);
                 // ステートメントを作成する
-                IExpression[] statements = MakeStatements(RemoveScope(value[2]));
+                var statements = MakeStatements(RemoveScope(value[2]));
                 statement = new WhileExpression(expression, statements);
             }
             else if (tokens[0] == "$switch")
@@ -311,18 +310,18 @@ namespace ImoutoDesktop.MisakaSharp
             else
             {
                 // 式文
-                string name = tokens[0];
+                var name = tokens[0];
                 // 引数を作成する
-                string[] arguments = Lexer.MakeFunctionArguments(tokens);
+                var arguments = Lexer.MakeFunctionArguments(tokens);
                 if (arguments != null)
                 {
-                    int length = arguments.Length;
-                    IExpression[] expressions = new IExpression[length];
-                    for (int i = 0; i < length; i++)
+                    var length = arguments.Length;
+                    var expressions = new IExpression[length];
+                    for (var i = 0; i < length; i++)
                     {
                         if (arguments[i].Length != 0)
                         {
-                            string[] cells = Lexer.SplitToken(arguments[i]);
+                            var cells = Lexer.SplitToken(arguments[i]);
                             expressions[i] = MakeExpression(cells);
                         }
                         else
@@ -354,10 +353,10 @@ namespace ImoutoDesktop.MisakaSharp
         private IExpression[] MakeStatements(string line)
         {
             // 関数ステートメント
-            string[] statement = Lexer.SplitStatement(line);
-            IExpression[] statements = new IExpression[statement.Length];
-            int length = statements.Length;
-            for (int i = 0; i < length; ++i)
+            var statement = Lexer.SplitStatement(line);
+            var statements = new IExpression[statement.Length];
+            var length = statements.Length;
+            for (var i = 0; i < length; ++i)
             {
                 if (Lexer.IsEvaluate(statement[i]))
                 {
@@ -385,7 +384,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成した式オブジェクト。</returns>
         public IExpression MakeExpression(string[] tokens)
         {
-            int index = 0;
+            var index = 0;
             return MakeExpression0(tokens, ref index);
         }
 
@@ -397,7 +396,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression0(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression1(tokens, ref index);
+            var lhs = MakeExpression1(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -407,7 +406,7 @@ namespace ImoutoDesktop.MisakaSharp
                 if (tokens[index] == "||")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression1(tokens, ref index);
+                    var rhs = MakeExpression1(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -429,7 +428,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression1(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression2(tokens, ref index);
+            var lhs = MakeExpression2(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -439,7 +438,7 @@ namespace ImoutoDesktop.MisakaSharp
                 if (tokens[index] == "&&")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression2(tokens, ref index);
+                    var rhs = MakeExpression2(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -461,7 +460,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression2(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression3(tokens, ref index);
+            var lhs = MakeExpression3(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -470,7 +469,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 // 代入
                 ++index;
-                IExpression rhs = MakeExpression3(tokens, ref index);
+                var rhs = MakeExpression3(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -481,7 +480,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 // 等号
                 ++index;
-                IExpression rhs = MakeExpression3(tokens, ref index);
+                var rhs = MakeExpression3(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -492,7 +491,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 // 等号
                 ++index;
-                IExpression rhs = MakeExpression3(tokens, ref index);
+                var rhs = MakeExpression3(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -503,7 +502,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 // 等号
                 ++index;
-                IExpression rhs = MakeExpression3(tokens, ref index);
+                var rhs = MakeExpression3(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -514,7 +513,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 // 等号
                 ++index;
-                IExpression rhs = MakeExpression3(tokens, ref index);
+                var rhs = MakeExpression3(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -525,7 +524,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 // 等号
                 ++index;
-                IExpression rhs = MakeExpression3(tokens, ref index);
+                var rhs = MakeExpression3(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -536,7 +535,7 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 // 等号
                 ++index;
-                IExpression rhs = MakeExpression3(tokens, ref index);
+                var rhs = MakeExpression3(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -554,7 +553,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression3(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression4(tokens, ref index);
+            var lhs = MakeExpression4(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -562,7 +561,7 @@ namespace ImoutoDesktop.MisakaSharp
             if (tokens[index] == "<")
             {
                 ++index;
-                IExpression rhs = MakeExpression4(tokens, ref index);
+                var rhs = MakeExpression4(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -572,7 +571,7 @@ namespace ImoutoDesktop.MisakaSharp
             else if (tokens[index] == "<=")
             {
                 ++index;
-                IExpression rhs = MakeExpression4(tokens, ref index);
+                var rhs = MakeExpression4(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -582,7 +581,7 @@ namespace ImoutoDesktop.MisakaSharp
             else if (tokens[index] == ">")
             {
                 ++index;
-                IExpression rhs = MakeExpression4(tokens, ref index);
+                var rhs = MakeExpression4(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -592,7 +591,7 @@ namespace ImoutoDesktop.MisakaSharp
             else if (tokens[index] == ">=")
             {
                 ++index;
-                IExpression rhs = MakeExpression4(tokens, ref index);
+                var rhs = MakeExpression4(tokens, ref index);
                 if (rhs == null)
                 {
                     return lhs;
@@ -604,7 +603,7 @@ namespace ImoutoDesktop.MisakaSharp
 
         private IExpression MakeExpression4(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression5(tokens, ref index);
+            var lhs = MakeExpression5(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -614,7 +613,7 @@ namespace ImoutoDesktop.MisakaSharp
                 if (tokens[index] == "|")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression5(tokens, ref index);
+                    var rhs = MakeExpression5(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -624,7 +623,7 @@ namespace ImoutoDesktop.MisakaSharp
                 else if (tokens[index] == "^")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression5(tokens, ref index);
+                    var rhs = MakeExpression5(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -634,7 +633,7 @@ namespace ImoutoDesktop.MisakaSharp
                 else if (tokens[index] == "<<")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression5(tokens, ref index);
+                    var rhs = MakeExpression5(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -644,7 +643,7 @@ namespace ImoutoDesktop.MisakaSharp
                 else if (tokens[index] == ">>")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression5(tokens, ref index);
+                    var rhs = MakeExpression5(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -660,7 +659,7 @@ namespace ImoutoDesktop.MisakaSharp
 
         private IExpression MakeExpression5(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression6(tokens, ref index);
+            var lhs = MakeExpression6(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -670,7 +669,7 @@ namespace ImoutoDesktop.MisakaSharp
                 if (tokens[index] == "&")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression6(tokens, ref index);
+                    var rhs = MakeExpression6(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -692,7 +691,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression6(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression7(tokens, ref index);
+            var lhs = MakeExpression7(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -702,7 +701,7 @@ namespace ImoutoDesktop.MisakaSharp
                 if (tokens[index] == "+")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression7(tokens, ref index);
+                    var rhs = MakeExpression7(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -712,7 +711,7 @@ namespace ImoutoDesktop.MisakaSharp
                 else if (tokens[index] == "-")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression7(tokens, ref index);
+                    var rhs = MakeExpression7(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -734,7 +733,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression7(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression8(tokens, ref index);
+            var lhs = MakeExpression8(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -744,7 +743,7 @@ namespace ImoutoDesktop.MisakaSharp
                 if (tokens[index] == "*")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression8(tokens, ref index);
+                    var rhs = MakeExpression8(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -754,7 +753,7 @@ namespace ImoutoDesktop.MisakaSharp
                 else if (tokens[index] == "/")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression8(tokens, ref index);
+                    var rhs = MakeExpression8(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -764,7 +763,7 @@ namespace ImoutoDesktop.MisakaSharp
                 else if (tokens[index] == "%")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression8(tokens, ref index);
+                    var rhs = MakeExpression8(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -789,7 +788,7 @@ namespace ImoutoDesktop.MisakaSharp
             if (tokens[index] == "+")
             {
                 ++index;
-                IExpression lhs = MakeExpression8(tokens, ref index);
+                var lhs = MakeExpression8(tokens, ref index);
                 if (lhs == null)
                 {
                     return lhs;
@@ -799,7 +798,7 @@ namespace ImoutoDesktop.MisakaSharp
             else if (tokens[index] == "-")
             {
                 ++index;
-                IExpression lhs = MakeExpression8(tokens, ref index);
+                var lhs = MakeExpression8(tokens, ref index);
                 if (lhs == null)
                 {
                     return lhs;
@@ -809,7 +808,7 @@ namespace ImoutoDesktop.MisakaSharp
             else if (tokens[index] == "!")
             {
                 ++index;
-                IExpression lhs = MakeExpression8(tokens, ref index);
+                var lhs = MakeExpression8(tokens, ref index);
                 if (lhs == null)
                 {
                     return lhs;
@@ -819,7 +818,7 @@ namespace ImoutoDesktop.MisakaSharp
             else if (tokens[index] == "~")
             {
                 ++index;
-                IExpression lhs = MakeExpression8(tokens, ref index);
+                var lhs = MakeExpression8(tokens, ref index);
                 if (lhs == null)
                 {
                     return lhs;
@@ -837,7 +836,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression9(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression10(tokens, ref index);
+            var lhs = MakeExpression10(tokens, ref index);
             if (lhs == null)
             {
                 return null;
@@ -847,7 +846,7 @@ namespace ImoutoDesktop.MisakaSharp
                 if (tokens[index] == "**")
                 {
                     ++index;
-                    IExpression rhs = MakeExpression10(tokens, ref index);
+                    var rhs = MakeExpression10(tokens, ref index);
                     if (rhs == null)
                     {
                         return lhs;
@@ -869,7 +868,7 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>作成したステートメント</returns>
         private IExpression MakeExpression10(string[] tokens, ref int index)
         {
-            IExpression lhs = MakeExpression11(tokens, ref index);
+            var lhs = MakeExpression11(tokens, ref index);
             if (lhs == null)
             {
                 return null;

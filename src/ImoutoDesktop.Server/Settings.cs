@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Xml.Serialization;
 
 namespace ImoutoDesktop.Server
@@ -20,7 +17,7 @@ namespace ImoutoDesktop.Server
         {
             try
             {
-                using (FileStream fs = File.Open(path, FileMode.Open))
+                using (var fs = File.Open(path, FileMode.Open))
                 {
                     Default = (Settings)xs.Deserialize(fs);
                 }
@@ -35,7 +32,7 @@ namespace ImoutoDesktop.Server
 
         public static void Save(string path)
         {
-            using (FileStream fs = File.Open(path, FileMode.Create))
+            using (var fs = File.Open(path, FileMode.Create))
             {
                 xs.Serialize(fs, Default);
             }

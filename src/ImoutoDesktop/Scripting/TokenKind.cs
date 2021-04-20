@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ImoutoDesktop.Scripting
+﻿namespace ImoutoDesktop.Scripting
 {
     public enum TokenKind
     {

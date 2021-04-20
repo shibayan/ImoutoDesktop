@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -57,14 +55,14 @@ namespace ImoutoDesktop.MisakaSharp
 
         private int[] ChoiceRandom(MisakaVM vm)
         {
-            int[] result = new int[blocknum + 1];
-            for (int i = 0; i <= blocknum; i++)
+            var result = new int[blocknum + 1];
+            for (var i = 0; i <= blocknum; i++)
             {
                 if (values[i].Count == 0)
                 {
                     continue;
                 }
-                int index = vm.Random.Next(values[i].Count);
+                var index = vm.Random.Next(values[i].Count);
                 result[i] = values[i][index];
             }
             return result;
@@ -76,13 +74,13 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 UpdateRoundOrder(vm);
             }
-            int index = roundorder[c_index];
-            int[] result = new int[blocknum + 1];
+            var index = roundorder[c_index];
+            var result = new int[blocknum + 1];
             if (blocknum != 0)
             {
-                for (int i = 0; i <= blocknum; i++)
+                for (var i = 0; i <= blocknum; i++)
                 {
-                    int next = index / num[i];
+                    var next = index / num[i];
                     result[i] = values[i][index - next * (num[i])];
                     index = next;
                 }
@@ -102,12 +100,12 @@ namespace ImoutoDesktop.MisakaSharp
 
         private int[] ChoiceArray()
         {
-            List<int> result = new List<int>();
-            int length = values.Count;
-            for (int i = 0; i < length; i++)
+            var result = new List<int>();
+            var length = values.Count;
+            for (var i = 0; i < length; i++)
             {
-                int count = values[i].Count;
-                for (int j = 0; j < count; j++)
+                var count = values[i].Count;
+                for (var j = 0; j < count; j++)
                 {
                     result.Add(values[i][j]);
                 }
@@ -117,14 +115,14 @@ namespace ImoutoDesktop.MisakaSharp
 
         private bool UpdateNums()
         {
-            int[] before_num = num.ToArray();
-            int before_length = before_num.Length - 1;
+            var before_num = num.ToArray();
+            var before_length = before_num.Length - 1;
             num.Clear();
             total = 1;
-            bool isChanged = blocknum != before_length;
-            for (int i = 0; i <= blocknum; i++)
+            var isChanged = blocknum != before_length;
+            for (var i = 0; i <= blocknum; i++)
             {
-                int count = values[i].Count;
+                var count = values[i].Count;
                 num.Add(count);
                 total = total * count;
                 if (i <= before_length)
@@ -143,7 +141,7 @@ namespace ImoutoDesktop.MisakaSharp
             c_index = 0;
             roundorder.Clear();
             roundorder.Capacity = total;
-            for (int i = 0; i < total; i++)
+            for (var i = 0; i < total; i++)
             {
                 if (i != lastroundorder)
                 {
@@ -170,11 +168,11 @@ namespace ImoutoDesktop.MisakaSharp
             {
                 return;
             }
-            int length = shuffle.Count - 1;
-            for (int i = 1; i < length; ++i)
+            var length = shuffle.Count - 1;
+            for (var i = 1; i < length; ++i)
             {
-                T temp = shuffle[i];
-                int index = vm.Random.Next(i + 1);
+                var temp = shuffle[i];
+                var index = vm.Random.Next(i + 1);
                 shuffle[i] = shuffle[index];
                 shuffle[index] = temp;
             }

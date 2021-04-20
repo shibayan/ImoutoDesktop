@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using ImoutoDesktop.IO;
@@ -25,8 +17,8 @@ namespace ImoutoDesktop.Windows
             InitializeComponent();
         }
 
-        private bool isInitialized = false;
-        private Point prevMousePosition;
+        private bool _isInitialized;
+        private Point _prevMousePosition;
 
         public Context Context { get; set; }
 
@@ -39,7 +31,7 @@ namespace ImoutoDesktop.Windows
         }
 
         private static readonly DependencyPropertyKey SurfacePropertyKey =
-            DependencyProperty.RegisterReadOnly("Surface", typeof(Surface), typeof(ImoutoWindow), new PropertyMetadata());
+            DependencyProperty.RegisterReadOnly(nameof(Surface), typeof(Surface), typeof(ImoutoWindow), new PropertyMetadata());
 
         public static readonly DependencyProperty SurfaceProperty = SurfacePropertyKey.DependencyProperty;
 
@@ -49,10 +41,10 @@ namespace ImoutoDesktop.Windows
             if (id != -1)
             {
                 Surface = Context.SurfaceLoader.Load(id);
-                if (!isInitialized)
+                if (!_isInitialized)
                 {
                     Left = SystemParameters.WorkArea.Width - ((BitmapImage)Surface.Image).PixelWidth - 1;
-                    isInitialized = true;
+                    _isInitialized = true;
                 }
                 Show();
             }
@@ -64,17 +56,17 @@ namespace ImoutoDesktop.Windows
 
         private void ImoutoWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            BalloonWindow.SizeChanged += new SizeChangedEventHandler(BalloonWindow_SizeChanged);
+            BalloonWindow.SizeChanged += BalloonWindow_SizeChanged;
         }
 
         private void ImoutoWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            BalloonWindow.SizeChanged -= new SizeChangedEventHandler(BalloonWindow_SizeChanged);
+            BalloonWindow.SizeChanged -= BalloonWindow_SizeChanged;
         }
 
         private void ImoutoWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            prevMousePosition = PointToScreen(e.GetPosition(this));
+            _prevMousePosition = PointToScreen(e.GetPosition(this));
             CaptureMouse();
         }
 
@@ -84,6 +76,7 @@ namespace ImoutoDesktop.Windows
             {
                 ReleaseMouseCapture();
             }
+
             // バルーンをアクティブにする
             BalloonWindow.Activate();
         }
@@ -91,15 +84,17 @@ namespace ImoutoDesktop.Windows
         private void ImoutoWindow_MouseMove(object sender, MouseEventArgs e)
         {
             var position = PointToScreen(e.GetPosition(this));
-            if (position == prevMousePosition)
+
+            if (position == _prevMousePosition)
             {
                 return;
             }
+
             if (IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed)
             {
-                Left = Left + position.X - prevMousePosition.X;
+                Left = Left + position.X - _prevMousePosition.X;
                 Top = SystemParameters.WorkArea.Height - ActualHeight - 1;
-                prevMousePosition = position;
+                _prevMousePosition = position;
             }
         }
 

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 using ImoutoDesktop.IO;
+using ImoutoDesktop.MisakaSharp;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Windows;
-
-using ImoutoDesktop.MisakaSharp;
 
 namespace ImoutoDesktop
 {
@@ -184,9 +181,9 @@ namespace ImoutoDesktop
                 // コマンド実行前準備
                 var canExecute = command.PreExecute(input);
                 // スクリプトを実行
-                string id = "On" + (command.EventID ?? command.GetType().Name) + (!canExecute ? "Failure" : "");
+                var id = "On" + (command.EventID ?? command.GetType().Name) + (!canExecute ? "Failure" : "");
                 string message = null;
-                string result = ScriptEngine.Invoke(id, command.Parameters);
+                var result = ScriptEngine.Invoke(id, command.Parameters);
                 // 実際にコマンドを実行するか判別
                 if (!ScriptEngine.Reject && canExecute)
                 {
@@ -217,7 +214,7 @@ namespace ImoutoDesktop
             else
             {
                 // コマンドが存在しない
-                string result = ScriptEngine.Invoke("OnUnknownCommand", input);
+                var result = ScriptEngine.Invoke("OnUnknownCommand", input);
                 // いもうとの反応を追加する
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -291,13 +288,13 @@ namespace ImoutoDesktop
 
         private void VersionCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Assembly assembly = Assembly.GetEntryAssembly();
-            object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+            var assembly = Assembly.GetEntryAssembly();
+            var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
             if (attributes != null && attributes.Length > 0)
             {
-                string title = ((AssemblyTitleAttribute)attributes[0]).Title;
+                var title = ((AssemblyTitleAttribute)attributes[0]).Title;
                 MessageBox.Show(
-                    string.Format("{0} ver.{1}", title, APP_VERSION),
+                    $"{title} ver.{APP_VERSION}",
                     "バージョン情報",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }

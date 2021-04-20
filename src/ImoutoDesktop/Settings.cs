@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 
 namespace ImoutoDesktop
 {
@@ -61,7 +57,7 @@ namespace ImoutoDesktop
         {
             try
             {
-                using (FileStream fs = File.Open(path, FileMode.Open))
+                using (var fs = File.Open(path, FileMode.Open))
                 {
                     Default = Serializer<Settings>.Deserialize(fs);
                 }
@@ -81,7 +77,7 @@ namespace ImoutoDesktop
 
         public static void Save(string path)
         {
-            using (FileStream fs = File.Open(path, FileMode.Create))
+            using (var fs = File.Open(path, FileMode.Create))
             {
                 Serializer<Settings>.Serialize(fs, Default);
             }

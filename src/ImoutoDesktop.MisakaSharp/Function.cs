@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -51,28 +50,28 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>関数の実行結果。</returns>
         public Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            int count = statements.Count;
-            for (int i = 0; i < count; i++)
+            var count = statements.Count;
+            for (var i = 0; i < count; i++)
             {
                 selector.Append(i);
             }
-            int[] lines = selector.Output(vm);
+            var lines = selector.Output(vm);
             if (lines == null)
             {
                 return new Value();
             }
-            int length = lines.Length;
+            var length = lines.Length;
             if (length == 1)
             {
-                Value retval = ExecuteStatement(lines[0], vm, lv);
+                var retval = ExecuteStatement(lines[0], vm, lv);
                 return retval;
             }
             else
             {
-                StringBuilder result = new StringBuilder();
-                for (int i = 0; i < length; i++)
+                var result = new StringBuilder();
+                for (var i = 0; i < length; i++)
                 {
-                    Value retval = ExecuteStatement(lines[i], vm, lv);
+                    var retval = ExecuteStatement(lines[i], vm, lv);
                     if (retval != null && retval.ValueType != ValueType.Void)
                     {
                         result.Append(retval.ToString());
@@ -90,19 +89,19 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>ステートメントの実行結果。</returns>
         private Value ExecuteStatement(int line, MisakaVM vm, LocalVariables lv)
         {
-            int length = statements[line].Length;
+            var length = statements[line].Length;
             if (length == 1)
             {
                 // ステートメントがひとつなら型は保護される
-                Value retval = statements[line][0].Evaluate(vm, lv);
+                var retval = statements[line][0].Evaluate(vm, lv);
                 return retval;
             }
             else
             {
-                StringBuilder result = new StringBuilder();
-                for (int i = 0; i < length; i++)
+                var result = new StringBuilder();
+                for (var i = 0; i < length; i++)
                 {
-                    Value retval = statements[line][i].Evaluate(vm, lv);
+                    var retval = statements[line][i].Evaluate(vm, lv);
                     if (retval != null && retval.ValueType != ValueType.Void)
                     {
                         result.Append(retval.ToString());
@@ -120,11 +119,11 @@ namespace ImoutoDesktop.MisakaSharp
         /// <returns>実行可能かを示す値。</returns>
         public bool IsExecutable(MisakaVM vm, LocalVariables lv)
         {
-            int length = expressions.Count;
-            for (int i = 0; i < length; ++i)
+            var length = expressions.Count;
+            for (var i = 0; i < length; ++i)
             {
                 // 採用条件式を評価する
-                Value value = expressions[i].Evaluate(vm, lv);
+                var value = expressions[i].Evaluate(vm, lv);
                 if (!value.ToBoolean())
                 {
                     // 1つでもfalseがあると実行できない
@@ -227,7 +226,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return argv[0].Clone();
         }
     }
@@ -236,8 +235,8 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            int index = vm.Random.Next(argv.Count);
+            var argv = lv.GetVariable("argv");
+            var index = vm.Random.Next(argv.Count);
             return argv[index];
         }
     }
@@ -246,7 +245,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(argv[0].Count);
         }
     }
@@ -255,7 +254,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Path.GetFileName(argv[0].ToString()));
         }
     }
@@ -264,9 +263,9 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            int index = argv[1].ToInt32();
-            string[] tokens = argv[0].ToString().Split(',');
+            var argv = lv.GetVariable("argv");
+            var index = argv[1].ToInt32();
+            var tokens = argv[0].ToString().Split(',');
             if (tokens.Length > index)
             {
                 return new Value(tokens[index]);
@@ -279,9 +278,9 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            int index = argv[1].ToInt32();
-            string[] tokens = argv[0].ToString().Split('\x1');
+            var argv = lv.GetVariable("argv");
+            var index = argv[1].ToInt32();
+            var tokens = argv[0].ToString().Split('\x1');
             if (tokens.Length > index)
             {
                 return new Value(tokens[index]);
@@ -302,7 +301,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(argv[1].ToString().IndexOf(argv[0].ToString()));
         }
     }
@@ -311,7 +310,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(argv[1].ToString().LastIndexOf(argv[0].ToString()));
         }
     }
@@ -320,9 +319,9 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            string text = argv[0].ToString();
-            for (int i = 1; i < argv.Count; i++)
+            var argv = lv.GetVariable("argv");
+            var text = argv[0].ToString();
+            for (var i = 1; i < argv.Count; i++)
             {
                 if (text.IndexOf(argv[i].ToString()) == -1)
                 {
@@ -337,9 +336,9 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            string first = argv[0].ToString();
-            string second = argv[1].ToString();
+            var argv = lv.GetVariable("argv");
+            var first = argv[0].ToString();
+            var second = argv[1].ToString();
             return new Value(first[first.Length - 1] == second[0]);
         }
     }
@@ -348,7 +347,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(argv[0].ToString().Length);
         }
     }
@@ -357,7 +356,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(vm.Random.Next(argv[0].ToInt32()));
         }
     }
@@ -366,8 +365,8 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            int index = argv[0].ToInt32();
+            var argv = lv.GetVariable("argv");
+            var index = argv[0].ToInt32();
             if (vm.Parameter != null && vm.Parameter.Length > index)
             {
                 return new Value(vm.Parameter[index]);
@@ -380,7 +379,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return base.Execute(vm, lv);
         }
     }
@@ -397,10 +396,10 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            string str = argv[0].ToString();
-            int offset = argv[1].ToInt32();
-            int count = argv[2].ToInt32();
+            var argv = lv.GetVariable("argv");
+            var str = argv[0].ToString();
+            var offset = argv[1].ToInt32();
+            var count = argv[2].ToInt32();
             return new Value(str.Substring(offset, count));
         }
     }
@@ -409,8 +408,8 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            string str = argv[0].ToString();
+            var argv = lv.GetVariable("argv");
+            var str = argv[0].ToString();
             return new Value(str.Substring(0, 1));
         }
     }
@@ -419,9 +418,9 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            string str = argv[0].ToString();
-            int count = argv[1].ToInt32();
+            var argv = lv.GetVariable("argv");
+            var str = argv[0].ToString();
+            var count = argv[1].ToInt32();
             return new Value(str.Substring(0, count));
         }
     }
@@ -430,8 +429,8 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            string str = argv[0].ToString();
+            var argv = lv.GetVariable("argv");
+            var str = argv[0].ToString();
             return new Value(str.Substring(str.Length - 1, 1));
         }
     }
@@ -440,9 +439,9 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
-            string str = argv[0].ToString();
-            int count = argv[1].ToInt32();
+            var argv = lv.GetVariable("argv");
+            var str = argv[0].ToString();
+            var count = argv[1].ToInt32();
             return new Value(str.Substring(str.Length - count, count));
         }
     }
@@ -451,7 +450,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Sin(argv[0].ToDouble()));
         }
     }
@@ -460,7 +459,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Cos(argv[0].ToDouble()));
         }
     }
@@ -469,7 +468,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Tan(argv[0].ToDouble()));
         }
     }
@@ -478,7 +477,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Asin(argv[0].ToDouble()));
         }
     }
@@ -487,7 +486,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Acos(argv[0].ToDouble()));
         }
     }
@@ -496,7 +495,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Atan(argv[0].ToDouble()));
         }
     }
@@ -505,7 +504,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Sinh(argv[0].ToDouble()));
         }
     }
@@ -514,7 +513,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Cosh(argv[0].ToDouble()));
         }
     }
@@ -523,7 +522,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Tanh(argv[0].ToDouble()));
         }
     }
@@ -532,7 +531,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Abs(argv[0].ToInt32()));
         }
     }
@@ -541,7 +540,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Sqrt(argv[0].ToDouble()));
         }
     }
@@ -550,7 +549,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Exp(argv[0].ToDouble()));
         }
     }
@@ -559,7 +558,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Log(argv[0].ToDouble()));
         }
     }
@@ -568,7 +567,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(Math.Log10(argv[0].ToDouble()));
         }
     }
@@ -577,7 +576,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(argv.ToArray());
         }
     }
@@ -586,7 +585,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(argv[0].ToString().ToLowerInvariant());
         }
     }
@@ -595,7 +594,7 @@ namespace ImoutoDesktop.MisakaSharp
     {
         public override Value Execute(MisakaVM vm, LocalVariables lv)
         {
-            Value argv = lv.GetVariable("argv");
+            var argv = lv.GetVariable("argv");
             return new Value(argv[0].ToString().ToUpperInvariant());
         }
     }

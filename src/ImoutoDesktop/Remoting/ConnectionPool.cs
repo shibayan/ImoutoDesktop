@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
-using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ImoutoDesktop.Remoting
 {
     static class ConnectionPool
     {
-        static ConnectionPool()
-        {
-        }
-
-        private static IChannel _channel = null;
-        private static IRemoteService _connection = null;
+        private static IChannel _channel;
+        private static IRemoteService _connection;
 
         public static IRemoteService Connection
         {
@@ -54,16 +48,16 @@ namespace ImoutoDesktop.Remoting
                 _channel = new TcpChannel(dic, null, null);
                 ChannelServices.RegisterChannel(_channel, true);
                 _connection = (IRemoteService)Activator.GetObject(typeof(IRemoteService),
-                    string.Format("tcp://{0}:{1}/ImoutoDesktop", address, port));
+                    $"tcp://{address}:{port}/ImoutoDesktop");
             }
             catch
             {
                 return null;
             }
             // ログインする
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
-            string digest = BitConverter.ToString(hash).Replace("-", "").ToLower();
+            var md5 = new MD5CryptoServiceProvider();
+            var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
+            var digest = BitConverter.ToString(hash).Replace("-", "").ToLower();
             return _connection.Login(digest);
         }
 

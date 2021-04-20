@@ -46,7 +46,7 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value value = expression.Evaluate(vm, lv);
+            var value = expression.Evaluate(vm, lv);
             if (value.ValueType == ValueType.Double)
             {
                 return new Value(-value.ToDouble());
@@ -64,7 +64,7 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value value = expression.Evaluate(vm, lv);
+            var value = expression.Evaluate(vm, lv);
             return new Value(!value.ToBoolean());
         }
     }
@@ -78,7 +78,7 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value value = expression.Evaluate(vm, lv);
+            var value = expression.Evaluate(vm, lv);
             return new Value(~value.ToInt32());
         }
     }
@@ -117,9 +117,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Int32:
@@ -146,9 +146,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
                 return new Value(lhs.ToDouble() - rhs.ToDouble());
@@ -166,9 +166,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
                 return new Value(lhs.ToDouble() * rhs.ToDouble());
@@ -186,12 +186,12 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
-                double d_value = rhs.ToDouble();
+                var d_value = rhs.ToDouble();
                 if (d_value != 0.0)
                 {
                     return new Value(lhs.ToDouble() / rhs.ToDouble());
@@ -199,7 +199,7 @@ namespace ImoutoDesktop.MisakaSharp
             }
             else
             {
-                int i_value = rhs.ToInt32();
+                var i_value = rhs.ToInt32();
                 if (i_value != 0)
                 {
                     return new Value(lhs.ToInt32() / rhs.ToInt32());
@@ -218,9 +218,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
                 return new Value(lhs.ToDouble() % rhs.ToDouble());
@@ -238,14 +238,14 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
                 return new Value(Math.Pow(lhs.ToDouble(), rhs.ToDouble()));
             }
-            return new Value((int)Math.Pow(lhs.ToInt32(),rhs.ToInt32()));
+            return new Value((int)Math.Pow(lhs.ToInt32(), rhs.ToInt32()));
         }
     }
 
@@ -258,9 +258,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Void:
@@ -288,9 +288,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Void:
@@ -318,9 +318,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Int32:
@@ -347,9 +347,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Int32:
@@ -373,9 +373,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Int32:
@@ -399,9 +399,9 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Int32:
@@ -425,12 +425,12 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
             if (lhs.ToBoolean())
             {
                 return new Value(true);
             }
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             return new Value(rhs.ToBoolean());
         }
     }
@@ -444,12 +444,12 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
             if (!lhs.ToBoolean())
             {
                 return new Value(false);
             }
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             return !rhs.ToBoolean() ? new Value(false) : new Value(true);
         }
     }
@@ -463,8 +463,8 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             rhs.CopyTo(lhs);
             return new Value();
         }
@@ -480,9 +480,9 @@ namespace ImoutoDesktop.MisakaSharp
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
             Value value;
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             switch (valueType)
             {
                 case ValueType.Int32:
@@ -513,9 +513,9 @@ namespace ImoutoDesktop.MisakaSharp
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
             Value value;
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
                 value = new Value(lhs.ToDouble() - rhs.ToDouble());
@@ -547,9 +547,9 @@ namespace ImoutoDesktop.MisakaSharp
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
             Value value;
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
                 value = new Value(lhs.ToDouble() * rhs.ToDouble());
@@ -573,12 +573,12 @@ namespace ImoutoDesktop.MisakaSharp
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
             Value value;
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
-            ValueType valueType = lhs.GetTypePromotion(rhs);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
+            var valueType = lhs.GetTypePromotion(rhs);
             if (valueType == ValueType.Double)
             {
-                double d_value = rhs.ToDouble();
+                var d_value = rhs.ToDouble();
                 if (d_value != 0.0)
                 {
                     value = new Value(lhs.ToDouble() / rhs.ToDouble());
@@ -587,7 +587,7 @@ namespace ImoutoDesktop.MisakaSharp
             }
             else
             {
-                int i_value = rhs.ToInt32();
+                var i_value = rhs.ToInt32();
                 if (i_value != 0)
                 {
                     value = new Value(lhs.ToInt32() / rhs.ToInt32());
@@ -607,8 +607,8 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             return new Value(lhs.ToInt32() << rhs.ToInt32());
         }
     }
@@ -622,8 +622,8 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             return new Value(lhs.ToInt32() >> rhs.ToInt32());
         }
     }
@@ -637,8 +637,8 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             return new Value(lhs.ToInt32() | rhs.ToInt32());
         }
     }
@@ -652,8 +652,8 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             return new Value(lhs.ToInt32() & rhs.ToInt32());
         }
     }
@@ -667,8 +667,8 @@ namespace ImoutoDesktop.MisakaSharp
 
         public override Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value lhs = leftExpression.Evaluate(vm, lv);
-            Value rhs = rightExpression.Evaluate(vm, lv);
+            var lhs = leftExpression.Evaluate(vm, lv);
+            var rhs = rightExpression.Evaluate(vm, lv);
             return new Value(lhs.ToInt32() ^ rhs.ToInt32());
         }
     }
@@ -684,14 +684,14 @@ namespace ImoutoDesktop.MisakaSharp
         {
             if (value.ValueType == ValueType.String)
             {
-                string[] statements = Lexer.SplitStatement(value.ToString());
-                int length = statements.Length;
-                StringBuilder result = new StringBuilder();
-                for (int i = 0; i < length; i++)
+                var statements = Lexer.SplitStatement(value.ToString());
+                var length = statements.Length;
+                var result = new StringBuilder();
+                for (var i = 0; i < length; i++)
                 {
                     if (Lexer.IsEvaluate(statements[i]))
                     {
-                        IExpression expression = vm.Parser.MakeExpression(statements[i]);
+                        var expression = vm.Parser.MakeExpression(statements[i]);
                         result.Append(expression.Evaluate(vm, lv).ToString());
                     }
                     else
@@ -716,13 +716,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            int length = statements.Length;
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < length; i++)
+            var length = statements.Length;
+            var result = new StringBuilder();
+            for (var i = 0; i < length; i++)
             {
                 if (Lexer.IsEvaluate(statements[i]))
                 {
-                    IExpression expression = vm.Parser.MakeExpression(statements[i]);
+                    var expression = vm.Parser.MakeExpression(statements[i]);
                     result.Append(expression.Evaluate(vm, lv).ToString());
                 }
                 else
@@ -730,11 +730,11 @@ namespace ImoutoDesktop.MisakaSharp
                     result.Append(statements[i]);
                 }
             }
-            int index = 0;
+            var index = 0;
             Value value;
-            string name = result.ToString();
-            string[] array = Lexer.SplitArrayIndexer(name);
-            string statement = array[0].Substring(1);
+            var name = result.ToString();
+            var array = Lexer.SplitArrayIndexer(name);
+            var statement = array[0].Substring(1);
             if (LocalVariables.IsLocalVariable(name))
             {
                 if (array.Length > 1)
@@ -787,13 +787,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            int length = statements.Length;
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < length; i++)
+            var length = statements.Length;
+            var result = new StringBuilder();
+            for (var i = 0; i < length; i++)
             {
                 if (Lexer.IsEvaluate(statements[i]))
                 {
-                    IExpression expression = vm.Parser.MakeExpression(statements[i]);
+                    var expression = vm.Parser.MakeExpression(statements[i]);
                     result.Append(expression.Evaluate(vm, lv).ToString());
                 }
                 else
@@ -801,10 +801,10 @@ namespace ImoutoDesktop.MisakaSharp
                     result.Append(statements[i]);
                 }
             }
-            int index = 0;
-            string name = result.ToString();
-            string[] array = Lexer.SplitArrayIndexer(name);
-            string statement = array[0].Substring(1);
+            var index = 0;
+            var name = result.ToString();
+            var array = Lexer.SplitArrayIndexer(name);
+            var statement = array[0].Substring(1);
             if (LocalVariables.IsLocalVariable(name))
             {
                 if (array.Length > 1)
@@ -852,13 +852,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            int length = statements.Length;
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < length; i++)
+            var length = statements.Length;
+            var result = new StringBuilder();
+            for (var i = 0; i < length; i++)
             {
                 if (Lexer.IsEvaluate(statements[i]))
                 {
-                    IExpression expression = vm.Parser.MakeExpression(statements[i]);
+                    var expression = vm.Parser.MakeExpression(statements[i]);
                     result.Append(expression.Evaluate(vm, lv).ToString());
                 }
                 else
@@ -867,11 +867,11 @@ namespace ImoutoDesktop.MisakaSharp
                 }
             }
             // 関数名を確定する
-            string statement = result.ToString();
+            var statement = result.ToString();
             // 引数を評価する
             length = expressions.Length;
-            Value[] values = new Value[length];
-            for (int i = 0; i < length; i++)
+            var values = new Value[length];
+            for (var i = 0; i < length; i++)
             {
                 values[i] = expressions[i].Evaluate(vm, lv);
             }
@@ -895,13 +895,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            int length = expressions.Length;
+            var length = expressions.Length;
             if (length == 1 && !expressions[0].IsHaveStatements())
             {
                 // 処理部省略のとき
                 return new Value(expressions[0].IsExecutable(vm, lv));
             }
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 if (expressions[i].IsExecutable(vm, lv))
                 {
@@ -916,7 +916,7 @@ namespace ImoutoDesktop.MisakaSharp
 
     class IfSubExpression : IExpression
     {
-        public IfSubExpression(IExpression expression,IExpression[] statements)
+        public IfSubExpression(IExpression expression, IExpression[] statements)
         {
             this.expression = expression;
             this.statements = statements;
@@ -924,15 +924,15 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            int length = statements.Length;
+            var length = statements.Length;
             if (length == 1)
             {
                 return statements[0].Evaluate(vm, lv);
             }
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < length; i++)
+            var result = new StringBuilder();
+            for (var i = 0; i < length; i++)
             {
-                Value retval = statements[i].Evaluate(vm, lv);
+                var retval = statements[i].Evaluate(vm, lv);
                 if (retval != null && retval.ValueType != ValueType.Void)
                 {
                     result.Append(retval.ToString());
@@ -965,13 +965,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            int length = statements.Length;
-            StringBuilder result = new StringBuilder();
+            var length = statements.Length;
+            var result = new StringBuilder();
             while (expression.Evaluate(vm, lv).ToBoolean())
             {
-                for (int i = 0; i < length; ++i)
+                for (var i = 0; i < length; ++i)
                 {
-                    Value retval = statements[i].Evaluate(vm, lv);
+                    var retval = statements[i].Evaluate(vm, lv);
                     if (retval != null && retval.ValueType != ValueType.Void)
                     {
                         result.Append(retval.ToString());
@@ -995,13 +995,13 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            int length = statements.Length;
-            StringBuilder result = new StringBuilder();
+            var length = statements.Length;
+            var result = new StringBuilder();
             for (expressions[0].Evaluate(vm, lv); expressions[1].Evaluate(vm, lv).ToBoolean(); expressions[2].Evaluate(vm, lv))
             {
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
                 {
-                    Value retval = statements[i].Evaluate(vm, lv);
+                    var retval = statements[i].Evaluate(vm, lv);
                     if (retval != null && retval.ValueType != ValueType.Void)
                     {
                         result.Append(retval.ToString());
@@ -1025,16 +1025,16 @@ namespace ImoutoDesktop.MisakaSharp
 
         public Value Evaluate(MisakaVM vm, LocalVariables lv)
         {
-            Value var = expressions[0].Evaluate(vm, lv);
-            List<Value> Array = expressions[1].Evaluate(vm, lv).ToArray();
-            int length = statements.Length;
-            StringBuilder result = new StringBuilder();
-            foreach (Value temp in Array)
+            var var = expressions[0].Evaluate(vm, lv);
+            var Array = expressions[1].Evaluate(vm, lv).ToArray();
+            var length = statements.Length;
+            var result = new StringBuilder();
+            foreach (var temp in Array)
             {
                 temp.CopyTo(var);
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
                 {
-                    Value retval = statements[i].Evaluate(vm, lv);
+                    var retval = statements[i].Evaluate(vm, lv);
                     if (retval != null && retval.ValueType != ValueType.Void)
                     {
                         result.Append(retval.ToString());

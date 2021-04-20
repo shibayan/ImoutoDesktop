@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ImoutoDesktop.MisakaSharp
@@ -71,12 +69,12 @@ namespace ImoutoDesktop.MisakaSharp
         public Value ExecFunction(MisakaVM vm, string name, params Value[] values)
         {
             // ローカル変数を作成
-            LocalVariables lv = new LocalVariables();
+            var lv = new LocalVariables();
             // 引数を作成する
-            Value argv = new Value(values);
+            var argv = new Value(values);
             lv.AddVariable("argv", argv);
             // 引数の数を保存する
-            Value argc = new Value(values.Length);
+            var argc = new Value(values.Length);
             lv.AddVariable("argc", argc);
             // まずシステム関数を優先する
             if (systemFunctions.ContainsKey(name))
@@ -84,8 +82,8 @@ namespace ImoutoDesktop.MisakaSharp
                 return systemFunctions[name].Execute(vm, lv);
             }
             // その後にユーザー登録関数から検索する
-            List<IFunction> function = new List<IFunction>(functions[name]);
-            for (int i = 0; i < function.Count; i++)
+            var function = new List<IFunction>(functions[name]);
+            for (var i = 0; i < function.Count; i++)
             {
                 if (!function[i].IsExecutable(vm, lv))
                 {
@@ -106,22 +104,22 @@ namespace ImoutoDesktop.MisakaSharp
         public Value SearchFunction(MisakaVM vm, params string[] patterns)
         {
             // ローカル変数を作成
-            LocalVariables lv = new LocalVariables();
+            var lv = new LocalVariables();
             // ユーザー登録関数から検索する
-            IList<string> keys = functions.Keys;
-            List<IFunction> function = new List<IFunction>();
-            int length = keys.Count;
-            for (int i = 0; i < length; i++)
+            var keys = functions.Keys;
+            var function = new List<IFunction>();
+            var length = keys.Count;
+            for (var i = 0; i < length; i++)
             {
-                for (int j = 0; j < patterns.Length; j++)
+                for (var j = 0; j < patterns.Length; j++)
                 {
                     if (!Regex.IsMatch(keys[i], patterns[j]))
                     {
                     }
                 }
             }
-            int count = function.Count;
-            for (int i = 0; i < count; i++)
+            var count = function.Count;
+            for (var i = 0; i < count; i++)
             {
                 if (!function[i].IsExecutable(vm, lv))
                 {

@@ -13,14 +13,14 @@ namespace ImoutoDesktop.Server
 {
     public class RemoteService : MarshalByRefObject, IRemoteService
     {
-        private bool isLogined = false;
+        private bool isLogined;
 
         public bool Login(string password)
         {
             // ログインする
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] hash = md5.ComputeHash(Encoding.ASCII.GetBytes(Settings.Default.Password));
-            string masterPassword = BitConverter.ToString(hash).Replace("-", "").ToLower();
+            var md5 = new MD5CryptoServiceProvider();
+            var hash = md5.ComputeHash(Encoding.ASCII.GetBytes(Settings.Default.Password));
+            var masterPassword = BitConverter.ToString(hash).Replace("-", "").ToLower();
             if (masterPassword == password)
             {
                 isLogined = true;
@@ -144,16 +144,16 @@ namespace ImoutoDesktop.Server
             }
             return (string)Form1.Form.Invoke((RemoteInvoker)delegate
             {
-                ProcessStartInfo psi = new ProcessStartInfo();
+                var psi = new ProcessStartInfo();
                 psi.FileName = Environment.GetEnvironmentVariable("ComSpec");
                 psi.RedirectStandardInput = false;
                 psi.RedirectStandardOutput = true;
                 psi.UseShellExecute = false;
                 psi.CreateNoWindow = true;
                 psi.WorkingDirectory = Environment.CurrentDirectory;
-                psi.Arguments = string.Format("/c {0}", command);
-                Process process = Process.Start(psi);
-                string result = process.StandardOutput.ReadToEnd();
+                psi.Arguments = $"/c {command}";
+                var process = Process.Start(psi);
+                var result = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
                 return result;
             });
@@ -169,7 +169,7 @@ namespace ImoutoDesktop.Server
             }
             try
             {
-                Process process = (Process)Form1.Form.Invoke((RemoteInvoker)delegate
+                var process = (Process)Form1.Form.Invoke((RemoteInvoker)delegate
                 {
                     return Process.Start(fileName, argument);
                 });
@@ -245,7 +245,7 @@ namespace ImoutoDesktop.Server
                         return true;
                     }
                 }
-                bool result = false;
+                var result = false;
                 foreach (var item in Process.GetProcessesByName(name))
                 {
                     item.Kill();
@@ -310,18 +310,18 @@ namespace ImoutoDesktop.Server
             {
                 return null;
             }
-            double rate = (double)Screen.PrimaryScreen.Bounds.Height / (double)Screen.PrimaryScreen.Bounds.Width;
-            Bitmap temp = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            Graphics g = Graphics.FromImage(temp);
+            var rate = (double)Screen.PrimaryScreen.Bounds.Height / (double)Screen.PrimaryScreen.Bounds.Width;
+            var temp = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            var g = Graphics.FromImage(temp);
             g.CopyFromScreen(new Point(0, 0), new Point(0, 0), temp.Size);
             g.Dispose();
-            Bitmap bitmap = new Bitmap(width, (int)(rate * width));
+            var bitmap = new Bitmap(width, (int)(rate * width));
             g = Graphics.FromImage(bitmap);
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             g.DrawImage(temp, new Rectangle(0, 0, bitmap.Width, bitmap.Height), 0, 0, temp.Width, temp.Height, GraphicsUnit.Pixel);
             g.Dispose();
             temp.Dispose();
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
             bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             return stream;
         }
@@ -352,9 +352,9 @@ namespace ImoutoDesktop.Server
             {
                 return DirectoryType.None;
             }
-            int count = 0;
-            int filecount = 0;
-            Dictionary<DirectoryType, int> types = new Dictionary<DirectoryType, int>();
+            var count = 0;
+            var filecount = 0;
+            var types = new Dictionary<DirectoryType, int>();
             foreach (var item in Directory.GetFiles(directory))
             {
                 DirectoryType type;
@@ -374,7 +374,7 @@ namespace ImoutoDesktop.Server
             }
             if (filecount == 0)
             {
-                string[] temp = Directory.GetDirectories(directory);
+                var temp = Directory.GetDirectories(directory);
                 if (temp.Length == 0)
                 {
                     return DirectoryType.Empty;
@@ -390,12 +390,12 @@ namespace ImoutoDesktop.Server
             }
             else
             {
-                List<KeyValuePair<int, DirectoryType>> values = new List<KeyValuePair<int, DirectoryType>>();
+                var values = new List<KeyValuePair<int, DirectoryType>>();
                 foreach (var item in types)
                 {
                     values.Add(new KeyValuePair<int, DirectoryType>(item.Value, item.Key));
                 }
-                values.Sort(delegate(KeyValuePair<int, DirectoryType> left, KeyValuePair<int, DirectoryType> right) { return Comparer<int>.Default.Compare(right.Key, left.Key); });
+                values.Sort(delegate (KeyValuePair<int, DirectoryType> left, KeyValuePair<int, DirectoryType> right) { return Comparer<int>.Default.Compare(right.Key, left.Key); });
                 return values[0].Value;
             }
         }

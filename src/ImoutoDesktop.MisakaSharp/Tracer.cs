@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -42,7 +41,7 @@ namespace ImoutoDesktop.MisakaSharp
             writer.WriteLine(value);
         }
 
-        public void WriteLine(string format,params object[] arg)
+        public void WriteLine(string format, params object[] arg)
         {
             writer.WriteLine(format, arg);
         }

@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ImoutoDesktop="clr-namespace:ImoutoDesktop"
     xmlns:ImoutoDesktop_Controls="clr-namespace:ImoutoDesktop.Controls"
-    Width="{Binding ElementName=baseImage, Path=ActualWidth}" Height="{Binding ElementName=baseImage, Path=ActualHeight}"
     Topmost="{Binding Path=Topmost, Source={x:Static ImoutoDesktop:Settings.Default}}"
     DataContext="{Binding RelativeSource={RelativeSource self}, Path=Balloon}"
     AllowsTransparency="True" Background="Transparent" WindowStyle="None" ShowInTaskbar="False" ShowActivated="False"
@@ -37,7 +36,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
     <Grid>
-        <Image x:Name="baseImage" Stretch="None" Source="{Binding Path=Image}" />
+        <Image x:Name="baseImage" Stretch="None" Source="{Binding Path=Image}" SizeChanged="BaseImage_SizeChanged" />
         <Grid Margin="15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

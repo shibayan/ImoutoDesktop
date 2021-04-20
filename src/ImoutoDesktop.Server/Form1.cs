@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Data;
-using System.Drawing;
 using System.Net;
-using System.Text;
-using System.Windows.Forms;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Lifetime;
+using System.Windows.Forms;
 
 namespace ImoutoDesktop.Server
 {
@@ -40,7 +36,7 @@ namespace ImoutoDesktop.Server
             var addresses = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (var address in addresses)
             {
-                if (!address.IsIPv6LinkLocal && !address.IsIPv6Multicast && !address.IsIPv6SiteLocal)
+                if (address.AddressFamily == AddressFamily.InterNetwork)
                 {
                     label6.Text = address.ToString();
                     break;
@@ -50,7 +46,7 @@ namespace ImoutoDesktop.Server
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            int port = 1024;
+            var port = 1024;
             if (int.TryParse(textBox1.Text, out port))
             {
                 Settings.Default.PortNumber = port;

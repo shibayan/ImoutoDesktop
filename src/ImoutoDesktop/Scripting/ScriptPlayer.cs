@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
-using System.Windows.Threading;
 using System.Windows.Media;
-
-using ImoutoDesktop.Windows;
+using System.Windows.Threading;
 
 namespace ImoutoDesktop.Scripting
 {
@@ -29,7 +25,7 @@ namespace ImoutoDesktop.Scripting
 
         private readonly Queue<Script> _queue = new Queue<Script>();
 
-        private bool _isAbort = false;
+        private bool _isAbort;
 
         public void Play(Script script)
         {
@@ -81,12 +77,12 @@ namespace ImoutoDesktop.Scripting
 
         private void PlayThread()
         {
-            bool isClosed = false;
+            var isClosed = false;
             while (!_isAbort)
             {
-                int queueCount = 0;
-                bool isInitialized = false;
-                bool isQuickSession = false;
+                var queueCount = 0;
+                var isInitialized = false;
+                var isQuickSession = false;
                 Script script;
                 lock (_syncLock)
                 {
@@ -106,10 +102,10 @@ namespace ImoutoDesktop.Scripting
                 }
                 var imoutoWindow = _context.ImoutoWindow;
                 var balloonWindow = _context.BalloonWindow;
-                IEnumerator<Token> e = script.GetEnumerator();
+                var e = script.GetEnumerator();
                 while (e.MoveNext())
                 {
-                    Token token = e.Current;
+                    var token = e.Current;
                     switch (token.Kind)
                     {
                         case TokenKind.Text:

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
-using System.Reflection;
 
-using ImoutoDesktop.IO;
 using ImoutoDesktop.Commands;
+using ImoutoDesktop.IO;
 
 namespace ImoutoDesktop
 {
@@ -26,25 +23,32 @@ namespace ImoutoDesktop
                 Shutdown();
                 return;
             }
+
 #if DEBUG
-            RootDirectory = @"C:\Users\しばやん\Documents\Visual Studio 2008\Projects\ImoutoDesktop";
+            RootDirectory = @"C:\Users\shibayan\Documents\GitHub\ImoutoDesktop\resource";
 #else
             var assembly = Assembly.GetEntryAssembly();
             RootDirectory = Path.GetDirectoryName(assembly.Location);
 #endif
+
             // 設定ファイルを読み込む
             Settings.Load(Path.Combine(RootDirectory, "settings.xml"));
+
             // インストールされているいもうとを読み込む
             CharacterManager.Rebuild(Path.Combine(RootDirectory, "characters"));
+
             // インストールされているバルーンを読み込む
             BalloonManager.Rebuild(Path.Combine(RootDirectory, "balloons"));
+
             // コマンドライブラリを読み込む
             CommandManager.Rebuild(Path.Combine(RootDirectory, "commands"));
+
             // テンポラリディレクトリを作成
             if (!Directory.Exists(Path.Combine(RootDirectory, "temp")))
             {
                 Directory.CreateDirectory(Path.Combine(RootDirectory, "temp"));
             }
+
             // 起動条件を満たしているか確認する
             if (CharacterManager.Characters.Count == 0 || BalloonManager.Balloons.Count == 0)
             {
@@ -54,21 +58,21 @@ namespace ImoutoDesktop
                 Shutdown();
                 return;
             }
+
             // コンテキストを作成して、いもうとを起動
             Context context = null;
+
             if (Settings.Default.LastCharacter.HasValue)
             {
                 context = Context.Create(Settings.Default.LastCharacter.Value);
             }
+
             if (context == null)
             {
                 // デフォルト「さくら」がいるか確認する
-                context = Context.Create(_default);
-                if (context == null)
-                {
-                    context = Context.Create(CharacterManager.Characters.ElementAt(0).Key);
-                }
+                context = Context.Create(_default) ?? Context.Create(CharacterManager.Characters.ElementAt(0).Key);
             }
+
             context.Run();
         }
 
@@ -80,10 +84,12 @@ namespace ImoutoDesktop
         private void App_Exit(object sender, ExitEventArgs e)
         {
             CommandManager.Shutdown();
+
             if (!string.IsNullOrEmpty(RootDirectory))
             {
                 Settings.Save(Path.Combine(RootDirectory, "settings.xml"));
             }
+
             _mutex.Close();
         }
     }

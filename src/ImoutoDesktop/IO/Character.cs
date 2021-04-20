@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
-
-using ImoutoDesktop;
 
 namespace ImoutoDesktop.IO
 {
@@ -27,7 +22,7 @@ namespace ImoutoDesktop.IO
                 if (_id != value)
                 {
                     _id = value;
-                    OnPropertyChanged("ID");
+                    OnPropertyChanged(nameof(ID));
                 }
             }
         }
@@ -42,7 +37,7 @@ namespace ImoutoDesktop.IO
                 if (_name != value)
                 {
                     _name = value;
-                    OnPropertyChanged("Name");
+                    OnPropertyChanged(nameof(Name));
                 }
             }
         }
@@ -56,7 +51,7 @@ namespace ImoutoDesktop.IO
             set
             {
                 _canSelect = value;
-                OnPropertyChanged("CanSelect");
+                OnPropertyChanged(nameof(CanSelect));
             }
         }
 
@@ -75,7 +70,7 @@ namespace ImoutoDesktop.IO
                 if (_directory != value)
                 {
                     _directory = value;
-                    OnPropertyChanged("Directory");
+                    OnPropertyChanged(nameof(Directory));
                 }
             }
         }

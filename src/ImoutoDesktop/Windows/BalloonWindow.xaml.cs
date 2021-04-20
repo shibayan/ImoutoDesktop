@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 using ImoutoDesktop.Controls;
 using ImoutoDesktop.IO;
@@ -25,14 +17,14 @@ namespace ImoutoDesktop.Windows
         {
             InitializeComponent();
         }
-        
-        private bool isDragging = false;
-        private Point dragStartPosition;
-        private Point prevMousePosition;
+
+        private bool _isDragging;
+        private Point _dragStartPosition;
+        private Point _prevMousePosition;
 
         public Context Context { get; set; }
 
-        private Point _locationOffset = new Point();
+        private Point _locationOffset;
 
         public Point LocationOffset
         {
@@ -47,7 +39,7 @@ namespace ImoutoDesktop.Windows
         }
 
         public static readonly DependencyProperty BalloonProperty =
-            DependencyProperty.Register("Balloon", typeof(Balloon), typeof(BalloonWindow));
+            DependencyProperty.Register(nameof(Balloon), typeof(Balloon), typeof(BalloonWindow));
 
         public TextViewer TextViewer
         {
@@ -61,9 +53,9 @@ namespace ImoutoDesktop.Windows
 
         private void BalloonWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            isDragging = false;
-            dragStartPosition = PointToScreen(e.GetPosition(this));
-            prevMousePosition = dragStartPosition;
+            _isDragging = false;
+            _dragStartPosition = PointToScreen(e.GetPosition(this));
+            _prevMousePosition = _dragStartPosition;
             Mouse.Capture(this, CaptureMode.SubTree);
         }
 
@@ -73,26 +65,26 @@ namespace ImoutoDesktop.Windows
             {
                 ReleaseMouseCapture();
             }
-            if (isDragging)
+            if (_isDragging)
             {
-                _locationOffset.X += prevMousePosition.X - dragStartPosition.X;
-                _locationOffset.Y += prevMousePosition.Y - dragStartPosition.Y;
+                _locationOffset.X += _prevMousePosition.X - _dragStartPosition.X;
+                _locationOffset.Y += _prevMousePosition.Y - _dragStartPosition.Y;
             }
         }
 
         private void BalloonWindow_MouseMove(object sender, MouseEventArgs e)
         {
             var position = PointToScreen(e.GetPosition(this));
-            if (position == prevMousePosition)
+            if (position == _prevMousePosition)
             {
                 return;
             }
             if (IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed)
             {
-                isDragging = true;
-                Left = Left + position.X - prevMousePosition.X;
-                Top = Top + position.Y - prevMousePosition.Y;
-                prevMousePosition = position;
+                _isDragging = true;
+                Left = Left + position.X - _prevMousePosition.X;
+                Top = Top + position.Y - _prevMousePosition.Y;
+                _prevMousePosition = position;
             }
         }
 
@@ -118,13 +110,14 @@ namespace ImoutoDesktop.Windows
 
         private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            int index = Context.HistoryIndex;
-            int count = Context.CommandHistory.Count;
+            var index = Context.HistoryIndex;
+            var count = Context.CommandHistory.Count;
             if (count == 0)
             {
                 return;
             }
             var textBox = (TextBox)sender;
+
             if (e.Key == Key.Up)
             {
                 if (index <= 0)
@@ -157,7 +150,14 @@ namespace ImoutoDesktop.Windows
                 textBox.SelectAll();
                 e.Handled = true;
             }
+
             Context.HistoryIndex = index;
+        }
+
+        private void BaseImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Width = baseImage.ActualWidth;
+            Height = baseImage.ActualHeight;
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.MisakaSharp
 {
@@ -15,16 +14,16 @@ namespace ImoutoDesktop.MisakaSharp
 
         public void LoadSettings(string path)
         {
-            using (StreamReader reader = new StreamReader(path, Encoding.Default))
+            using (var reader = new StreamReader(path, Encoding.Default))
             {
                 while (reader.Peek() != -1)
                 {
-                    string line = reader.ReadLine().Trim();
+                    var line = reader.ReadLine().Trim();
                     if (line.Length == 0)
                     {
                         continue;
                     }
-                    string[] token = line.Split(',');
+                    var token = line.Split(',');
                     if (token[0] == "dictionary")
                     {
                         while (reader.Peek() != -1)

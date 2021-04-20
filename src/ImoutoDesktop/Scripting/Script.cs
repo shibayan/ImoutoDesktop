@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows.Media;
 
@@ -8,10 +7,6 @@ namespace ImoutoDesktop.Scripting
 {
     public class Script : IEnumerable<Token>
     {
-        public Script()
-        {
-        }
-
         private string _script;
 
         private StringBuilder _buffer = new StringBuilder();
@@ -48,7 +43,7 @@ namespace ImoutoDesktop.Scripting
             }
             else
             {
-                _buffer.Append(string.Format(@"\q{0}\n\q", text));
+                _buffer.Append($@"\q{text}\n\q");
             }
         }
 
@@ -71,7 +66,7 @@ namespace ImoutoDesktop.Scripting
             }
             else
             {
-                _buffer.Append(string.Format(@"\q{0}\n\q", string.Format(text, args)));
+                _buffer.Append($@"\q{string.Format(text, args)}\n\q");
             }
         }
 
@@ -93,8 +88,8 @@ namespace ImoutoDesktop.Scripting
         private string[] Split(string text)
         {
             int i;
-            int previndex = 0;
-            List<string> token = new List<string>();
+            var previndex = 0;
+            var token = new List<string>();
             for (i = 0; i < text.Length; i++)
             {
                 if (text[i] == '\\')
@@ -122,9 +117,9 @@ namespace ImoutoDesktop.Scripting
                 param = null;
                 return false;
             }
-            int previndex = index + 2;
-            bool inDoubleQuote = false;
-            List<string> parameter = new List<string>();
+            var previndex = index + 2;
+            var inDoubleQuote = false;
+            var parameter = new List<string>();
             for (index = previndex; index < _script.Length; index++)
             {
                 if (_script[index] == '\"')
@@ -203,13 +198,13 @@ namespace ImoutoDesktop.Scripting
         public IEnumerator<Token> GetEnumerator()
         {
             string[] param;
-            bool isQuickSession = false;
+            var isQuickSession = false;
             _script = _buffer.ToString();
             if (_script.EndsWith(@"\n"))
             {
                 _script = _script.Substring(0, _script.Length - 2);
             }
-            for (int i = 0; i < _script.Length; ++i)
+            for (var i = 0; i < _script.Length; ++i)
             {
                 if (_script[i] == '\\')
                 {
@@ -229,7 +224,7 @@ namespace ImoutoDesktop.Scripting
                                 {
                                     break;
                                 }
-                                FontOperation operation = ParseFontOperation(param[0]);
+                                var operation = ParseFontOperation(param[0]);
                                 switch (operation)
                                 {
                                     case FontOperation.Color:
@@ -364,7 +359,7 @@ namespace ImoutoDesktop.Scripting
                                         {
                                             break;
                                         }
-                                        MediaOperation operation = ParseMediaOperation(param[0]);
+                                        var operation = ParseMediaOperation(param[0]);
                                         switch (param.Length)
                                         {
                                             case 1:
@@ -399,7 +394,7 @@ namespace ImoutoDesktop.Scripting
                                         {
                                             break;
                                         }
-                                        MediaOperation operation = ParseMediaOperation(param[0]);
+                                        var operation = ParseMediaOperation(param[0]);
                                         switch (param.Length)
                                         {
                                             case 1:
@@ -444,7 +439,7 @@ namespace ImoutoDesktop.Scripting
                 else
                 {
                     // テキスト
-                    int end = _script.IndexOfAny(new char[] { '\\', '%' }, i);
+                    var end = _script.IndexOfAny(new char[] { '\\', '%' }, i);
                     if (end == -1)
                     {
                         end = _script.Length;
