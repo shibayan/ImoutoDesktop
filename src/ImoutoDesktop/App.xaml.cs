@@ -71,8 +71,8 @@ namespace ImoutoDesktop
             context.Run();
         }
 
-        private static readonly Mutex _mutex = new Mutex(false, "ImoutoDesktop");
-        private static readonly Guid _default = new Guid("{F3EC60A3-C5FB-443a-B05E-C3345AB37269}");
+        private static readonly Mutex _mutex = new(false, "ImoutoDesktop");
+        private static readonly Guid _default = new("{F3EC60A3-C5FB-443a-B05E-C3345AB37269}");
 
         public string RootDirectory { get; private set; }
 

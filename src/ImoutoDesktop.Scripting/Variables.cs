@@ -237,7 +237,7 @@ namespace ImoutoDesktop.Scripting
                 "reject",
                 "second",
                 "tsunderelevel",
-                "year",
+                "year"
             };
     }
 }

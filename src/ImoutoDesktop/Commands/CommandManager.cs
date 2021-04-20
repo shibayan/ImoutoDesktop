@@ -10,8 +10,8 @@ namespace ImoutoDesktop.Commands
 {
     public static class CommandManager
     {
-        private static readonly List<ICommand> _registedCommands = new List<ICommand>();
-        private static readonly List<ITranslate> _registedTranslators = new List<ITranslate>();
+        private static readonly List<ICommand> _registedCommands = new();
+        private static readonly List<ITranslate> _registedTranslators = new();
 
         public static void Rebuild(string directory)
         {

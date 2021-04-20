@@ -8,7 +8,7 @@ namespace ImoutoDesktop.Scripting
         Nonoverlap,
         Sequential,
         Array,
-        Void,
+        Void
     }
 
     class Selector

@@ -11,7 +11,7 @@ namespace ImoutoDesktop.Scripting
         Double,
         String,
         Array,
-        Hash,
+        Hash
     }
 
     /// <summary>

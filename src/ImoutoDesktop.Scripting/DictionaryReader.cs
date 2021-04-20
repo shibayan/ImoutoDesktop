@@ -21,7 +21,7 @@ namespace ImoutoDesktop.Scripting
         /// <summary>
         /// 標準暗号化。
         /// </summary>
-        Standard,
+        Standard
     }
 
     /// <summary>

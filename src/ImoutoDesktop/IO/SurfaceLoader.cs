@@ -15,7 +15,7 @@ namespace ImoutoDesktop.IO
 
         public string RootDirectory { get; set; }
 
-        private readonly Dictionary<int, Surface> _surfaceTable = new Dictionary<int, Surface>();
+        private readonly Dictionary<int, Surface> _surfaceTable = new();
 
         public void RebuildTable()
         {

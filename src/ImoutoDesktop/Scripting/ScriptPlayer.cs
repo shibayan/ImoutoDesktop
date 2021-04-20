@@ -20,10 +20,10 @@ namespace ImoutoDesktop.Scripting
 
         private readonly Thread _thread;
 
-        private readonly object _syncLock = new object();
-        private readonly AutoResetEvent _event = new AutoResetEvent(false);
+        private readonly object _syncLock = new();
+        private readonly AutoResetEvent _event = new(false);
 
-        private readonly Queue<Script> _queue = new Queue<Script>();
+        private readonly Queue<Script> _queue = new();
 
         private bool _isAbort;
 
@@ -102,7 +102,7 @@ namespace ImoutoDesktop.Scripting
                 }
                 var imoutoWindow = _context.CharacterWindow;
                 var balloonWindow = _context.BalloonWindow;
-                var e = script.GetEnumerator();
+                using var e = script.GetEnumerator();
                 while (e.MoveNext())
                 {
                     var token = e.Current;
@@ -287,8 +287,6 @@ namespace ImoutoDesktop.Scripting
                             break;
                         case TokenKind.EndQuickSession:
                             isQuickSession = false;
-                            break;
-                        default:
                             break;
                     }
                 }

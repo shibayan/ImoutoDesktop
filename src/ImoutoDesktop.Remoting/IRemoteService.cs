@@ -38,13 +38,13 @@ namespace ImoutoDesktop.Remoting
     {
         None,
         File,
-        Directory,
+        Directory
     }
 
     public enum ErrorResult
     {
         None,
-        NotFound,
+        NotFound
     }
 
     [Flags]
@@ -56,6 +56,6 @@ namespace ImoutoDesktop.Remoting
         Movie,
         Music,
         Document,
-        Mixed,
+        Mixed
     }
 }

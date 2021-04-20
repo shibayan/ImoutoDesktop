@@ -6,13 +6,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using ImoutoDesktop.Commands;
 using ImoutoDesktop.IO;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Windows;
 
 namespace ImoutoDesktop
 {
-    public class Context : IEquatable<Context>
+    public class Context
     {
         private Context(Character character)
         {
@@ -56,24 +57,20 @@ namespace ImoutoDesktop
             ScriptPlayer = new ScriptPlayer(this);
         }
 
-        private const string APP_VERSION = "1.03";
-
-        private static readonly object _syncLock = new object();
-        private static readonly List<Context> _activeContexts = new List<Context>();
+        private static readonly object _syncLock = new();
 
         public static Context Create(Guid id)
         {
             lock (_syncLock)
             {
-                Character character;
-                if (CharacterManager.TryGetCharacter(id, out character))
+                if (!CharacterManager.TryGetCharacter(id, out var character))
                 {
-                    character.CanSelect = false;
-                    var context = new Context(character);
-                    _activeContexts.Add(context);
-                    return context;
+                    return null;
                 }
-                return null;
+
+                character.CanSelect = false;
+                var context = new Context(character);
+                return context;
             }
         }
 
@@ -82,11 +79,6 @@ namespace ImoutoDesktop
             lock (_syncLock)
             {
                 context.Character.CanSelect = true;
-                _activeContexts.Remove(context);
-                if (_activeContexts.Count != 0)
-                {
-                    return;
-                }
                 // 設定を保存
                 Settings.Default.LastCharacter = context.Character.ID;
                 // 起動中のコンテキストが 1 つも無くなったら終了
@@ -118,18 +110,20 @@ namespace ImoutoDesktop
 
         private Commands.ICommand _callCommand;
 
+        private Remoting.RemoteService.RemoteServiceClient _remoteServiceClient;
+
         public void Run()
         {
             // メニューのコマンドを定義する
             var contextMenu = (ContextMenu)Application.Current.Resources["ContextMenuKey"];
             contextMenu.CommandBindings.Clear();
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Character, CharacterCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Balloon, BalloonCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Option, OptionCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.Commands.Version, VersionCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Character, CharacterCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Balloon, BalloonCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Option, OptionCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Version, VersionCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseCommand_Executed));
             // コマンド追加
-            _callCommand = new Remoting.CallName(Character.Name);
+            _callCommand = new CallName(Character.Name);
             Commands.CommandManager.Add(_callCommand);
             // 初期サーフェスを表示して起動
             CharacterWindow.ChangeSurface(0);
@@ -167,7 +161,7 @@ namespace ImoutoDesktop
             var result = ScriptEngine.Invoke(id);
             var script = CreateScript();
             Commands.CommandManager.ExecuteTranslate(ref result);
-            script.AppendLine(Script.Scope.Imouto, result);
+            script.AppendLine(Script.Scope.Character, result);
             if (id == "OnClose")
             {
                 script.AppendLine(Script.Scope.System, @"\-");
@@ -204,7 +198,7 @@ namespace ImoutoDesktop
                 if (!string.IsNullOrEmpty(result))
                 {
                     Commands.CommandManager.ExecuteTranslate(ref result);
-                    script.AppendLine(Script.Scope.Imouto, result);
+                    script.AppendLine(Script.Scope.Character, result);
                 }
                 // 実行結果が存在すれば追加する
                 if (!string.IsNullOrEmpty(message))
@@ -225,7 +219,7 @@ namespace ImoutoDesktop
                 if (!string.IsNullOrEmpty(result))
                 {
                     Commands.CommandManager.ExecuteTranslate(ref result);
-                    script.AppendLine(Script.Scope.Imouto, result);
+                    script.AppendLine(Script.Scope.Character, result);
                 }
             }
             // スクリプトを再生
@@ -300,31 +294,17 @@ namespace ImoutoDesktop
 
         private void VersionCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var assembly = Assembly.GetEntryAssembly();
-            var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+            var attribute = typeof(App).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
 
-            if (attributes.Length > 0)
-            {
-                var title = ((AssemblyTitleAttribute)attributes[0]).Title;
-                MessageBox.Show(
-                    $"{title} ver.{APP_VERSION}",
-                    "バージョン情報",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            MessageBox.Show(
+                $"いもうとデスクトップ v{attribute.InformationalVersion}",
+                "バージョン情報",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
-
-        #region IEquatable<Context> メンバ
-
-        public bool Equals(Context other)
-        {
-            return Character.ID == other.Character.ID;
-        }
-
-        #endregion
     }
 }

@@ -8,7 +8,7 @@ namespace ImoutoDesktop.IO
     {
         public static string RootDirectory { get; private set; }
 
-        public static Dictionary<Guid, Character> Characters { get; } = new Dictionary<Guid, Character>();
+        public static Dictionary<Guid, Character> Characters { get; } = new();
 
         public static bool TryGetCharacter(Guid id, out Character character)
         {

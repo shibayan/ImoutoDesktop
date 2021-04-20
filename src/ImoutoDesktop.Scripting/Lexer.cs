@@ -17,24 +17,24 @@ namespace ImoutoDesktop.Scripting
         private static char[] opcode = new char[]
             {
                 '!', '%', '&', '(', ')', '*', '+', ',',
-                '-', '/', ';', '<', '=', '>', '^', '|',
+                '-', '/', ';', '<', '=', '>', '^', '|'
             };
 
         private static string[] opstring = new string[]
             {
                 "--", "!=", "&&", "*=", "/=", "||", "++",
-                "+=", "<<", "<=", "-=", "==", ">=", ">>",
+                "+=", "<<", "<=", "-=", "==", ">=", ">>"
             };
 
         private static string[] opsubst = new string[]
             {
-                "*=", "/=", "+=", "=", "-=",
+                "*=", "/=", "+=", "=", "-="
             };
 
         private static string[] keyword = new string[]
             {
                 "break", "case", "default", "else", "elseif",
-                "for", "foreach", "if", "switch", "while",
+                "for", "foreach", "if", "switch", "while"
             };
 
         public static bool IsOperator(char c)
