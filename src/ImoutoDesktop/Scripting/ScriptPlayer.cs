@@ -100,7 +100,7 @@ namespace ImoutoDesktop.Scripting
                     }
                     script = _queue.Dequeue();
                 }
-                var imoutoWindow = _context.ImoutoWindow;
+                var imoutoWindow = _context.CharacterWindow;
                 var balloonWindow = _context.BalloonWindow;
                 var e = script.GetEnumerator();
                 while (e.MoveNext())

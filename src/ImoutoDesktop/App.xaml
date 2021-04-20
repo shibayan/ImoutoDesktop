@@ -48,8 +48,8 @@
             <Separator />
             <MenuItem Header="閉じる(_C)" Command="ApplicationCommands.Close" />
         </ContextMenu>
-        
-        <Style x:Key="ImoutoWindowStyleKey" TargetType="{x:Type Window}">
+
+        <Style x:Key="CharacterWindowStyleKey" TargetType="{x:Type Window}">
             <Setter Property="AllowsTransparency" Value="True"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="WindowStyle" Value="None"/>

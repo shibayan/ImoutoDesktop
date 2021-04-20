@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows;
 
@@ -37,7 +36,7 @@ namespace ImoutoDesktop
             // インストールされているいもうとを読み込む
             CharacterManager.Rebuild(Path.Combine(RootDirectory, "characters"));
 
-            // インストールされているバルーンを読み込む
+            // インストールされている吹き出しを読み込む
             BalloonManager.Rebuild(Path.Combine(RootDirectory, "balloons"));
 
             // コマンドライブラリを読み込む
@@ -52,8 +51,8 @@ namespace ImoutoDesktop
             // 起動条件を満たしているか確認する
             if (CharacterManager.Characters.Count == 0 || BalloonManager.Balloons.Count == 0)
             {
-                // いもうと、バルーンが存在しない
-                MessageBox.Show("いもうと、バルーンがインストールされていません。");
+                // いもうと、吹き出しが存在しない
+                MessageBox.Show("いもうとや吹き出しがインストールされていません。");
                 // シャットダウン
                 Shutdown();
                 return;
@@ -67,11 +66,7 @@ namespace ImoutoDesktop
                 context = Context.Create(Settings.Default.LastCharacter.Value);
             }
 
-            if (context == null)
-            {
-                // デフォルト「さくら」がいるか確認する
-                context = Context.Create(_default) ?? Context.Create(CharacterManager.Characters.ElementAt(0).Key);
-            }
+            context ??= Context.Create(_default) ?? Context.Create(CharacterManager.Characters.First().Key);
 
             context.Run();
         }

@@ -8,11 +8,11 @@ using ImoutoDesktop.IO;
 namespace ImoutoDesktop.Windows
 {
     /// <summary>
-    /// ImoutoWindow.xaml の相互作用ロジック
+    /// CharacterWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class ImoutoWindow : Window
+    public partial class CharacterWindow : Window
     {
-        public ImoutoWindow()
+        public CharacterWindow()
         {
             InitializeComponent();
         }
@@ -31,7 +31,7 @@ namespace ImoutoDesktop.Windows
         }
 
         private static readonly DependencyPropertyKey SurfacePropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(Surface), typeof(Surface), typeof(ImoutoWindow), new PropertyMetadata());
+            DependencyProperty.RegisterReadOnly(nameof(Surface), typeof(Surface), typeof(CharacterWindow), new PropertyMetadata());
 
         public static readonly DependencyProperty SurfaceProperty = SurfacePropertyKey.DependencyProperty;
 
@@ -54,23 +54,23 @@ namespace ImoutoDesktop.Windows
             }
         }
 
-        private void ImoutoWindow_Loaded(object sender, RoutedEventArgs e)
+        private void CharacterWindow_Loaded(object sender, RoutedEventArgs e)
         {
             BalloonWindow.SizeChanged += BalloonWindow_SizeChanged;
         }
 
-        private void ImoutoWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CharacterWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             BalloonWindow.SizeChanged -= BalloonWindow_SizeChanged;
         }
 
-        private void ImoutoWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void CharacterWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _prevMousePosition = PointToScreen(e.GetPosition(this));
             CaptureMouse();
         }
 
-        private void ImoutoWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void CharacterWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (IsMouseCaptured)
             {
@@ -81,7 +81,7 @@ namespace ImoutoDesktop.Windows
             BalloonWindow.Activate();
         }
 
-        private void ImoutoWindow_MouseMove(object sender, MouseEventArgs e)
+        private void CharacterWindow_MouseMove(object sender, MouseEventArgs e)
         {
             var position = PointToScreen(e.GetPosition(this));
 
@@ -98,12 +98,12 @@ namespace ImoutoDesktop.Windows
             }
         }
 
-        private void ImoutoWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void CharacterWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Top = SystemParameters.WorkArea.Height - e.NewSize.Height - 1;
         }
 
-        private void ImoutoWindow_LocationChanged(object sender, EventArgs e)
+        private void CharacterWindow_LocationChanged(object sender, EventArgs e)
         {
             if (BalloonWindow.IsVisible)
             {

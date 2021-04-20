@@ -18,23 +18,40 @@ namespace ImoutoDesktop
         {
             // いもうとの定義
             Character = character;
+
             // ルートディレクトリ
             RootDirectory = character.Directory;
+
             // プロファイルを読み込む
             Profile = Serializer<Profile>.Deserialize(Path.Combine(RootDirectory, "profile.xml"));
             Profile.Age = Profile.Age == 0 ? Character.Age : Profile.Age;
             Profile.TsundereLevel = Profile.TsundereLevel == 0 ? Character.TsundereLevel : Profile.TsundereLevel;
+
             // バルーン読み込み
             Balloon = BalloonManager.GetBalloon(Profile.LastBalloon);
             Balloon.CanSelect = false;
+
             // ルートからイメージ用ディレクトリを作る
             SurfaceLoader = new SurfaceLoader(Path.Combine(RootDirectory, "images"));
+
             // ウィンドウを作成する
-            BalloonWindow = new BalloonWindow { Context = this, Balloon = Balloon, LocationOffset = Profile.BalloonOffset };
-            ImoutoWindow = new ImoutoWindow { Context = this, BalloonWindow = BalloonWindow };
+            BalloonWindow = new BalloonWindow
+            {
+                Context = this,
+                Balloon = Balloon,
+                LocationOffset = Profile.BalloonOffset
+            };
+
+            CharacterWindow = new CharacterWindow
+            {
+                Context = this,
+                BalloonWindow = BalloonWindow
+            };
+
             // スクリプトエンジンを作成する
             ScriptEngine = new ScriptEngine(Path.Combine(RootDirectory, "scripts"));
             InitializeScriptEngine();
+
             // スクリプトプレイヤーを作成
             ScriptPlayer = new ScriptPlayer(this);
         }
@@ -87,7 +104,7 @@ namespace ImoutoDesktop
 
         public SurfaceLoader SurfaceLoader { get; }
 
-        public ImoutoWindow ImoutoWindow { get; }
+        public CharacterWindow CharacterWindow { get; }
 
         public BalloonWindow BalloonWindow { get; }
 
@@ -115,7 +132,7 @@ namespace ImoutoDesktop
             _callCommand = new Remoting.CallName(Character.Name);
             Commands.CommandManager.Add(_callCommand);
             // 初期サーフェスを表示して起動
-            ImoutoWindow.ChangeSurface(0);
+            CharacterWindow.ChangeSurface(0);
             BalloonWindow.Show();
             PlayInvoke("OnBoot");
         }
@@ -133,7 +150,7 @@ namespace ImoutoDesktop
             // コマンド削除
             Commands.CommandManager.Remove(_callCommand);
             // リソースを破棄する
-            ImoutoWindow.Close();
+            CharacterWindow.Close();
             BalloonWindow.Close();
             ScriptPlayer.Stop();
             ScriptEngine.Dispose();
