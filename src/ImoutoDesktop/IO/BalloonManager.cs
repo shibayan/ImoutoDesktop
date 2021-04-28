@@ -44,7 +44,7 @@ namespace ImoutoDesktop.IO
                 {
                     var balloon = Serializer<Balloon>.Deserialize(stream);
                     balloon.Directory = directory;
-                    Balloons.Add(balloon.ID, balloon);
+                    Balloons.Add(balloon.Id, balloon);
                 }
             }
         }

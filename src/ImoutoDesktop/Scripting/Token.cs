@@ -128,14 +128,14 @@
             return new(TokenKind.Shutdown);
         }
 
-        public static Token Disconnection()
+        public static Token Connect()
         {
-            return new(TokenKind.Disconnection);
+            return new(TokenKind.Connect);
         }
 
-        public static Token Connection()
+        public static Token Disconnect()
         {
-            return new(TokenKind.Connection);
+            return new(TokenKind.Disconnect);
         }
 
         #endregion

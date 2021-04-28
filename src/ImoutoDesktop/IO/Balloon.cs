@@ -13,7 +13,7 @@ namespace ImoutoDesktop.IO
             UserColor = "#000000";
         }
 
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
@@ -21,43 +21,24 @@ namespace ImoutoDesktop.IO
 
         public string UserColor { get; set; }
 
-        private bool _canSelect = true;
+        [XmlIgnore]
+        public bool CanSelect { get; set; }
 
         [XmlIgnore]
-        public bool CanSelect
-        {
-            get { return _canSelect; }
-            set
-            {
-                _canSelect = value;
-                OnPropertyChanged("CanSelect");
-            }
-        }
+        public string Image => Path.Combine(Directory, "balloon.png");
 
         [XmlIgnore]
-        public string Image
-        {
-            get { return Path.Combine(Directory, "balloon.png"); }
-        }
+        public string ArrowUpImage => Path.Combine(Directory, "arrow0.png");
 
         [XmlIgnore]
-        public string ArrowUpImage
-        {
-            get { return Path.Combine(Directory, "arrow0.png"); }
-        }
-
-        [XmlIgnore]
-        public string ArrowDownImage
-        {
-            get { return Path.Combine(Directory, "arrow1.png"); }
-        }
+        public string ArrowDownImage => Path.Combine(Directory, "arrow1.png");
 
         [XmlIgnore]
         public string Directory { get; set; }
 
         public override int GetHashCode()
         {
-            return ID.GetHashCode();
+            return Id.GetHashCode();
         }
     }
 }

@@ -11,11 +11,13 @@ namespace ImoutoDesktop.Scripting
         private readonly StringBuilder _buffer = new();
 
         public string UserName { get; set; }
+
         public string ImoutoName { get; set; }
 
         public string Honorific { get; set; }
 
         public string UserColor { get; set; }
+
         public string ImoutoColor { get; set; }
 
         public void AppendLine()
@@ -319,20 +321,16 @@ namespace ImoutoDesktop.Scripting
                                             case "directory":
                                                 yield return Token.DeleteDirectory();
                                                 break;
-                                            default:
-                                                break;
                                         }
                                         break;
                                     case "shutdown":
                                         yield return Token.Shutdown();
                                         break;
                                     case "connection":
-                                        yield return Token.Connection();
+                                        yield return Token.Connect();
                                         break;
                                     case "disconnection":
-                                        yield return Token.Disconnection();
-                                        break;
-                                    default:
+                                        yield return Token.Disconnect();
                                         break;
                                 }
                             }

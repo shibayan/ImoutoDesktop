@@ -38,7 +38,7 @@ namespace ImoutoDesktop.IO
                 {
                     var character = Serializer<Character>.Deserialize(stream);
                     character.Directory = directory;
-                    Characters.Add(character.ID, character);
+                    Characters.Add(character.Id, character);
                 }
             }
         }

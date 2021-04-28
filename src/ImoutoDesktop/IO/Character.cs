@@ -12,72 +12,23 @@ namespace ImoutoDesktop.IO
             TsundereLevel = 4;
         }
 
-        private Guid _id;
+        public Guid Id { get; set; }
 
-        public Guid ID
-        {
-            get { return _id; }
-            set
-            {
-                if (_id != value)
-                {
-                    _id = value;
-                    OnPropertyChanged(nameof(ID));
-                }
-            }
-        }
-
-        private string _name;
-
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                if (_name != value)
-                {
-                    _name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
-            }
-        }
-
-        private bool _canSelect = true;
-
-        [XmlIgnore]
-        public bool CanSelect
-        {
-            get { return _canSelect; }
-            set
-            {
-                _canSelect = value;
-                OnPropertyChanged(nameof(CanSelect));
-            }
-        }
+        public string Name { get; set; }
 
         public int Age { get; set; }
 
         public int TsundereLevel { get; set; }
 
-        private string _directory;
+        [XmlIgnore]
+        public bool CanSelect { get; set; }
 
         [XmlIgnore]
-        public string Directory
-        {
-            get { return _directory; }
-            set
-            {
-                if (_directory != value)
-                {
-                    _directory = value;
-                    OnPropertyChanged(nameof(Directory));
-                }
-            }
-        }
+        public string Directory { get; set; }
 
         public override int GetHashCode()
         {
-            return _id.GetHashCode();
+            return Id.GetHashCode();
         }
     }
 }
