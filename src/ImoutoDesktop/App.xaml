@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:ImoutoDesktop"
     xmlns:ii="clr-namespace:ImoutoDesktop.Input"
-    xmlns:io="clr-namespace:ImoutoDesktop.IO"
+    xmlns:io="clr-namespace:ImoutoDesktop.Models"
     ShutdownMode="OnExplicitShutdown" Startup="App_Startup" Exit="App_Exit">
     <Application.Resources>
 

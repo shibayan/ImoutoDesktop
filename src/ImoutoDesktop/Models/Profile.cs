@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace ImoutoDesktop.IO
+namespace ImoutoDesktop.Models
 {
     [Serializable]
     public class Profile

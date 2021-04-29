@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ImoutoDesktop.IO
+namespace ImoutoDesktop.Models
 {
     [Serializable]
     public class Balloon : PropertyChangedBase

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace ImoutoDesktop.IO
+namespace ImoutoDesktop.Models
 {
     [Serializable]
     public class Character : PropertyChangedBase

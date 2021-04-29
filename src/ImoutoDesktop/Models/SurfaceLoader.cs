@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 
-namespace ImoutoDesktop.IO
+namespace ImoutoDesktop.Models
 {
     public class SurfaceLoader
     {

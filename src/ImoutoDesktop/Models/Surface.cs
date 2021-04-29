@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace ImoutoDesktop.IO
+namespace ImoutoDesktop.Models
 {
     public class Surface
     {

@@ -5,7 +5,7 @@ namespace ImoutoDesktop.Windows
     /// <summary>
     /// SettingDialog.xaml の相互作用ロジック
     /// </summary>
-    public partial class SettingDialog : Window
+    public partial class SettingDialog
     {
         public SettingDialog()
         {

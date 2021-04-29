@@ -4,14 +4,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 using ImoutoDesktop.Controls;
-using ImoutoDesktop.IO;
+using ImoutoDesktop.Models;
 
 namespace ImoutoDesktop.Windows
 {
     /// <summary>
     /// BalloonWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class BalloonWindow : Window
+    public partial class BalloonWindow
     {
         public BalloonWindow()
         {

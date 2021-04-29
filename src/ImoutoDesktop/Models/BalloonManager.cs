@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ImoutoDesktop.IO
+namespace ImoutoDesktop.Models
 {
     public static class BalloonManager
     {

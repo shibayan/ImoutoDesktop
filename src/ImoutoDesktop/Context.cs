@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 using Google.Protobuf.WellKnownTypes;
 
-using ImoutoDesktop.IO;
+using ImoutoDesktop.Models;
 using ImoutoDesktop.Remoting;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Windows;
