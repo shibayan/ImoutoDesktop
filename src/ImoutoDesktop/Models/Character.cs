@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Xml.Serialization;
+using System.IO;
 
 namespace ImoutoDesktop.Models
 {
-    [Serializable]
-    public class Character : PropertyChangedBase
+    public class Character
     {
         public Character()
         {
@@ -20,15 +19,24 @@ namespace ImoutoDesktop.Models
 
         public int TsundereLevel { get; set; }
 
-        [XmlIgnore]
         public bool CanSelect { get; set; }
 
-        [XmlIgnore]
         public string Directory { get; set; }
 
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+        public static Character LoadFrom(string path)
+        {
+            using var reader = new StreamReader(path);
+
+            var character = Serializer.Deserialize<Character>(reader);
+
+            character.Directory = Path.GetDirectoryName(path);
+
+            return character;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace ImoutoDesktop.Models
             // ディレクトリを辿る
             foreach (var directory in Directory.GetDirectories(searchDirectory))
             {
-                var path = Path.Combine(directory, "balloon.xml");
+                var path = Path.Combine(directory, "balloon.yml");
 
                 if (!File.Exists(path))
                 {
@@ -40,12 +40,9 @@ namespace ImoutoDesktop.Models
                     continue;
                 }
 
-                using (var stream = File.Open(path, FileMode.Open))
-                {
-                    var balloon = Serializer<Balloon>.Deserialize(stream);
-                    balloon.Directory = directory;
-                    Balloons.Add(balloon.Id, balloon);
-                }
+                var balloon = Balloon.LoadFrom(path);
+
+                Balloons.Add(balloon.Id, balloon);
             }
         }
     }

@@ -31,7 +31,7 @@ namespace ImoutoDesktop
 #endif
 
             // 設定ファイルを読み込む
-            Settings.Load(Path.Combine(RootDirectory, "settings.xml"));
+            Settings.Load(Path.Combine(RootDirectory, "settings.yml"));
 
             // インストールされているいもうとを読み込む
             CharacterManager.Rebuild(Path.Combine(RootDirectory, "characters"));
@@ -73,7 +73,7 @@ namespace ImoutoDesktop
         {
             if (!string.IsNullOrEmpty(RootDirectory))
             {
-                Settings.Save(Path.Combine(RootDirectory, "settings.xml"));
+                Settings.Save(Path.Combine(RootDirectory, "settings.yml"));
             }
 
             _mutex.Close();

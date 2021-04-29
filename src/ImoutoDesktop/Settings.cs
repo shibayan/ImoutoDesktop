@@ -57,10 +57,9 @@ namespace ImoutoDesktop
         {
             try
             {
-                using (var fs = File.Open(path, FileMode.Open))
-                {
-                    Default = Serializer<Settings>.Deserialize(fs);
-                }
+                using var reader = new StreamReader(path);
+
+                Default = Serializer.Deserialize<Settings>(reader);
             }
             catch
             {
@@ -79,10 +78,9 @@ namespace ImoutoDesktop
 
         public static void Save(string path)
         {
-            using (var fs = File.Open(path, FileMode.Create))
-            {
-                Serializer<Settings>.Serialize(fs, Default);
-            }
+            using var writer = new StreamWriter(path);
+
+            Serializer.Serialize(writer, Default);
         }
     }
 }

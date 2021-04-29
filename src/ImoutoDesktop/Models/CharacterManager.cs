@@ -26,7 +26,7 @@ namespace ImoutoDesktop.Models
             // ディレクトリを辿る
             foreach (var directory in Directory.GetDirectories(searchDirectory))
             {
-                var path = Path.Combine(directory, "character.xml");
+                var path = Path.Combine(directory, "character.yml");
 
                 if (!File.Exists(path))
                 {
@@ -34,12 +34,9 @@ namespace ImoutoDesktop.Models
                     continue;
                 }
 
-                using (var stream = File.Open(path, FileMode.Open))
-                {
-                    var character = Serializer<Character>.Deserialize(stream);
-                    character.Directory = directory;
-                    Characters.Add(character.Id, character);
-                }
+                var character = Character.LoadFrom(path);
+
+                Characters.Add(character.Id, character);
             }
         }
     }
