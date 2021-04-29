@@ -4,14 +4,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 using ImoutoDesktop.Controls;
-using ImoutoDesktop.IO;
+using ImoutoDesktop.Models;
 
 namespace ImoutoDesktop.Windows
 {
     /// <summary>
     /// BalloonWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class BalloonWindow : Window
+    public partial class BalloonWindow
     {
         public BalloonWindow()
         {
@@ -24,13 +24,7 @@ namespace ImoutoDesktop.Windows
 
         public Context Context { get; set; }
 
-        private Point _locationOffset;
-
-        public Point LocationOffset
-        {
-            get { return _locationOffset; }
-            set { _locationOffset = value; }
-        }
+        public Point LocationOffset { get; set; }
 
         public Balloon Balloon
         {
@@ -41,10 +35,7 @@ namespace ImoutoDesktop.Windows
         public static readonly DependencyProperty BalloonProperty =
             DependencyProperty.Register(nameof(Balloon), typeof(Balloon), typeof(BalloonWindow));
 
-        public TextViewer TextViewer
-        {
-            get { return textViewer; }
-        }
+        public TextViewer TextViewer => textViewer;
 
         private void BalloonWindow_Activated(object sender, EventArgs e)
         {
@@ -56,6 +47,7 @@ namespace ImoutoDesktop.Windows
             _isDragging = false;
             _dragStartPosition = PointToScreen(e.GetPosition(this));
             _prevMousePosition = _dragStartPosition;
+
             Mouse.Capture(this, CaptureMode.SubTree);
         }
 
@@ -65,20 +57,22 @@ namespace ImoutoDesktop.Windows
             {
                 ReleaseMouseCapture();
             }
+
             if (_isDragging)
             {
-                _locationOffset.X += _prevMousePosition.X - _dragStartPosition.X;
-                _locationOffset.Y += _prevMousePosition.Y - _dragStartPosition.Y;
+                LocationOffset.Offset(_prevMousePosition.X - _dragStartPosition.X, _prevMousePosition.Y - _dragStartPosition.Y);
             }
         }
 
         private void BalloonWindow_MouseMove(object sender, MouseEventArgs e)
         {
             var position = PointToScreen(e.GetPosition(this));
+
             if (position == _prevMousePosition)
             {
                 return;
             }
+
             if (IsMouseCaptured && e.LeftButton == MouseButtonState.Pressed)
             {
                 _isDragging = true;
@@ -94,14 +88,17 @@ namespace ImoutoDesktop.Windows
             {
                 return;
             }
+
             if (textBox.Text.Length == 0)
             {
                 return;
             }
+
             if (Context.CommandHistory.IndexOf(textBox.Text) != -1)
             {
                 Context.CommandHistory.Remove(textBox.Text);
             }
+
             Context.CommandHistory.Add(textBox.Text);
             Context.HistoryIndex = Context.CommandHistory.Count;
             Context.ExecCommand(textBox.Text);

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 using Google.Protobuf.WellKnownTypes;
 
-using ImoutoDesktop.IO;
+using ImoutoDesktop.Models;
 using ImoutoDesktop.Remoting;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Windows;
@@ -88,7 +88,7 @@ namespace ImoutoDesktop
             {
                 context.Character.CanSelect = true;
                 // 設定を保存
-                Settings.Default.LastCharacter = context.Character.ID;
+                Settings.Default.LastCharacter = context.Character.Id;
                 // 起動中のコンテキストが 1 つも無くなったら終了
                 Application.Current.Shutdown();
             }
@@ -152,7 +152,7 @@ namespace ImoutoDesktop
             ScriptPlayer.Stop();
             ScriptEngine.Dispose();
             // プロファイルを保存
-            Profile.LastBalloon = Balloon.ID;
+            Profile.LastBalloon = Balloon.Id;
             Profile.BalloonOffset = BalloonWindow.LocationOffset;
             Serializer<Profile>.Serialize(Path.Combine(RootDirectory, "profile.xml"), Profile);
             // コンテキストを削除

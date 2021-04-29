@@ -4,21 +4,23 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 
-using ImoutoDesktop.IO;
+using ImoutoDesktop.Models;
 
 namespace ImoutoDesktop
 {
     /// <summary>
     /// App.xaml の相互作用ロジック
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         private void App_Startup(object sender, StartupEventArgs e)
         {
             if (!_mutex.WaitOne(0, false))
             {
                 MessageBox.Show("既に起動しています");
+
                 Shutdown();
+
                 return;
             }
 
@@ -37,19 +39,15 @@ namespace ImoutoDesktop
             // インストールされている吹き出しを読み込む
             BalloonManager.Rebuild(Path.Combine(RootDirectory, "balloons"));
 
-            // テンポラリディレクトリを作成
-            if (!Directory.Exists(Path.Combine(RootDirectory, "temp")))
-            {
-                Directory.CreateDirectory(Path.Combine(RootDirectory, "temp"));
-            }
-
             // 起動条件を満たしているか確認する
             if (CharacterManager.Characters.Count == 0 || BalloonManager.Balloons.Count == 0)
             {
                 // いもうと、吹き出しが存在しない
                 MessageBox.Show("いもうとや吹き出しがインストールされていません。");
+
                 // シャットダウン
                 Shutdown();
+
                 return;
             }
 

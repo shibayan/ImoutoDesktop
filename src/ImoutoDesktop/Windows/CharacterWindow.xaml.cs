@@ -3,14 +3,14 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-using ImoutoDesktop.IO;
+using ImoutoDesktop.Models;
 
 namespace ImoutoDesktop.Windows
 {
     /// <summary>
     /// CharacterWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class CharacterWindow : Window
+    public partial class CharacterWindow
     {
         public CharacterWindow()
         {

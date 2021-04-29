@@ -69,10 +69,10 @@
         /// <summary>
         /// サーバと接続
         /// </summary>
-        Connection,
+        Connect,
         /// <summary>
         /// サーバとの接続を切断
         /// </summary>
-        Disconnection
+        Disconnect
     }
 }

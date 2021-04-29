@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
-namespace ImoutoDesktop.IO
+namespace ImoutoDesktop.Models
 {
-    public static class BalloonManager
+    public static class CharacterManager
     {
         public static string RootDirectory { get; private set; }
 
-        public static Dictionary<Guid, Balloon> Balloons { get; } = new();
+        public static Dictionary<Guid, Character> Characters { get; } = new();
 
-        public static Balloon GetBalloon(Guid id)
+        public static bool TryGetCharacter(Guid id, out Character character)
         {
-            return Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
-        }
-
-        public static bool TryGetBalloon(Guid id, out Balloon balloon)
-        {
-            return Balloons.TryGetValue(id, out balloon);
+            return Characters.TryGetValue(id, out character);
         }
 
         public static void Rebuild(string searchDirectory)
@@ -27,12 +21,12 @@ namespace ImoutoDesktop.IO
             RootDirectory = searchDirectory;
 
             // ディクショナリを削除する
-            Balloons.Clear();
+            Characters.Clear();
 
             // ディレクトリを辿る
             foreach (var directory in Directory.GetDirectories(searchDirectory))
             {
-                var path = Path.Combine(directory, "balloon.xml");
+                var path = Path.Combine(directory, "character.xml");
 
                 if (!File.Exists(path))
                 {
@@ -42,9 +36,9 @@ namespace ImoutoDesktop.IO
 
                 using (var stream = File.Open(path, FileMode.Open))
                 {
-                    var balloon = Serializer<Balloon>.Deserialize(stream);
-                    balloon.Directory = directory;
-                    Balloons.Add(balloon.ID, balloon);
+                    var character = Serializer<Character>.Deserialize(stream);
+                    character.Directory = directory;
+                    Characters.Add(character.Id, character);
                 }
             }
         }

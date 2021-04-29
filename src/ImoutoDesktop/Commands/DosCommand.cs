@@ -13,7 +13,7 @@ namespace ImoutoDesktop.Commands
         {
         }
 
-        private static readonly string[] _allow = new string[]
+        private static readonly string[] _allow =
         {
             "dir", "ver", "xcopy", "mkdir", "rmdir", "copy", "del", "move", "ren", "cd", "type", "ls", "chdir", "rm", "cp", "cls", "start"
         };
