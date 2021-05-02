@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.Models
 {
@@ -11,9 +11,11 @@ namespace ImoutoDesktop.Models
             TsundereLevel = 4;
         }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Description { get; set; }
 
         public int Age { get; set; }
 
@@ -30,7 +32,7 @@ namespace ImoutoDesktop.Models
 
         public static Character LoadFrom(string path)
         {
-            using var reader = new StreamReader(path);
+            using var reader = new StreamReader(path, Encoding.UTF8);
 
             var character = Serializer.Deserialize<Character>(reader);
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace ImoutoDesktop.Models
@@ -8,9 +7,9 @@ namespace ImoutoDesktop.Models
     {
         public static string RootDirectory { get; private set; }
 
-        public static Dictionary<Guid, Character> Characters { get; } = new();
+        public static Dictionary<string, Character> Characters { get; } = new();
 
-        public static bool TryGetCharacter(Guid id, out Character character)
+        public static bool TryGetCharacter(string id, out Character character)
         {
             return Characters.TryGetValue(id, out character);
         }

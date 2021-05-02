@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.Models
 {
@@ -11,7 +11,7 @@ namespace ImoutoDesktop.Models
             UserColor = "#000000";
         }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 
@@ -36,7 +36,7 @@ namespace ImoutoDesktop.Models
 
         public static Balloon LoadFrom(string path)
         {
-            using var reader = new StreamReader(path);
+            using var reader = new StreamReader(path, Encoding.UTF8);
 
             var balloon = Serializer.Deserialize<Balloon>(reader);
 

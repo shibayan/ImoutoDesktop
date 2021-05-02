@@ -1,5 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop
 {
@@ -49,7 +49,7 @@ namespace ImoutoDesktop
 
         public bool ShowFileList { get; set; }
 
-        public Guid? LastCharacter { get; set; }
+        public string LastCharacter { get; set; }
 
         public static Settings Default { get; private set; }
 
@@ -57,7 +57,7 @@ namespace ImoutoDesktop
         {
             try
             {
-                using var reader = new StreamReader(path);
+                using var reader = new StreamReader(path, Encoding.UTF8);
 
                 Default = Serializer.Deserialize<Settings>(reader);
             }

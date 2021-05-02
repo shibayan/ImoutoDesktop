@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -9,14 +8,14 @@ namespace ImoutoDesktop.Models
     {
         public static string RootDirectory { get; private set; }
 
-        public static Dictionary<Guid, Balloon> Balloons { get; } = new();
+        public static Dictionary<string, Balloon> Balloons { get; } = new();
 
-        public static Balloon GetBalloon(Guid id)
+        public static Balloon GetBalloon(string id)
         {
-            return Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
+            return id != null && Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
         }
 
-        public static bool TryGetBalloon(Guid id, out Balloon balloon)
+        public static bool TryGetBalloon(string id, out Balloon balloon)
         {
             return Balloons.TryGetValue(id, out balloon);
         }

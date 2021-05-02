@@ -25,7 +25,7 @@ namespace ImoutoDesktop
         {
             try
             {
-                return (T)_deserializer.Deserialize(textReader);
+                return _deserializer.Deserialize<T>(textReader);
             }
             catch
             {

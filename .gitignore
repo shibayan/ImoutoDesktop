@@ -334,6 +334,6 @@ ASALocalRun/
 .localhistory/
 
 # ImoutoDesktop file
-profile.xml
-settings.xml
+profile.yml
+settings.yml
 imouto_vars.txt

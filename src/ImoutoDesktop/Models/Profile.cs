@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Text;
 using System.Windows;
 
 namespace ImoutoDesktop.Models
 {
     public class Profile
     {
-        public Guid LastBalloon { get; set; }
+        public string LastBalloon { get; set; }
 
         public Point BalloonOffset { get; set; }
 
@@ -23,9 +23,16 @@ namespace ImoutoDesktop.Models
 
         public static Profile LoadFrom(string path)
         {
-            using var reader = new StreamReader(path);
+            try
+            {
+                using var reader = new StreamReader(path, Encoding.UTF8);
 
-            return Serializer.Deserialize<Profile>(reader);
+                return Serializer.Deserialize<Profile>(reader);
+            }
+            catch
+            {
+                return new Profile();
+            }
         }
     }
 }

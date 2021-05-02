@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -54,9 +53,9 @@ namespace ImoutoDesktop
             // コンテキストを作成して、いもうとを起動
             Context context = null;
 
-            if (Settings.Default.LastCharacter.HasValue)
+            if (Settings.Default.LastCharacter != null)
             {
-                context = Context.Create(Settings.Default.LastCharacter.Value);
+                context = Context.Create(Settings.Default.LastCharacter);
             }
 
             context ??= Context.Create(_default) ?? Context.Create(CharacterManager.Characters.First().Key);
@@ -65,7 +64,7 @@ namespace ImoutoDesktop
         }
 
         private static readonly Mutex _mutex = new(false, "ImoutoDesktop");
-        private static readonly Guid _default = new("{F3EC60A3-C5FB-443a-B05E-C3345AB37269}");
+        private static readonly string _default = "sakura";
 
         public string RootDirectory { get; private set; }
 

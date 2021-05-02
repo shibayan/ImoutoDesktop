@@ -67,7 +67,7 @@ namespace ImoutoDesktop
 
         private static readonly object _syncLock = new();
 
-        public static Context Create(Guid id)
+        public static Context Create(string id)
         {
             lock (_syncLock)
             {
@@ -277,7 +277,7 @@ namespace ImoutoDesktop
 
         private void CharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var id = (Guid)e.Parameter;
+            var id = (string)e.Parameter;
             var context = Create(id);
             if (context == null)
             {
@@ -289,7 +289,7 @@ namespace ImoutoDesktop
 
         private void BalloonCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var id = (Guid)e.Parameter;
+            var id = (string)e.Parameter;
 
             if (!BalloonManager.TryGetBalloon(id, out var balloon))
             {
