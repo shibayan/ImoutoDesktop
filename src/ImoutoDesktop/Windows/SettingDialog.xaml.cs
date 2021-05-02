@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using ImoutoDesktop.Models;
+
 namespace ImoutoDesktop.Windows
 {
     /// <summary>

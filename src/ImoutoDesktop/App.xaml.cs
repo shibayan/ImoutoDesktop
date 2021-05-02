@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 
 using ImoutoDesktop.Models;
+using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop
 {
@@ -63,8 +64,8 @@ namespace ImoutoDesktop
             context.Run();
         }
 
-        private static readonly Mutex _mutex = new(false, "ImoutoDesktop");
-        private static readonly string _default = "sakura";
+        private readonly Mutex _mutex = new(false, "ImoutoDesktop");
+        private readonly string _default = "sakura";
 
         public string RootDirectory { get; private set; }
 

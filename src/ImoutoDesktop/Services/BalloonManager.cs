@@ -2,7 +2,9 @@
 using System.IO;
 using System.Linq;
 
-namespace ImoutoDesktop.Models
+using ImoutoDesktop.Models;
+
+namespace ImoutoDesktop.Services
 {
     public static class BalloonManager
     {
