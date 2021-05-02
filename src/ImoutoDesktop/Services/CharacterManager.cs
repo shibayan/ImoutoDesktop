@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace ImoutoDesktop.Models
+using ImoutoDesktop.Models;
+
+namespace ImoutoDesktop.Services
 {
     public static class CharacterManager
     {

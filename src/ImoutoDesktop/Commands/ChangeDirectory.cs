@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using Google.Protobuf.WellKnownTypes;
 
+using ImoutoDesktop.Models;
 using ImoutoDesktop.Remoting;
 
 using Enum = System.Enum;

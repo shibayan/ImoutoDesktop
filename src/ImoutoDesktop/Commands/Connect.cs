@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 
+using ImoutoDesktop.Models;
 using ImoutoDesktop.Remoting;
 
 namespace ImoutoDesktop.Commands

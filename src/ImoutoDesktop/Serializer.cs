@@ -33,14 +33,14 @@ namespace ImoutoDesktop
             }
         }
 
-        public static void Serialize<T>(TextWriter textWriter, T o)
+        public static void Serialize<T>(TextWriter textWriter, T obj)
         {
-            if (o == null)
+            if (obj == null)
             {
                 return;
             }
 
-            _serializer.Serialize(textWriter, o);
+            _serializer.Serialize(textWriter, obj);
         }
     }
 }

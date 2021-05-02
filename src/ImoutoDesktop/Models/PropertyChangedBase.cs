@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ImoutoDesktop
+namespace ImoutoDesktop.Models
 {
     public class PropertyChangedBase : INotifyPropertyChanged
     {

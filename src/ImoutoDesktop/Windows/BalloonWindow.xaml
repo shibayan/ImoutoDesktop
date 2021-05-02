@@ -1,9 +1,9 @@
 ﻿<Window x:Class="ImoutoDesktop.Windows.BalloonWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ImoutoDesktop="clr-namespace:ImoutoDesktop"
-    xmlns:ImoutoDesktop_Controls="clr-namespace:ImoutoDesktop.Controls"
-    Topmost="{Binding Path=Topmost, Source={x:Static ImoutoDesktop:Settings.Default}}"
+    xmlns:controls="clr-namespace:ImoutoDesktop.Controls"
+    xmlns:models="clr-namespace:ImoutoDesktop.Models"
+    Topmost="{Binding Path=Topmost, Source={x:Static models:Settings.Default}}"
     DataContext="{Binding RelativeSource={RelativeSource self}, Path=Balloon}"
     AllowsTransparency="True" Background="Transparent" WindowStyle="None" ShowInTaskbar="False" ShowActivated="False"
     PreviewMouseLeftButtonDown="BalloonWindow_MouseLeftButtonDown" PreviewMouseLeftButtonUp="BalloonWindow_MouseLeftButtonUp"
@@ -46,7 +46,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ImoutoDesktop_Controls:TextViewer x:Name="textViewer" Grid.Column="0" Grid.Row="0" />
+            <controls:TextViewer x:Name="textViewer" Grid.Column="0" Grid.Row="0" />
             <RepeatButton Grid.Column="1" Grid.Row="0" Margin="0,0,-10,0" CommandTarget="{Binding ElementName=textViewer}" Command="ScrollBar.LineUpCommand"
                       VerticalAlignment="Top" Visibility="{Binding ElementName=textViewer, Path=CanScrollUp, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Image Stretch="None" Source="{Binding Path=ArrowUpImage}" />

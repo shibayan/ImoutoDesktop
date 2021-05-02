@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace ImoutoDesktop
+namespace ImoutoDesktop.Models
 {
     public class Settings : PropertyChangedBase
     {

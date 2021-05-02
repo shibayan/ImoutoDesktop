@@ -1,10 +1,10 @@
 ﻿<Window x:Class="ImoutoDesktop.Windows.SettingDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="clr-namespace:ImoutoDesktop"
+    xmlns:models="clr-namespace:ImoutoDesktop.Models"
     x:Name="window"
     Title="設定" Height="350" Width="550" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize"
-    Topmost="True" DataContext="{x:Static i:Settings.Default}" Loaded="SettingDialog_Loaded">
+    Topmost="True" DataContext="{x:Static models:Settings.Default}" Loaded="SettingDialog_Loaded">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
