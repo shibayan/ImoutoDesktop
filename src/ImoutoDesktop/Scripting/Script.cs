@@ -35,12 +35,12 @@ namespace ImoutoDesktop.Scripting
             {
                 foreach (var item in Split(text))
                 {
-                    _buffer.Append(string.Format(@"\f[color,{2}]\q\f[bold,true]{0}\f[bold,false] : \q{1}\f[color,reset]\w9\n", ImoutoName, item, ImoutoColor));
+                    _buffer.Append($@"\f[color,{ImoutoColor}]\q\f[bold,true]{ImoutoName}\f[bold,false] : \q{item}\f[color,reset]\w9\n");
                 }
             }
             else if (scope == Scope.User)
             {
-                _buffer.Append(string.Format(@"\f[color,{2}]\q\f[bold,true]{0}\f[bold,false] : \q{1}\f[color,reset]\w9\n", UserName, text, UserColor));
+                _buffer.Append($@"\f[color,{UserColor}]\q\f[bold,true]{UserName}\f[bold,false] : \q{text}\f[color,reset]\w9\n");
             }
             else
             {

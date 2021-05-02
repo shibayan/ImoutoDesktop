@@ -1,58 +1,46 @@
 ﻿using System.IO;
-using System.Xml.Serialization;
+
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace ImoutoDesktop
 {
-    public static class Serializer<T> where T : new()
+    public static class Serializer
     {
-        private static readonly XmlSerializer xs = new(typeof(T));
+        static Serializer()
+        {
+            _serializer = new SerializerBuilder()
+                          .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                          .Build();
 
-        public static T Deserialize(Stream stream)
+            _deserializer = new DeserializerBuilder()
+                            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                            .Build();
+        }
+
+        private static readonly ISerializer _serializer;
+        private static readonly IDeserializer _deserializer;
+
+        public static T Deserialize<T>(TextReader textReader)
         {
             try
             {
-                return (T)xs.Deserialize(stream);
+                return _deserializer.Deserialize<T>(textReader);
             }
             catch
             {
-                return new T();
+                return default;
             }
         }
 
-        public static T Deserialize(string path)
-        {
-            try
-            {
-                using (var stream = File.Open(path, FileMode.Open))
-                {
-                    return (T)xs.Deserialize(stream);
-                }
-            }
-            catch
-            {
-                return new T();
-            }
-        }
-
-        public static void Serialize(Stream stream, T o)
+        public static void Serialize<T>(TextWriter textWriter, T o)
         {
             if (o == null)
             {
                 return;
             }
-            xs.Serialize(stream, o);
-        }
 
-        public static void Serialize(string path, T o)
-        {
-            if (o == null)
-            {
-                return;
-            }
-            using (var stream = File.Open(path, FileMode.Create))
-            {
-                xs.Serialize(stream, o);
-            }
+            _serializer.Serialize(textWriter, o);
         }
     }
 }

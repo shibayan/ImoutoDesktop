@@ -27,7 +27,7 @@ namespace ImoutoDesktop
             RootDirectory = character.Directory;
 
             // プロファイルを読み込む
-            Profile = Serializer<Profile>.Deserialize(Path.Combine(RootDirectory, "profile.xml"));
+            Profile = Profile.LoadFrom(Path.Combine(RootDirectory, "profile.yml"));
             Profile.Age = Profile.Age == 0 ? Character.Age : Profile.Age;
             Profile.TsundereLevel = Profile.TsundereLevel == 0 ? Character.TsundereLevel : Profile.TsundereLevel;
 
@@ -67,7 +67,7 @@ namespace ImoutoDesktop
 
         private static readonly object _syncLock = new();
 
-        public static Context Create(Guid id)
+        public static Context Create(string id)
         {
             lock (_syncLock)
             {
@@ -154,7 +154,7 @@ namespace ImoutoDesktop
             // プロファイルを保存
             Profile.LastBalloon = Balloon.Id;
             Profile.BalloonOffset = BalloonWindow.LocationOffset;
-            Serializer<Profile>.Serialize(Path.Combine(RootDirectory, "profile.xml"), Profile);
+            Profile.SaveTo(Path.Combine(RootDirectory, "profile.yml"));
             // コンテキストを削除
             Delete(this);
         }
@@ -277,7 +277,7 @@ namespace ImoutoDesktop
 
         private void CharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var id = (Guid)e.Parameter;
+            var id = (string)e.Parameter;
             var context = Create(id);
             if (context == null)
             {
@@ -289,7 +289,7 @@ namespace ImoutoDesktop
 
         private void BalloonCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var id = (Guid)e.Parameter;
+            var id = (string)e.Parameter;
 
             if (!BalloonManager.TryGetBalloon(id, out var balloon))
             {

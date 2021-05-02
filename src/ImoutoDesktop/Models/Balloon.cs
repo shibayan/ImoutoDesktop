@@ -1,11 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
+﻿using System.IO;
+using System.Text;
 
 namespace ImoutoDesktop.Models
 {
-    [Serializable]
-    public class Balloon : PropertyChangedBase
+    public class Balloon
     {
         public Balloon()
         {
@@ -13,7 +11,7 @@ namespace ImoutoDesktop.Models
             UserColor = "#000000";
         }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 
@@ -21,24 +19,30 @@ namespace ImoutoDesktop.Models
 
         public string UserColor { get; set; }
 
-        [XmlIgnore]
         public bool CanSelect { get; set; }
 
-        [XmlIgnore]
         public string Image => Path.Combine(Directory, "balloon.png");
 
-        [XmlIgnore]
         public string ArrowUpImage => Path.Combine(Directory, "arrow0.png");
 
-        [XmlIgnore]
         public string ArrowDownImage => Path.Combine(Directory, "arrow1.png");
 
-        [XmlIgnore]
         public string Directory { get; set; }
 
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+        public static Balloon LoadFrom(string path)
+        {
+            using var reader = new StreamReader(path, Encoding.UTF8);
+
+            var balloon = Serializer.Deserialize<Balloon>(reader);
+
+            balloon.Directory = Path.GetDirectoryName(path);
+
+            return balloon;
         }
     }
 }
