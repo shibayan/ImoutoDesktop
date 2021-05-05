@@ -1,0 +1,33 @@
+name: Publish
+
+on:
+  push:
+    tags: [ v* ]
+
+env:
+  DOTNET_VERSION: 5.0.x
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use .NET Core ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Setup Version
+      id: setup_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+      shell: bash
+
+    - name: Restore NuGet packages
+      run: dotnet restore
+
+    - name: Publish client application
+      run: dotnet publish -c Release -r win-x86 -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} src\ImoutoDesktop
+
+    - name: Publish server application
+      run: dotnet publish -c Release -r win-x86 -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} src\ImoutoDesktop.Server
