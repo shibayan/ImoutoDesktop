@@ -82,7 +82,7 @@ namespace ImoutoDesktop.Windows
             }
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private async void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key != Key.Enter)
             {
@@ -101,7 +101,7 @@ namespace ImoutoDesktop.Windows
 
             Context.CommandHistory.Add(textBox.Text);
             Context.HistoryIndex = Context.CommandHistory.Count;
-            Context.ExecCommand(textBox.Text);
+            await Context.ExecCommand(textBox.Text);
             textBox.Clear();
         }
 
