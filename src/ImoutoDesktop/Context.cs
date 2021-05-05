@@ -7,9 +7,7 @@ using System.Windows.Input;
 
 using Google.Protobuf.WellKnownTypes;
 
-using ImoutoDesktop.Commands;
 using ImoutoDesktop.Models;
-using ImoutoDesktop.Remoting;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Services;
 using ImoutoDesktop.Windows;
@@ -28,8 +26,6 @@ namespace ImoutoDesktop
 
             // プロファイルを読み込む
             Profile = Profile.LoadFrom(Path.Combine(BaseDirectory, "profile.yml"));
-            Profile.Age = Profile.Age == 0 ? Character.Age : Profile.Age;
-            Profile.TsundereLevel = Profile.TsundereLevel == 0 ? Character.TsundereLevel : Profile.TsundereLevel;
 
             // バルーン読み込み
             Balloon = BalloonManager.GetBalloon(Profile.LastBalloon);
@@ -60,7 +56,7 @@ namespace ImoutoDesktop
 
             RemoteConnectionManager = new RemoteConnectionManager();
 
-            CommandManager = new RemoteCommandManager(Character, RemoteConnectionManager);
+            RemoteCommandManager = new RemoteCommandManager(Character, RemoteConnectionManager);
 
             InitializeScriptEngine();
         }
@@ -106,7 +102,7 @@ namespace ImoutoDesktop
 
         public ScriptPlayer ScriptPlayer { get; }
 
-        public RemoteCommandManager CommandManager { get; }
+        public RemoteCommandManager RemoteCommandManager { get; }
 
         public RemoteConnectionManager RemoteConnectionManager { get; }
 
@@ -186,7 +182,7 @@ namespace ImoutoDesktop
                 ScriptEngine.Connecting = false;
             }
 
-            var command = CommandManager.Get(input);
+            var command = RemoteCommandManager.Get(input);
 
             // コマンドが見つかったか調べる
             if (command != null)
@@ -263,8 +259,8 @@ namespace ImoutoDesktop
 
         private void InitializeScriptEngine()
         {
-            ScriptEngine.Age = Profile.Age;
-            ScriptEngine.TsundereLevel = Profile.TsundereLevel;
+            ScriptEngine.Age = Profile.Age ?? Character.Age;
+            ScriptEngine.TsundereLevel = Profile.TsundereLevel ?? Character.TsundereLevel;
             ScriptEngine.Connecting = false;
             ScriptEngine.AllowOperate = Settings.Default.AllowImoutoAllOperation;
         }
@@ -301,8 +297,8 @@ namespace ImoutoDesktop
         {
             var dialog = new SettingDialog
             {
-                Age = Profile.Age,
-                TsundereLevel = Profile.TsundereLevel
+                Age = Profile.Age ?? Character.Age,
+                TsundereLevel = Profile.TsundereLevel ?? Character.TsundereLevel
             };
 
             if (dialog.ShowDialog() ?? false)
@@ -323,9 +319,6 @@ namespace ImoutoDesktop
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Close();
-        }
+        private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e) => Close();
     }
 }

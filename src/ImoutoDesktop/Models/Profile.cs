@@ -10,9 +10,9 @@ namespace ImoutoDesktop.Models
 
         public Point BalloonOffset { get; set; }
 
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
-        public int TsundereLevel { get; set; }
+        public int? TsundereLevel { get; set; }
 
         public void SaveTo(string path)
         {
