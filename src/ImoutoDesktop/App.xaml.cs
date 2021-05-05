@@ -13,6 +13,11 @@ namespace ImoutoDesktop
     /// </summary>
     public partial class App
     {
+        private readonly Mutex _mutex = new(false, "ImoutoDesktop");
+        private readonly string _default = "sakura";
+
+        public string RootDirectory { get; private set; }
+
         private void App_Startup(object sender, StartupEventArgs e)
         {
             if (!_mutex.WaitOne(0, false))
@@ -61,13 +66,8 @@ namespace ImoutoDesktop
 
             context ??= Context.Create(_default) ?? Context.Create(CharacterManager.Characters.First().Key);
 
-            context.Run();
+            context.Start();
         }
-
-        private readonly Mutex _mutex = new(false, "ImoutoDesktop");
-        private readonly string _default = "sakura";
-
-        public string RootDirectory { get; private set; }
 
         private void App_Exit(object sender, ExitEventArgs e)
         {

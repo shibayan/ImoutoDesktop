@@ -117,10 +117,5 @@ namespace ImoutoDesktop.Windows
             BalloonWindow.Left = Left - BalloonWindow.ActualWidth + BalloonWindow.LocationOffset.X;
             BalloonWindow.Top = Top + BalloonWindow.LocationOffset.Y;
         }
-
-        private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Context.Close();
-        }
     }
 }

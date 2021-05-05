@@ -7,6 +7,7 @@ using Google.Protobuf.WellKnownTypes;
 
 using ImoutoDesktop.Models;
 using ImoutoDesktop.Remoting;
+using ImoutoDesktop.Services;
 
 using Enum = System.Enum;
 
