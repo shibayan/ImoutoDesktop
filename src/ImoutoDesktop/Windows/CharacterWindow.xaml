@@ -1,16 +1,60 @@
 ﻿<Window x:Class="ImoutoDesktop.Windows.CharacterWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:input="clr-namespace:ImoutoDesktop.Input"
     xmlns:models="clr-namespace:ImoutoDesktop.Models"
+    xmlns:services="clr-namespace:ImoutoDesktop.Services"
+    Style="{StaticResource DefaultWindowStyleKey}"
     DataContext="{Binding RelativeSource={RelativeSource self}, Path=Surface}"
     Topmost="{Binding Path=Topmost, Source={x:Static models:Settings.Default}}"
-    Style="{StaticResource CharacterWindowStyleKey}"
     Loaded="CharacterWindow_Loaded" Closing="CharacterWindow_Closing"
     MouseLeftButtonDown="CharacterWindow_MouseLeftButtonDown" MouseLeftButtonUp="CharacterWindow_MouseLeftButtonUp"
     MouseMove="CharacterWindow_MouseMove" LocationChanged="CharacterWindow_LocationChanged">
-    <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseCommand_Executed" />
-    </Window.CommandBindings>
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="キャラクタ(_I)" ItemsSource="{x:Static services:CharacterManager.Characters}">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="IsEnabled" Value="{Binding Path=Value.CanSelect}" />
+                        <Setter Property="IsChecked" Value="{Binding Path=Value.CanSelect}" />
+                        <Setter Property="Command" Value="{x:Static input:DefaultCommands.Character}" />
+                        <Setter Property="CommandParameter" Value="{Binding Path=Key}" />
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Value.Name}" />
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
+            </MenuItem>
+            <MenuItem Header="吹き出し(_B)" ItemsSource="{x:Static services:BalloonManager.Balloons}">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="IsEnabled" Value="{Binding Path=Value.CanSelect}" />
+                        <Setter Property="IsChecked" Value="{Binding Path=Value.CanSelect}" />
+                        <Setter Property="Command" Value="{x:Static input:DefaultCommands.Balloon}" />
+                        <Setter Property="CommandParameter" Value="{Binding Path=Key}" />
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Value.Name}" />
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="機能(_F)">
+                <MenuItem Header="常に前面に表示(_T)" IsCheckable="True"
+                          IsChecked="{Binding Path=Topmost, Source={x:Static models:Settings.Default}}" />
+                <Separator />
+                <MenuItem Header="オプション(_O)" Command="{x:Static input:DefaultCommands.Option}" />
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="バージョン情報(_V)" Command="{x:Static input:DefaultCommands.Version}"/>
+            <Separator />
+            <MenuItem Header="閉じる(_C)" Command="{x:Static ApplicationCommands.Close}" />
+        </ContextMenu>
+    </Window.ContextMenu>
     <Grid>
         <Image Stretch="None" Source="{Binding Path=Image}" SizeChanged="CharacterWindow_SizeChanged" />
     </Grid>

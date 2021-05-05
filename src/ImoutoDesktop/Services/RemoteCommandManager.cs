@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 
+using ImoutoDesktop.Commands;
 using ImoutoDesktop.Models;
-using ImoutoDesktop.Remoting;
 
-namespace ImoutoDesktop.Commands
+namespace ImoutoDesktop.Services
 {
-    public class CommandManager
+    public class RemoteCommandManager
     {
-        public CommandManager(Character character, RemoteConnectionManager remoteConnectionManager)
+        public RemoteCommandManager(Character character, RemoteConnectionManager remoteConnectionManager)
         {
             _commands = new CommandBase[]
             {

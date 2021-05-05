@@ -15,6 +15,8 @@ namespace ImoutoDesktop.Models
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public string ImoutoColor { get; set; }
 
         public string UserColor { get; set; }

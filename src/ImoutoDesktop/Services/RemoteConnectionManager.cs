@@ -2,7 +2,9 @@
 
 using Grpc.Core;
 
-namespace ImoutoDesktop.Remoting
+using ImoutoDesktop.Remoting;
+
+namespace ImoutoDesktop.Services
 {
     public class RemoteConnectionManager
     {

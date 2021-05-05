@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 
 using ImoutoDesktop.Remoting;
+using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop.Commands
 {

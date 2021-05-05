@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:ImoutoDesktop.Controls"
     xmlns:models="clr-namespace:ImoutoDesktop.Models"
+    Style="{StaticResource DefaultWindowStyleKey}"
     Topmost="{Binding Path=Topmost, Source={x:Static models:Settings.Default}}"
-    DataContext="{Binding RelativeSource={RelativeSource self}, Path=Balloon}"
-    AllowsTransparency="True" Background="Transparent" WindowStyle="None" ShowInTaskbar="False" ShowActivated="False"
+    DataContext="{Binding RelativeSource={RelativeSource self}, Path=Balloon}" ShowActivated="False" SizeToContent="Manual"
     PreviewMouseLeftButtonDown="BalloonWindow_MouseLeftButtonDown" PreviewMouseLeftButtonUp="BalloonWindow_MouseLeftButtonUp"
     MouseMove="BalloonWindow_MouseMove" Activated="BalloonWindow_Activated">
     <Window.Resources>
@@ -33,7 +33,6 @@
                 </Setter>
             </Style.Setters>
         </Style>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
     <Grid>
         <Image x:Name="baseImage" Stretch="None" Source="{Binding Path=Image}" SizeChanged="BaseImage_SizeChanged" />
@@ -55,7 +54,7 @@
                       VerticalAlignment="Bottom" Visibility="{Binding ElementName=textViewer, Path=CanScrollDown, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Image Stretch="None" Source="{Binding Path=ArrowDownImage}" />
             </RepeatButton>
-            <TextBox x:Name="textBox" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,2,0,0" BorderBrush="#BBBBBB" PreviewKeyDown="TextBox_PreviewKeyDown" KeyDown="TextBox_KeyDown" />
+            <TextBox x:Name="textBox" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,2,0,0" BorderBrush="#BBBBBB" PreviewKeyDown="TextBox_PreviewKeyDown" KeyDown="TextBox_KeyDown" />
         </Grid>
     </Grid>
 </Window>

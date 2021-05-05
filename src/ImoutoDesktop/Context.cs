@@ -3,11 +3,11 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 using Google.Protobuf.WellKnownTypes;
 
+using ImoutoDesktop.Commands;
 using ImoutoDesktop.Models;
 using ImoutoDesktop.Remoting;
 using ImoutoDesktop.Scripting;
@@ -24,10 +24,10 @@ namespace ImoutoDesktop
             Character = character;
 
             // ルートディレクトリ
-            RootDirectory = character.Directory;
+            BaseDirectory = character.Directory;
 
             // プロファイルを読み込む
-            Profile = Profile.LoadFrom(Path.Combine(RootDirectory, "profile.yml"));
+            Profile = Profile.LoadFrom(Path.Combine(BaseDirectory, "profile.yml"));
             Profile.Age = Profile.Age == 0 ? Character.Age : Profile.Age;
             Profile.TsundereLevel = Profile.TsundereLevel == 0 ? Character.TsundereLevel : Profile.TsundereLevel;
 
@@ -36,7 +36,7 @@ namespace ImoutoDesktop
             Balloon.CanSelect = false;
 
             // ルートからイメージ用ディレクトリを作る
-            SurfaceLoader = new SurfaceLoader(Path.Combine(RootDirectory, "images"));
+            SurfaceLoader = new SurfaceLoader(Path.Combine(BaseDirectory, "images"));
 
             // ウィンドウを作成する
             BalloonWindow = new BalloonWindow
@@ -53,48 +53,42 @@ namespace ImoutoDesktop
             };
 
             // スクリプトエンジンを作成する
-            ScriptEngine = new ScriptEngine(Path.Combine(RootDirectory, "scripts"));
+            ScriptEngine = new ScriptEngine(Path.Combine(BaseDirectory, "scripts"));
 
             // スクリプトプレイヤーを作成
             ScriptPlayer = new ScriptPlayer(this);
 
             RemoteConnectionManager = new RemoteConnectionManager();
 
-            CommandManager = new Commands.CommandManager(Character, RemoteConnectionManager);
+            CommandManager = new RemoteCommandManager(Character, RemoteConnectionManager);
 
             InitializeScriptEngine();
         }
 
-        private static readonly object _syncLock = new();
-
         public static Context Create(string id)
         {
-            lock (_syncLock)
+            if (!CharacterManager.TryGetCharacter(id, out var character))
             {
-                if (!CharacterManager.TryGetCharacter(id, out var character))
-                {
-                    return null;
-                }
-
-                character.CanSelect = false;
-                var context = new Context(character);
-                return context;
+                return null;
             }
+
+            character.CanSelect = false;
+
+            return new Context(character);
         }
 
         public static void Delete(Context context)
         {
-            lock (_syncLock)
-            {
-                context.Character.CanSelect = true;
-                // 設定を保存
-                Settings.Default.LastCharacter = context.Character.Id;
-                // 起動中のコンテキストが 1 つも無くなったら終了
-                Application.Current.Shutdown();
-            }
+            context.Character.CanSelect = true;
+
+            // 設定を保存
+            Settings.Default.LastCharacter = context.Character.Id;
+
+            // 起動中のコンテキストが 1 つも無くなったら終了
+            Application.Current.Shutdown();
         }
 
-        public string RootDirectory { get; }
+        public string BaseDirectory { get; }
 
         public Balloon Balloon { get; private set; }
 
@@ -112,7 +106,7 @@ namespace ImoutoDesktop
 
         public ScriptPlayer ScriptPlayer { get; }
 
-        public Commands.CommandManager CommandManager { get; }
+        public RemoteCommandManager CommandManager { get; }
 
         public RemoteConnectionManager RemoteConnectionManager { get; }
 
@@ -120,19 +114,20 @@ namespace ImoutoDesktop
 
         public List<string> CommandHistory { get; } = new();
 
-        public void Run()
+        public void Start()
         {
             // メニューのコマンドを定義する
-            var contextMenu = (ContextMenu)Application.Current.Resources["ContextMenuKey"];
-            contextMenu.CommandBindings.Clear();
+            var contextMenu = CharacterWindow.ContextMenu;
             contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Character, CharacterCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Balloon, BalloonCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Option, OptionCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Version, VersionCommand_Executed));
             contextMenu.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseCommand_Executed));
+
             // 初期サーフェスを表示して起動
             CharacterWindow.ChangeSurface(0);
             BalloonWindow.Show();
+
             PlayInvoke("OnBoot");
         }
 
@@ -143,18 +138,17 @@ namespace ImoutoDesktop
 
         public void Shutdown()
         {
-            // メニュー周りクリーンアップ
-            var contextMenu = (ContextMenu)Application.Current.Resources["ContextMenuKey"];
-            contextMenu.CommandBindings.Clear();
             // リソースを破棄する
             CharacterWindow.Close();
             BalloonWindow.Close();
             ScriptPlayer.Stop();
             ScriptEngine.Dispose();
+
             // プロファイルを保存
             Profile.LastBalloon = Balloon.Id;
             Profile.BalloonOffset = BalloonWindow.LocationOffset;
-            Profile.SaveTo(Path.Combine(RootDirectory, "profile.yml"));
+            Profile.SaveTo(Path.Combine(BaseDirectory, "profile.yml"));
+
             // コンテキストを削除
             Delete(this);
         }
@@ -284,7 +278,7 @@ namespace ImoutoDesktop
                 return;
             }
             Shutdown();
-            context.Run();
+            context.Start();
         }
 
         private void BalloonCommand_Executed(object sender, ExecutedRoutedEventArgs e)
