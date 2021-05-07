@@ -27,7 +27,7 @@ jobs:
       run: dotnet restore
 
     - name: Publish client application
-      run: dotnet publish -c Release -r win-x86 -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} src\ImoutoDesktop
+      run: dotnet publish -c Release -r win-x86 -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} /p:PublishSingleFile=true /p:PublishReadyToRun=true src\ImoutoDesktop
 
     - name: Publish server application
-      run: dotnet publish -c Release -r win-x86 -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} src\ImoutoDesktop.Server
+      run: dotnet publish -c Release -r win-x86 -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} /p:PublishSingleFile=true /p:PublishReadyToRun=true src\ImoutoDesktop.Server
