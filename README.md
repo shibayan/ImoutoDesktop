@@ -1,7 +1,7 @@
 # いもうとデスクトップ
 
 [![Build](https://github.com/shibayan/ImoutoDesktop/actions/workflows/build.yml/badge.svg)](https://github.com/shibayan/ImoutoDesktop/actions/workflows/build.yml)
-[![Release](https://img.shields.io/github/release/shibayan/ImoutoDesktop.svg)](https://github.com/shibayan/ImoutoDesktop/releases/latest)
+[![Release](https://img.shields.io/github/release/shibayan/ImoutoDesktop.svg?include_prereleases&sort=semver)](https://github.com/shibayan/ImoutoDesktop/releases/latest)
 [![License](https://img.shields.io/github/license/shibayan/ImoutoDesktop.svg)](https://github.com/shibayan/ImoutoDesktop/blob/master/LICENSE)
 
 ## はじめに
