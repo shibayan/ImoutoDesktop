@@ -39,3 +39,9 @@ jobs:
       run: |
         7z a client.zip ./client/*
         7z a server.zip ./server/*
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: applications
+        path: '*.zip'
