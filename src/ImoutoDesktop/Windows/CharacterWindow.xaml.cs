@@ -20,7 +20,7 @@ namespace ImoutoDesktop.Windows
         private bool _isInitialized;
         private Point _prevMousePosition;
 
-        public Context Context { get; set; }
+        public CharacterContext Context { get; set; }
 
         public BalloonWindow BalloonWindow { get; set; }
 
@@ -43,7 +43,7 @@ namespace ImoutoDesktop.Windows
                 Surface = Context.SurfaceLoader.Load(id);
                 if (!_isInitialized)
                 {
-                    Left = SystemParameters.WorkArea.Width - ((BitmapImage)Surface.Image).PixelWidth - 1;
+                    Left = SystemParameters.WorkArea.Width - Surface.Image.PixelWidth - 1;
                     _isInitialized = true;
                 }
                 Show();

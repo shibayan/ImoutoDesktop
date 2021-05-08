@@ -11,10 +11,7 @@ namespace ImoutoDesktop.Services
 
         public static Dictionary<string, Character> Characters { get; } = new();
 
-        public static bool TryGetCharacter(string id, out Character character)
-        {
-            return Characters.TryGetValue(id, out character);
-        }
+        public static bool TryGetValue(string id, out Character character) => Characters.TryGetValue(id, out character);
 
         public static void Rebuild(string searchDirectory)
         {

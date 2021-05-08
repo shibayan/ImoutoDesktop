@@ -15,8 +15,8 @@
             <MenuItem Header="キャラクタ(_I)" ItemsSource="{x:Static services:CharacterManager.Characters}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="IsEnabled" Value="{Binding Path=Value.CanSelect}" />
-                        <Setter Property="IsChecked" Value="{Binding Path=Value.CanSelect}" />
+                        <Setter Property="IsCheckable" Value="True" />
+                        <Setter Property="IsChecked" Value="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource InvertBooleanConverter}, Mode=OneWay}" />
                         <Setter Property="Command" Value="{x:Static input:DefaultCommands.Character}" />
                         <Setter Property="CommandParameter" Value="{Binding Path=Key}" />
                     </Style>
@@ -30,8 +30,8 @@
             <MenuItem Header="吹き出し(_B)" ItemsSource="{x:Static services:BalloonManager.Balloons}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="IsEnabled" Value="{Binding Path=Value.CanSelect}" />
-                        <Setter Property="IsChecked" Value="{Binding Path=Value.CanSelect}" />
+                        <Setter Property="IsCheckable" Value="True" />
+                        <Setter Property="IsChecked" Value="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource InvertBooleanConverter}, Mode=OneWay}" />
                         <Setter Property="Command" Value="{x:Static input:DefaultCommands.Balloon}" />
                         <Setter Property="CommandParameter" Value="{Binding Path=Key}" />
                     </Style>

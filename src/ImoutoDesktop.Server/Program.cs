@@ -9,10 +9,12 @@ namespace ImoutoDesktop.Server
     {
         static async Task Main()
         {
+            var port = 1024;
+
             var server = new Grpc.Core.Server
             {
                 Services = { Remoting.RemoteService.BindService(new RemoteServiceImpl()) },
-                Ports = { new ServerPort("0.0.0.0", 1024, ServerCredentials.Insecure) }
+                Ports = { new ServerPort("0.0.0.0", port, ServerCredentials.Insecure) }
             };
 
             server.Start();

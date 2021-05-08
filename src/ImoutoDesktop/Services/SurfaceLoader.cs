@@ -12,11 +12,12 @@ namespace ImoutoDesktop.Services
     {
         public SurfaceLoader(string directory)
         {
-            RebuildTable(directory);
+            _rootDirectory = directory;
+
+            RebuildTable();
         }
 
-        public string RootDirectory { get; set; }
-
+        private readonly string _rootDirectory;
         private readonly Dictionary<int, Surface> _surfaceTable = new();
 
         public void RebuildTable()
@@ -25,24 +26,17 @@ namespace ImoutoDesktop.Services
 
             var regex = new Regex(@"surface([0-9]+).png$", RegexOptions.IgnoreCase);
 
-            foreach (var file in Directory.GetFiles(RootDirectory, "surface*.png"))
+            foreach (var file in Directory.GetFiles(_rootDirectory, "surface*.png"))
             {
                 var match = regex.Match(file);
 
                 if (match.Success)
                 {
                     var id = int.Parse(match.Groups[1].Value);
+
                     _surfaceTable.Add(id, new Surface(id, Path.GetFileName(file)));
                 }
             }
-        }
-
-        public void RebuildTable(string directory)
-        {
-            RootDirectory = directory;
-
-            // ID -> ファイル名のテーブルを作成する
-            RebuildTable();
         }
 
         public Surface Load(int id)
@@ -52,11 +46,7 @@ namespace ImoutoDesktop.Services
                 return null;
             }
 
-            if (surface.Image == null)
-            {
-                var image = new BitmapImage(new Uri(Path.Combine(RootDirectory, surface.FileName)));
-                surface.Image = image;
-            }
+            surface.Image ??= new BitmapImage(new Uri(Path.Combine(_rootDirectory, surface.FileName)));
 
             return surface;
         }

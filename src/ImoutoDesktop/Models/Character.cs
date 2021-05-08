@@ -21,8 +21,6 @@ namespace ImoutoDesktop.Models
 
         public int TsundereLevel { get; set; }
 
-        public bool CanSelect { get; set; }
-
         public string Directory { get; set; }
 
         public override int GetHashCode()

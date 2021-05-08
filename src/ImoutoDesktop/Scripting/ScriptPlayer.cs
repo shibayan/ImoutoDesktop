@@ -9,14 +9,14 @@ namespace ImoutoDesktop.Scripting
 {
     public class ScriptPlayer : DispatcherObject
     {
-        public ScriptPlayer(Context context)
+        public ScriptPlayer(CharacterContext context)
         {
             _context = context;
             _thread = new Thread(PlayThread);
             _thread.Start();
         }
 
-        private readonly Context _context;
+        private readonly CharacterContext _context;
 
         private readonly Thread _thread;
 
@@ -46,13 +46,16 @@ namespace ImoutoDesktop.Scripting
             {
                 return;
             }
+
             _isAbort = true;
-            _queue.Clear();
-            _event.Set();
-            if (_thread.Join(1000))
+
+            lock (_syncLock)
             {
-                _thread.Abort();
+                _queue.Clear();
+                _event.Set();
             }
+
+            _thread.Join(5000);
         }
 
         private void Invoke(Action method)

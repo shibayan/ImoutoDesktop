@@ -21,9 +21,7 @@ namespace ImoutoDesktop.Models
 
         public string UserColor { get; set; }
 
-        public bool CanSelect { get; set; }
-
-        public string Image => Path.Combine(Directory, "balloon.png");
+        public string BaseImage => Path.Combine(Directory, "balloon.png");
 
         public string ArrowUpImage => Path.Combine(Directory, "arrow0.png");
 

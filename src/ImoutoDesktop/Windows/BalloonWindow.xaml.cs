@@ -22,7 +22,7 @@ namespace ImoutoDesktop.Windows
         private Point _dragStartPosition;
         private Point _prevMousePosition;
 
-        public Context Context { get; set; }
+        public CharacterContext Context { get; set; }
 
         public Point LocationOffset { get; set; }
 

@@ -13,10 +13,19 @@ namespace ImoutoDesktop
     /// </summary>
     public partial class App
     {
+        public App()
+        {
+#if DEBUG
+            RootDirectory = @"C:\Users\shibayan\Documents\GitHub\ImoutoDesktop\resource";
+#else
+            RootDirectory = System.AppContext.BaseDirectory;
+#endif
+        }
+
         private readonly Mutex _mutex = new(false, "ImoutoDesktop");
         private readonly string _default = "sakura";
 
-        public string RootDirectory { get; private set; }
+        public string RootDirectory { get; }
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
@@ -28,12 +37,6 @@ namespace ImoutoDesktop
 
                 return;
             }
-
-#if DEBUG
-            RootDirectory = @"C:\Users\shibayan\Documents\GitHub\ImoutoDesktop\resource";
-#else
-            RootDirectory = System.AppContext.BaseDirectory;
-#endif
 
             // 設定ファイルを読み込む
             Settings.Load(Path.Combine(RootDirectory, "settings.yml"));
@@ -57,14 +60,14 @@ namespace ImoutoDesktop
             }
 
             // コンテキストを作成して、いもうとを起動
-            Context context = null;
+            CharacterContext context = null;
 
             if (Settings.Default.LastCharacter != null)
             {
-                context = Context.Create(Settings.Default.LastCharacter);
+                context = CharacterContext.Create(Settings.Default.LastCharacter);
             }
 
-            context ??= Context.Create(_default) ?? Context.Create(CharacterManager.Characters.First().Key);
+            context ??= CharacterContext.Create(_default) ?? CharacterContext.Create(CharacterManager.Characters.First().Key);
 
             context.Start();
         }

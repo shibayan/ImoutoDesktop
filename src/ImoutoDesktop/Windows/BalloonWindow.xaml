@@ -35,7 +35,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Image x:Name="baseImage" Stretch="None" Source="{Binding Path=Image}" SizeChanged="BaseImage_SizeChanged" />
+        <Image x:Name="baseImage" Stretch="None" Source="{Binding Path=BaseImage}" SizeChanged="BaseImage_SizeChanged" />
         <Grid Margin="15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
