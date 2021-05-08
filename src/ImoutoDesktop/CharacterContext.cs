@@ -14,9 +14,9 @@ using ImoutoDesktop.Windows;
 
 namespace ImoutoDesktop
 {
-    public class Context
+    public class CharacterContext
     {
-        private Context(Character character)
+        private CharacterContext(Character character)
         {
             // いもうとの定義
             Character = character;
@@ -28,8 +28,7 @@ namespace ImoutoDesktop
             Profile = Profile.LoadFrom(Path.Combine(BaseDirectory, "profile.yml"));
 
             // バルーン読み込み
-            Balloon = BalloonManager.GetBalloon(Profile.LastBalloon);
-            Balloon.CanSelect = false;
+            Balloon = BalloonManager.GetValueOrDefault(Profile.LastBalloon);
 
             // ルートからイメージ用ディレクトリを作る
             SurfaceLoader = new SurfaceLoader(Path.Combine(BaseDirectory, "images"));
@@ -48,6 +47,15 @@ namespace ImoutoDesktop
                 BalloonWindow = BalloonWindow
             };
 
+            // メニューのコマンドを定義する
+            var contextMenu = CharacterWindow.ContextMenu;
+
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Character, CharacterCommand_Executed, CharacterCommand_CanExecute));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Balloon, BalloonCommand_Executed, BalloonCommand_CanExecute));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Option, OptionCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Version, VersionCommand_Executed));
+            contextMenu.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseCommand_Executed));
+
             // スクリプトエンジンを作成する
             ScriptEngine = new ScriptEngine(Path.Combine(BaseDirectory, "scripts"));
 
@@ -61,27 +69,34 @@ namespace ImoutoDesktop
             InitializeScriptEngine();
         }
 
-        public static Context Create(string id)
+        private static readonly Dictionary<string, CharacterContext> _activeContexts = new Dictionary<string, CharacterContext>();
+
+        public static CharacterContext Create(string id)
         {
-            if (!CharacterManager.TryGetCharacter(id, out var character))
+            if (!CharacterManager.TryGetValue(id, out var character))
             {
                 return null;
             }
 
-            character.CanSelect = false;
+            var context = new CharacterContext(character);
 
-            return new Context(character);
+            _activeContexts.Add(id, context);
+
+            return context;
         }
 
-        public static void Delete(Context context)
+        public static void Delete(CharacterContext context)
         {
-            context.Character.CanSelect = true;
-
             // 設定を保存
             Settings.Default.LastCharacter = context.Character.Id;
 
+            _activeContexts.Remove(context.Character.Id);
+
             // 起動中のコンテキストが 1 つも無くなったら終了
-            Application.Current.Shutdown();
+            if (_activeContexts.Count == 0)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         public string BaseDirectory { get; }
@@ -112,14 +127,6 @@ namespace ImoutoDesktop
 
         public void Start()
         {
-            // メニューのコマンドを定義する
-            var contextMenu = CharacterWindow.ContextMenu;
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Character, CharacterCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Balloon, BalloonCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Option, OptionCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(Input.DefaultCommands.Version, VersionCommand_Executed));
-            contextMenu.CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, CloseCommand_Executed));
-
             // 初期サーフェスを表示して起動
             CharacterWindow.ChangeSurface(0);
             BalloonWindow.Show();
@@ -265,6 +272,13 @@ namespace ImoutoDesktop
             ScriptEngine.AllowOperate = Settings.Default.AllowImoutoAllOperation;
         }
 
+        private void CharacterCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var id = (string)e.Parameter;
+
+            e.CanExecute = id != Character.Id;
+        }
+
         private void CharacterCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var id = (string)e.Parameter;
@@ -277,17 +291,21 @@ namespace ImoutoDesktop
             context.Start();
         }
 
+        private void BalloonCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var id = (string)e.Parameter;
+
+            e.CanExecute = id != Balloon.Id;
+        }
+
         private void BalloonCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var id = (string)e.Parameter;
 
-            if (!BalloonManager.TryGetBalloon(id, out var balloon))
+            if (!BalloonManager.TryGetValue(id, out var balloon))
             {
                 return;
             }
-
-            Balloon.CanSelect = true;
-            balloon.CanSelect = false;
 
             Balloon = balloon;
             BalloonWindow.Balloon = balloon;
@@ -305,6 +323,7 @@ namespace ImoutoDesktop
             {
                 Profile.Age = dialog.Age;
                 Profile.TsundereLevel = dialog.TsundereLevel;
+
                 InitializeScriptEngine();
             }
         }

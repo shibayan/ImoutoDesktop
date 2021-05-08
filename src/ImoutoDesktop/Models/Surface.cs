@@ -1,4 +1,4 @@
-﻿using System.Windows.Media;
+﻿using System.Windows.Media.Imaging;
 
 namespace ImoutoDesktop.Models
 {
@@ -14,7 +14,7 @@ namespace ImoutoDesktop.Models
 
         public string FileName { get; }
 
-        public ImageSource Image { get; set; }
+        public BitmapImage Image { get; set; }
 
         public override int GetHashCode()
         {

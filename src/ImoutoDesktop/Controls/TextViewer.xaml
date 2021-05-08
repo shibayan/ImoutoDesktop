@@ -7,7 +7,7 @@
     </UserControl.CommandBindings>
     <RichTextBox x:Name="richTextBox" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"
                  BorderThickness="0" Background="{x:Null}" IsReadOnly="True" FocusVisualStyle="{x:Null}"
-                 Cursor="Arrow" Focusable="False" Padding="0" ScrollViewer.ScrollChanged="RichTextBox_ScrollChanged">
+                 Cursor="Arrow" Focusable="False" Padding="0" ScrollViewer.ScrollChanged="RichTextBox_ScrollChanged" FontFamily="Yu Gothic">
         <RichTextBox.Document>
             <FlowDocument />
         </RichTextBox.Document>

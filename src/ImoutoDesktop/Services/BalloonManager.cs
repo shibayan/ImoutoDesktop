@@ -12,15 +12,9 @@ namespace ImoutoDesktop.Services
 
         public static Dictionary<string, Balloon> Balloons { get; } = new();
 
-        public static Balloon GetBalloon(string id)
-        {
-            return id != null && Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
-        }
+        public static Balloon GetValueOrDefault(string id) => id != null && Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
 
-        public static bool TryGetBalloon(string id, out Balloon balloon)
-        {
-            return Balloons.TryGetValue(id, out balloon);
-        }
+        public static bool TryGetValue(string id, out Balloon balloon) => Balloons.TryGetValue(id, out balloon);
 
         public static void Rebuild(string searchDirectory)
         {
