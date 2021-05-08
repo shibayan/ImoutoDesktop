@@ -32,7 +32,7 @@ namespace ImoutoDesktop
 #if DEBUG
             RootDirectory = @"C:\Users\shibayan\Documents\GitHub\ImoutoDesktop\resource";
 #else
-            RootDirectory = Path.GetDirectoryName(typeof(App).Assembly.Location);
+            RootDirectory = System.AppContext.BaseDirectory;
 #endif
 
             // 設定ファイルを読み込む
