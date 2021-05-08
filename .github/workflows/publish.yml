@@ -35,13 +35,18 @@ jobs:
     - name: Copy client resource
       run: xcopy .\resource .\client /I /Y /E /H
 
-    - name: Zip applications
-      run: |
-        7z a client.zip ./client/*
-        7z a server.zip ./server/*
-
-    - name: Upload artifacts
+    - name: Upload client application
       uses: actions/upload-artifact@v2
       with:
-        name: applications
-        path: '*.zip'
+        name: client
+        path: |
+          client/
+          !client/*.pdb
+
+    - name: Upload server application
+      uses: actions/upload-artifact@v2
+      with:
+        name: server
+        path: |
+          server/
+          !server/*.pdb
