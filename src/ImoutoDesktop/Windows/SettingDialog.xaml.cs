@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 
-using ImoutoDesktop.Models;
-
 namespace ImoutoDesktop.Windows
 {
     /// <summary>
@@ -34,7 +32,6 @@ namespace ImoutoDesktop.Windows
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.Password = password.Password;
             BindingGroup.CommitEdit();
             DialogResult = true;
         }
@@ -47,7 +44,6 @@ namespace ImoutoDesktop.Windows
 
         private void SettingDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            password.Password = Settings.Default.Password;
             BindingGroup.BeginEdit();
         }
     }

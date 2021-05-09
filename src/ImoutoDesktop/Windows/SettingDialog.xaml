@@ -4,10 +4,7 @@
     xmlns:models="clr-namespace:ImoutoDesktop.Models"
     x:Name="window"
     Title="設定" Height="350" Width="550" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize"
-    Topmost="True" DataContext="{x:Static models:Settings.Default}" Loaded="SettingDialog_Loaded">
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </Window.Resources>
+    DataContext="{x:Static models:Settings.Default}" Loaded="SettingDialog_Loaded">
     <Window.BindingGroup>
         <BindingGroup />
     </Window.BindingGroup>
@@ -48,9 +45,9 @@
             </ListBoxItem>
         </ListBox>
         <Canvas Grid.Column="1" Grid.Row="0" Visibility="{Binding Path=IsSelected, ElementName=generalListBoxItem, Converter={StaticResource BooleanToVisibilityConverter}}">
-        	<TextBlock Height="18" Text="ユーザー名" TextWrapping="Wrap" Canvas.Top="18" Canvas.Left="10"/>
-        	<TextBox Text="{Binding Path=UserName, Mode=TwoWay}" TextWrapping="Wrap" Canvas.Top="16" Canvas.Left="104" Width="230"/>
-        	<TextBlock Text="敬称" TextWrapping="Wrap" Canvas.Top="60" Canvas.Left="8"/>
+            <TextBlock Height="18" Text="ユーザー名" TextWrapping="Wrap" Canvas.Top="18" Canvas.Left="10"/>
+            <TextBox Text="{Binding Path=UserName, Mode=TwoWay}" TextWrapping="Wrap" Canvas.Top="16" Canvas.Left="104" Width="230"/>
+            <TextBlock Text="敬称" TextWrapping="Wrap" Canvas.Top="60" Canvas.Left="8"/>
             <ComboBox IsSynchronizedWithCurrentItem="True" Canvas.Top="60" Canvas.Left="104" Width="230" SelectedValuePath="Tag" SelectedValue="{Binding Path=Honorific, Mode=Default}">
                 <ComboBoxItem Content="敬称なし" Tag=""/>
                 <ComboBoxItem Content="様" Tag="様"/>
@@ -65,12 +62,10 @@
             </ComboBox>
         </Canvas>
         <Canvas Grid.Column="1" Grid.Row="0" Visibility="{Binding Path=IsSelected, ElementName=networkListBoxItem, Converter={StaticResource BooleanToVisibilityConverter}}">
-				<TextBlock Text="サーバアドレス" Canvas.Left="10" Canvas.Top="18"/>
-				<TextBlock Text="ポート番号" Canvas.Left="10" Canvas.Top="54"/>
-				<TextBlock Text="接続パスワード" Canvas.Left="10" Canvas.Top="89"/>
-				<TextBox Width="230" Canvas.Left="104" Canvas.Top="16" Text="{Binding Path=ServerAddress, Mode=TwoWay}"/>
-				<TextBox Width="230" Canvas.Left="105" Canvas.Top="51" Text="{Binding Path=PortNumber, Mode=TwoWay}"/>
-				<PasswordBox Width="230" Canvas.Left="105" Canvas.Top="86" x:Name="password" FontFamily="{DynamicResource {x:Static SystemFonts.MessageFontFamilyKey}}"/>
+            <TextBlock Text="サーバアドレス" Canvas.Left="10" Canvas.Top="18"/>
+            <TextBlock Text="ポート番号" Canvas.Left="10" Canvas.Top="54"/>
+            <TextBox Width="230" Canvas.Left="104" Canvas.Top="16" Text="{Binding Path=ServerAddress, Mode=TwoWay}"/>
+            <TextBox Width="230" Canvas.Left="105" Canvas.Top="51" Text="{Binding Path=PortNumber, Mode=TwoWay}"/>
         </Canvas>
         <Canvas Grid.Column="1" Grid.Row="0" Visibility="{Binding Path=IsSelected, ElementName=imoutoListBoxItem, Converter={StaticResource BooleanToVisibilityConverter}}">
             <TextBlock Text="ツンツン" TextWrapping="Wrap" Canvas.Left="20" Canvas.Top="63"/>

@@ -53,7 +53,7 @@ $alreadyConnected
 
 
 // ログイン完了
-$OnLogined_default
+$OnConnect_default
 //なし
 
 
@@ -70,7 +70,7 @@ $OnDisconnecting
 
 
 // 鯖との接続が切れた
-$OnDisconnected_default
+$OnDisconnect_default
 {$OnCommandIgnored}
 {$if (({$hour} < 7 || {$hour} >= 21) && {$random(2)} == 0) {{$reject = true}{$OnSleeping}} else {{$OnCommandIgnored}}}
 //要検討

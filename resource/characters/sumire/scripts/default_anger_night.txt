@@ -32,7 +32,7 @@ $OnLogin_default; {$if ({$random(3)} == 0)}
 
 
 // ログイン時
-$OnLogined
+$OnConnect
 {$parameter(0)}に接続したよ。
 サーバに接続したよ。
 
@@ -55,7 +55,7 @@ $OnDisconnecting
 
 
 // 鯖との接続が切れた
-$OnDisconnected
+$OnDisconnect
 サーバとの接続が切れちゃったみたい。
 あ……\w5接続が切れちゃった。
 

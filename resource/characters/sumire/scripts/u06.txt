@@ -26,7 +26,7 @@ $alreadyConnected
 
 
 // ログイン時
-$OnLogined
+$OnConnect
 {$parameter(0)}にせつぞくしたよ。
 むこうにつながったよ。
 
@@ -44,7 +44,7 @@ $OnDisconnecting
 
 
 // 鯖との接続が切れた
-$OnDisconnected
+$OnDisconnect
 せつぞくがきれちゃった。
 あ……\w5せつぞくがきれちゃった。
 

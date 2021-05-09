@@ -5,7 +5,7 @@ using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop.Commands
 {
-    public class Connect : CommandBase
+    public class Connect : RemoteCommandBase
     {
         public Connect(RemoteConnectionManager remoteConnectionManager)
             : base("接続", remoteConnectionManager)
@@ -26,7 +26,7 @@ namespace ImoutoDesktop.Commands
                 await RemoteConnectionManager.ConnectAsync(Settings.Default.ServerAddress, Settings.Default.PortNumber);
             }
 
-            return Succeeded();
+            return Succeeded(new[] { Settings.Default.ServerAddress });
         }
     }
 }

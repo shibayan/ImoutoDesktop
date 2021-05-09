@@ -11,7 +11,7 @@ namespace ImoutoDesktop.Services
         {
             _commands = new CommandBase[]
             {
-                new CallName(character.Name, remoteConnectionManager),
+                new CallName(character.Name),
                 new Connect(remoteConnectionManager),
                 new Disconnect(remoteConnectionManager),
                 new ChangeDirectory(remoteConnectionManager),
@@ -20,7 +20,7 @@ namespace ImoutoDesktop.Services
                 new OpenFile(remoteConnectionManager),
                 new DeleteFile(remoteConnectionManager),
                 new ScreenShot(remoteConnectionManager),
-                new Close(remoteConnectionManager)
+                new Close()
             };
         }
 
@@ -28,7 +28,7 @@ namespace ImoutoDesktop.Services
 
         public CommandBase Get(string input)
         {
-            return _commands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.IsExecute(input));
+            return _commands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.CanExecute(input));
         }
     }
 }

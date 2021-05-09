@@ -28,7 +28,7 @@ $alreadyConnected
 
 
 // ログイン時
-$OnLogined
+$OnConnect
 {$setSurfaceRange(0,2)}{$parameter(0)}にせつぞくしたよ。
 {$setSurfaceRange(0,2)}むこうにつながったよ。
 
@@ -46,7 +46,7 @@ $OnDisconnecting
 
 
 // 鯖との接続が切れた
-$OnDisconnected
+$OnDisconnect
 {$setSurfaceRange(0,2)}せつぞくがきれちゃった。
 {$setSurfaceRange(0,2)}あ……\w5せつぞくがきれちゃった。
 

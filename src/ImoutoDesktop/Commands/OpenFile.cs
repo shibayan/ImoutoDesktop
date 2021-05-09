@@ -7,16 +7,16 @@ using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop.Commands
 {
-    public class OpenFile : CommandBase
+    public class OpenFile : RemoteCommandBase
     {
         public OpenFile(RemoteConnectionManager remoteConnectionManager)
-            : base("(.+?)を(開く|表示)", remoteConnectionManager)
+            : base("(.+?)を(開く|開いて|表示)", remoteConnectionManager)
         {
         }
 
         private string _path;
 
-        public override async Task<CommandResult> PreExecute(string input)
+        protected override async Task<CommandResult> PreExecuteCore(string input)
         {
             var serviceClient = RemoteConnectionManager.GetServiceClient();
 
@@ -30,7 +30,7 @@ namespace ImoutoDesktop.Commands
             return Succeeded(new[] { Escape(_path) });
         }
 
-        public override async Task<CommandResult> Execute(string input)
+        protected override async Task<CommandResult> ExecuteCore(string input)
         {
             var serviceClient = RemoteConnectionManager.GetServiceClient();
 

@@ -15,17 +15,17 @@ $OnLogin
 
 
 // 正常にログインした
-$OnLogined
+$OnConnect
 {
 {$ServerName = {$parameter(0)}}
-{$OnLogined_default}
+{$OnConnect_default}
 }
 
 
 // 鯖との接続が切れた
-$OnDisconnected
+$OnDisconnect
 {
-{$OnDisconnected_default}
+{$OnDisconnect_default}
 {$ServerName = "サーバ"}
 }
 

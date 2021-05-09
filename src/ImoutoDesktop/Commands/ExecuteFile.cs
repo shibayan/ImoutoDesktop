@@ -7,7 +7,7 @@ using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop.Commands
 {
-    public class ExecuteFile : CommandBase
+    public class ExecuteFile : RemoteCommandBase
     {
         public ExecuteFile(RemoteConnectionManager remoteConnectionManager)
             : base("(.+?)を実行", remoteConnectionManager)
@@ -16,7 +16,7 @@ namespace ImoutoDesktop.Commands
 
         private string _path;
 
-        public override async Task<CommandResult> PreExecute(string input)
+        protected override async Task<CommandResult> PreExecuteCore(string input)
         {
             var serviceClient = RemoteConnectionManager.GetServiceClient();
 
@@ -30,7 +30,7 @@ namespace ImoutoDesktop.Commands
             return Succeeded(new[] { Escape(_path) });
         }
 
-        public override async Task<CommandResult> Execute(string input)
+        protected override async Task<CommandResult> ExecuteCore(string input)
         {
             var serviceClient = RemoteConnectionManager.GetServiceClient();
 
