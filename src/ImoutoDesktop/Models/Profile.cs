@@ -31,7 +31,7 @@ namespace ImoutoDesktop.Models
             }
             catch
             {
-                return new Profile();
+                return null;
             }
         }
     }

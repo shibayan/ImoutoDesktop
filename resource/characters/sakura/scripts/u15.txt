@@ -61,16 +61,16 @@ $alreadyConnected_dere
 
 
 // ログイン時
-$OnLogined_default
-{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnLogined_normal} } else { {$OnLogined_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnLogined_dere} } else { {$OnLogined_normal} } } } }
+$OnConnect_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnConnect_normal} } else { {$OnConnect_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnConnect_dere} } else { {$OnConnect_normal} } } } }
 
-$OnLogined_tsun
+$OnConnect_tsun
 {$setSurfaceRange(01,03)}「{$parameter(0)}」にログインしたわよ。\w5で、\w5つぎは？
 
-$OnLogined_normal
+$OnConnect_normal
 \s[00]「{$parameter(0)}」にログインしたよ。
 
-$OnLogined_dere
+$OnConnect_dere
 {$setSurfaceRange(07,10)}「{$parameter(0)}」にログインしたよ。
 {$setSurfaceRange(07,10)}ログイン成功。やったね！
 
@@ -107,20 +107,20 @@ $OnDisconnecting_dere
 
 
 // 鯖との接続が切れた
-$OnDisconnected_default
-{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnected_normal} } else { {$OnDisconnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnected_dere} } else { {$OnDisconnected_normal} } } } }
+$OnDisconnect_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnect_normal} } else { {$OnDisconnect_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnect_dere} } else { {$OnDisconnect_normal} } } } }
 
-$OnDisconnected_tsun
+$OnDisconnect_tsun
 {$setSurfaceRange(01,03)}「{$ServerName}」との接続が切れたわね。つなぎなおしてみたら？
 {$setSurfaceRange(01,03)}「{$ServerName}」との接続が切れたわね。
 {$setSurfaceRange(01,03)}サーバとの接続が切れたわね。つなぎなおしてみたら？
 {$setSurfaceRange(01,03)}サーバとの接続が切れたわね。
 
-$OnDisconnected_normal
+$OnDisconnect_normal
 {$setSurfaceRange(00,03)}「{$ServerName}」との接続が切れたみたいね。
 {$setSurfaceRange(00,03)}サーバとの接続が切れたみたいね。
 
-$OnDisconnected_dere
+$OnDisconnect_dere
 {$setSurfaceRange(00,03)}「{$ServerName}」との接続が切れちゃったみたい。
 {$setSurfaceRange(00,03)}サーバとの接続が切れちゃったみたい。
 

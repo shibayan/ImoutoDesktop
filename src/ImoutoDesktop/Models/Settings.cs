@@ -9,8 +9,6 @@ namespace ImoutoDesktop.Models
 
         public int PortNumber { get; set; }
 
-        public string Password { get; set; }
-
         private bool _topmost;
 
         public bool Topmost

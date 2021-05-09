@@ -72,7 +72,9 @@ namespace ImoutoDesktop.Server
 
         public override Task<GenericResponse> Execute(ExecuteRequest request, ServerCallContext context)
         {
-            return base.Execute(request, context);
+            Process.Start(request.Path);
+
+            return Task.FromResult(new GenericResponse { Succeeded = true });
         }
 
         public override Task<RunShellResponse> RunShell(RunShellRequest request, ServerCallContext context)

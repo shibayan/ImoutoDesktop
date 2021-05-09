@@ -4,7 +4,7 @@ using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop.Commands
 {
-    public class Disconnect : CommandBase
+    public class Disconnect : RemoteCommandBase
     {
         public Disconnect(RemoteConnectionManager remoteConnectionManager)
             : base("切断", remoteConnectionManager)
@@ -13,7 +13,7 @@ namespace ImoutoDesktop.Commands
 
         public override Priority Priority => Priority.Highest;
 
-        public override async Task<CommandResult> Execute(string input)
+        protected override async Task<CommandResult> ExecuteCore(string input)
         {
             await RemoteConnectionManager.DisconnectAsync();
 

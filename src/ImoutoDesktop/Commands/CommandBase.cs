@@ -3,53 +3,30 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using ImoutoDesktop.Services;
-
 namespace ImoutoDesktop.Commands
 {
     public abstract class CommandBase
     {
-        protected CommandBase(string pattern, RemoteConnectionManager remoteConnectionManager)
+        protected CommandBase(string pattern)
         {
             Pattern = new Regex(pattern);
-            RemoteConnectionManager = remoteConnectionManager;
         }
 
         public virtual Priority Priority => Priority.Normal;
 
-        public virtual bool IsExecute(string input)
-        {
-            return Pattern.IsMatch(input);
-        }
+        public virtual bool CanExecute(string input) => Pattern.IsMatch(input);
 
-        public virtual Task<CommandResult> PreExecute(string input)
-        {
-            return Task.FromResult(Succeeded());
-        }
+        public virtual Task<CommandResult> PreExecute(string input) => Task.FromResult(Succeeded());
 
-        public virtual Task<CommandResult> Execute(string input)
-        {
-            return Task.FromResult(Succeeded());
-        }
+        public virtual Task<CommandResult> Execute(string input) => Task.FromResult(Succeeded());
 
         protected Regex Pattern { get; }
 
-        protected RemoteConnectionManager RemoteConnectionManager { get; }
+        protected CommandResult Failed() => Failed(null, null);
 
-        protected CommandResult Failed()
-        {
-            return Failed(null, null);
-        }
+        protected CommandResult Failed(string message) => Failed(message, null);
 
-        protected CommandResult Failed(string message)
-        {
-            return Failed(message, null);
-        }
-
-        protected CommandResult Failed(string[] arguments)
-        {
-            return Failed(null, arguments);
-        }
+        protected CommandResult Failed(string[] arguments) => Failed(null, arguments);
 
         protected CommandResult Failed(string message, string[] arguments)
         {
@@ -61,20 +38,11 @@ namespace ImoutoDesktop.Commands
             };
         }
 
-        protected CommandResult Succeeded()
-        {
-            return Succeeded(null, null);
-        }
+        protected CommandResult Succeeded() => Succeeded(null, null);
 
-        protected CommandResult Succeeded(string message)
-        {
-            return Succeeded(message, null);
-        }
+        protected CommandResult Succeeded(string message) => Succeeded(message, null);
 
-        protected CommandResult Succeeded(string[] arguments)
-        {
-            return Succeeded(null, arguments);
-        }
+        protected CommandResult Succeeded(string[] arguments) => Succeeded(null, arguments);
 
         protected CommandResult Succeeded(string message, string[] arguments)
         {
@@ -86,10 +54,7 @@ namespace ImoutoDesktop.Commands
             };
         }
 
-        protected string Escape(string str)
-        {
-            return str.Replace(@"\", @"\\");
-        }
+        protected string Escape(string str) => str.Replace(@"\", @"\\");
 
         protected string AbsolutePath(string directory, string path)
         {

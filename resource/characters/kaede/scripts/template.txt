@@ -59,14 +59,14 @@ $OnLogin
 
 
 // 正常にログインした
-$OnLogined
-{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnLogined_dere} } else { {$OnLogined_tsun} } }
+$OnConnect
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnConnect_dere} } else { {$OnConnect_tsun} } }
 
-$OnLogined_tsun
+$OnConnect_tsun
 ログインしたみたい。
 接続できたみたい。
 
-$OnLogined_dere
+$OnConnect_dere
 サーバに接続できたわよ。
 サーバに接続できたわよ。\nこれで準備オッケーね。
 
@@ -99,13 +99,13 @@ $OnDisconnecting_dere
 
 
 // 鯖との接続が切れた
-$OnDisconnected
-{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDisconnected_dere} } else { {$OnDisconnected_tsun} } }
+$OnDisconnect
+{$if ({$tsunderelevel} > {$random(8)} + 1) { {$OnDisconnect_dere} } else { {$OnDisconnect_tsun} } }
 
-$OnDisconnected_tsun
+$OnDisconnect_tsun
 接続が切れたみたい。
 
-$OnDisconnected_dere
+$OnDisconnect_dere
 サーバとの接続が切れたわね。
 サーバとの接続が切れたわね。\n再接続してみよっか？
 

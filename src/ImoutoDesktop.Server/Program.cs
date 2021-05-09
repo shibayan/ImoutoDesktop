@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 using Grpc.Core;
@@ -10,6 +13,7 @@ namespace ImoutoDesktop.Server
         static async Task Main()
         {
             var port = 1024;
+            var ipAddress = (await Dns.GetHostAddressesAsync(Dns.GetHostName())).First(x => x.AddressFamily == AddressFamily.InterNetwork);
 
             var server = new Grpc.Core.Server
             {
@@ -19,7 +23,7 @@ namespace ImoutoDesktop.Server
 
             server.Start();
 
-            Console.WriteLine("Started");
+            Console.WriteLine($"Started - {ipAddress}:{port}");
             Console.ReadKey();
 
             await server.ShutdownAsync();

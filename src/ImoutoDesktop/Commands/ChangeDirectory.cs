@@ -13,7 +13,7 @@ using Enum = System.Enum;
 
 namespace ImoutoDesktop.Commands
 {
-    public class ChangeDirectory : CommandBase
+    public class ChangeDirectory : RemoteCommandBase
     {
         public ChangeDirectory(RemoteConnectionManager remoteConnectionManager)
             : base(@"^(.+?)[へに]移動", remoteConnectionManager)
@@ -33,7 +33,7 @@ namespace ImoutoDesktop.Commands
             { "マイピクチャ", SpecialDirectory.MyPictures }
         };
 
-        public override async Task<CommandResult> PreExecute(string input)
+        protected override async Task<CommandResult> PreExecuteCore(string input)
         {
             var match = Pattern.Match(input);
             var target = match.Groups[1].Value;
@@ -70,7 +70,7 @@ namespace ImoutoDesktop.Commands
             return Succeeded(new[] { Escape(_directory), Enum.GetName(typeof(DirectoryType), type) });
         }
 
-        public override async Task<CommandResult> Execute(string input)
+        protected override async Task<CommandResult> ExecuteCore(string input)
         {
             var serviceClient = RemoteConnectionManager.GetServiceClient();
 

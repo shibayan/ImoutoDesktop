@@ -6,14 +6,14 @@ using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop.Commands
 {
-    public class ScreenShot : CommandBase
+    public class ScreenShot : RemoteCommandBase
     {
         public ScreenShot(RemoteConnectionManager remoteConnectionManager)
             : base("スクリーンショット", remoteConnectionManager)
         {
         }
 
-        public override async Task<CommandResult> Execute(string input)
+        protected override Task<CommandResult> ExecuteCore(string input)
         {
             try
             {
@@ -33,11 +33,11 @@ namespace ImoutoDesktop.Commands
                     encoder.Save(fileStream);
                 }
 
-                return Succeeded($@"\_i[{path}]");
+                return Task.FromResult(Succeeded($@"\_i[{path}]"));
             }
             catch
             {
-                return Failed();
+                return Task.FromResult(Failed());
             }
         }
     }

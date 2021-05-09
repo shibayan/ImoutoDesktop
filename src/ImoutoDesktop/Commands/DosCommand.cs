@@ -7,7 +7,7 @@ using ImoutoDesktop.Services;
 
 namespace ImoutoDesktop.Commands
 {
-    public class DosCommand : CommandBase
+    public class DosCommand : RemoteCommandBase
     {
         public DosCommand(RemoteConnectionManager remoteConnectionManager)
             : base(@".+", remoteConnectionManager)
@@ -29,17 +29,17 @@ namespace ImoutoDesktop.Commands
 
         public override Priority Priority => Priority.BelowNormal;
 
-        public override bool IsExecute(string input)
+        public override bool CanExecute(string input)
         {
             return Array.Exists(_allow, p => input == p || input.StartsWith(p + " "));
         }
 
-        public override Task<CommandResult> PreExecute(string input)
+        protected override Task<CommandResult> PreExecuteCore(string input)
         {
             return Task.FromResult(Succeeded(new[] { Escape(input) }));
         }
 
-        public override async Task<CommandResult> Execute(string input)
+        protected override async Task<CommandResult> ExecuteCore(string input)
         {
             var serviceClient = RemoteConnectionManager.GetServiceClient();
 
@@ -54,7 +54,7 @@ namespace ImoutoDesktop.Commands
 
             var response = await serviceClient.RunShellAsync(new RunShellRequest { Command = input });
 
-            return Succeeded(response.Result);
+            return Succeeded(response.Result, new[] { Escape(input) });
         }
     }
 }

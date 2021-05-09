@@ -50,7 +50,7 @@ $alreadyConnected
 
 
 // ログイン完了
-$OnLogined_default
+$OnConnect_default
 //なし
 
 
@@ -66,7 +66,7 @@ $OnDisconnecting
 
 
 // 鯖との接続が切れた
-$OnDisconnected_default
+$OnDisconnect_default
 {$OnCommandIgnored}
 //要検討
 

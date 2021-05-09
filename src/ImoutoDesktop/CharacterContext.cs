@@ -25,7 +25,7 @@ namespace ImoutoDesktop
             BaseDirectory = character.Directory;
 
             // プロファイルを読み込む
-            Profile = Profile.LoadFrom(Path.Combine(BaseDirectory, "profile.yml"));
+            Profile = Profile.LoadFrom(Path.Combine(BaseDirectory, "profile.yml")) ?? new Profile { Age = Character.Age, TsundereLevel = Character.TsundereLevel };
 
             // バルーン読み込み
             Balloon = BalloonManager.GetValueOrDefault(Profile.LastBalloon);
@@ -59,17 +59,17 @@ namespace ImoutoDesktop
             // スクリプトエンジンを作成する
             ScriptEngine = new ScriptEngine(Path.Combine(BaseDirectory, "scripts"));
 
+            InitializeScriptEngine();
+
             // スクリプトプレイヤーを作成
             ScriptPlayer = new ScriptPlayer(this);
 
             RemoteConnectionManager = new RemoteConnectionManager();
 
             RemoteCommandManager = new RemoteCommandManager(Character, RemoteConnectionManager);
-
-            InitializeScriptEngine();
         }
 
-        private static readonly Dictionary<string, CharacterContext> _activeContexts = new Dictionary<string, CharacterContext>();
+        private static readonly Dictionary<string, CharacterContext> _activeContexts = new();
 
         public static CharacterContext Create(string id)
         {
@@ -131,12 +131,12 @@ namespace ImoutoDesktop
             CharacterWindow.ChangeSurface(0);
             BalloonWindow.Show();
 
-            PlayInvoke("OnBoot");
+            PlayEvent("OnBoot");
         }
 
         public void Close()
         {
-            PlayInvoke("OnClose");
+            PlayEvent("OnClose");
         }
 
         public void Shutdown()
@@ -156,7 +156,7 @@ namespace ImoutoDesktop
             Delete(this);
         }
 
-        public void PlayInvoke(string id)
+        public void PlayEvent(string id)
         {
             var result = ScriptEngine.Invoke(id);
 
@@ -189,52 +189,66 @@ namespace ImoutoDesktop
                 ScriptEngine.Connecting = false;
             }
 
-            var command = RemoteCommandManager.Get(input);
-
-            // コマンドが見つかったか調べる
-            if (command != null)
+            try
             {
-                // コマンド実行前準備
-                var canExecuteResult = await command.PreExecute(input);
+                var command = RemoteCommandManager.Get(input);
 
-                // 事前イベントのスクリプトを実行
-                var preEventResult = ScriptEngine.Invoke($"OnPre{canExecuteResult.EventId}", canExecuteResult.Arguments);
-
-                // スクリプトの実行結果を追加する
-                if (!string.IsNullOrEmpty(preEventResult))
+                // コマンドが見つかったか調べる
+                if (command != null)
                 {
-                    script.AppendLine(Script.Scope.Character, preEventResult);
-                }
+                    // コマンド実行前準備
+                    var canExecuteResult = await command.PreExecute(input);
 
-                // 実際にコマンドを実行するか判別
-                if (!ScriptEngine.Reject)
-                {
-                    // コマンドを実行する
-                    var executeResult = await command.Execute(input);
-
-                    // イベントのスクリプトを実行
-                    var eventResult = ScriptEngine.Invoke($"On{executeResult.EventId}", executeResult.Arguments);
+                    // 事前イベントのスクリプトを実行
+                    var preEventResult = ScriptEngine.Invoke($"OnPre{canExecuteResult.EventId}", canExecuteResult.Arguments);
 
                     // スクリプトの実行結果を追加する
-                    if (!string.IsNullOrEmpty(eventResult))
+                    if (!string.IsNullOrEmpty(preEventResult))
                     {
-                        script.AppendLine(Script.Scope.Character, eventResult);
+                        script.AppendLine(Script.Scope.Character, preEventResult);
                     }
 
-                    // 実行結果が存在すれば追加する
-                    if (!string.IsNullOrEmpty(executeResult.Message))
+                    // 実際にコマンドを実行するか判別
+                    if (!ScriptEngine.Reject)
                     {
-                        script.AppendLine(Script.Scope.System, executeResult.Message);
+                        // コマンドを実行する
+                        var executeResult = await command.Execute(input);
+
+                        // イベントのスクリプトを実行
+                        var eventResult = ScriptEngine.Invoke($"On{executeResult.EventId}", executeResult.Arguments);
+
+                        // スクリプトの実行結果を追加する
+                        if (!string.IsNullOrEmpty(eventResult))
+                        {
+                            script.AppendLine(Script.Scope.Character, eventResult);
+                        }
+
+                        // 実行結果が存在すれば追加する
+                        if (!string.IsNullOrEmpty(executeResult.Message))
+                        {
+                            script.AppendLine(Script.Scope.System, executeResult.Message);
+                        }
+                    }
+
+                    // 終了コマンドなら終了する
+                    if (canExecuteResult.EventId == "Close")
+                    {
+                        script.AppendLine(Script.Scope.System, @"\-");
                     }
                 }
-
-                // 終了コマンドなら終了する
-                if (canExecuteResult.EventId == "Close")
+                else
                 {
-                    script.AppendLine(Script.Scope.System, @"\-");
+                    // コマンドが存在しない
+                    var result = ScriptEngine.Invoke("OnUnknownCommand", input);
+
+                    // スクリプトの実行結果を追加する
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        script.AppendLine(Script.Scope.Character, result);
+                    }
                 }
             }
-            else
+            catch
             {
                 // コマンドが存在しない
                 var result = ScriptEngine.Invoke("OnUnknownCommand", input);

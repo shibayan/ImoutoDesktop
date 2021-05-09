@@ -61,16 +61,16 @@ $alreadyConnected_dere
 
 
 // ログイン時
-$OnLogined_default
-{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnLogined_normal} } else { {$OnLogined_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnLogined_dere} } else { {$OnLogined_normal} } } } }
+$OnConnect_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnConnect_normal} } else { {$OnConnect_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnConnect_dere} } else { {$OnConnect_normal} } } } }
 
-$OnLogined_tsun
+$OnConnect_tsun
 「{$parameter(0)}」にログインしたよ。\w5それから？
 
-$OnLogined_normal
+$OnConnect_normal
 「{$parameter(0)}」にログインしたよ。
 
-$OnLogined_dere
+$OnConnect_dere
 「{$parameter(0)}」にログインしたよ。
 ログインできた。やったね！
 
@@ -108,16 +108,16 @@ $OnDisconnecting_dere
 
 
 // 鯖との接続が切れた
-$OnDisconnected_default
-{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnected_normal} } else { {$OnDisconnected_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnected_dere} } else { {$OnDisconnected_normal} } } } }
+$OnDisconnect_default
+{$if ({$tsunderelevel} <= 5) { {$if ({$tsunderelevel} > {$random(4)} + 1) { {$OnDisconnect_normal} } else { {$OnDisconnect_tsun} } } } else { {$if ({$tsunderelevel} > {$random(4)} + 5) { {$OnDisconnect_dere} } else { {$OnDisconnect_normal} } } } }
 
-$OnDisconnected_tsun
+$OnDisconnect_tsun
 あっちとのせつぞくがきれちゃった。
 
-$OnDisconnected_normal
+$OnDisconnect_normal
 あ、せつぞくがきれちゃった。
 
-$OnDisconnected_dere
+$OnDisconnect_dere
 えっとねー、せつぞくがきれたんだって。
 あれ？せつぞくきれちゃった。
 
