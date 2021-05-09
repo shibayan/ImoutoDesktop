@@ -1,4 +1,4 @@
-# いもうとデスクトップ
+# いもうとデスクトップ <img align="right" src="https://user-images.githubusercontent.com/1356444/117574881-40d68a00-b11a-11eb-870f-5eb373959501.png">
 
 [![Build](https://github.com/shibayan/ImoutoDesktop/actions/workflows/build.yml/badge.svg)](https://github.com/shibayan/ImoutoDesktop/actions/workflows/build.yml)
 [![Release](https://img.shields.io/github/release/shibayan/ImoutoDesktop.svg?include_prereleases&sort=semver)](https://github.com/shibayan/ImoutoDesktop/releases/latest)
