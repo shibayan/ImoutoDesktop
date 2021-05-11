@@ -27,10 +27,10 @@ jobs:
       run: dotnet restore
 
     - name: Publish client application
-      run: dotnet publish -c Release -r win-x86 -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} /p:PublishSingleFile=true /p:PublishReadyToRun=true src\ImoutoDesktop
+      run: dotnet publish -c Release -r win-x86 -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src\ImoutoDesktop
 
     - name: Publish server application
-      run: dotnet publish -c Release -r win-x86 -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} /p:PublishSingleFile=true /p:PublishReadyToRun=true src\ImoutoDesktop.Server
+      run: dotnet publish -c Release -r win-x86 -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src\ImoutoDesktop.Server
 
     - name: Copy client resource
       run: xcopy .\resource .\client /I /Y /E /H
