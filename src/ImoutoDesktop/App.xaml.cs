@@ -16,7 +16,7 @@ namespace ImoutoDesktop
         public App()
         {
 #if DEBUG
-            RootDirectory = @"C:\Users\shibayan\Documents\GitHub\ImoutoDesktop\resource";
+            RootDirectory = Path.GetFullPath(Path.Combine(System.AppContext.BaseDirectory, @"../../../../../resource"));
 #else
             RootDirectory = System.AppContext.BaseDirectory;
 #endif
