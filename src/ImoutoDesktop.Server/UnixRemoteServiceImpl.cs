@@ -20,7 +20,7 @@ namespace ImoutoDesktop.Server
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 WorkingDirectory = Environment.CurrentDirectory,
-                Arguments = $"-c {request.Command}"
+                Arguments = $"-c \"{request.Command}\""
             };
 
             var process = Process.Start(psi);

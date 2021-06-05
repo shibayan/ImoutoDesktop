@@ -53,11 +53,6 @@ namespace ImoutoDesktop.Commands
                 _directory = AbsolutePath(_directory, target);
             }
 
-            if (!_directory.EndsWith(@"\"))
-            {
-                _directory += @"\";
-            }
-
             var type = DirectoryType.Empty;
 
             if (Settings.Default.AutoDetectDirectoryType)
