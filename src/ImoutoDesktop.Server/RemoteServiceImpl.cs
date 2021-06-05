@@ -11,7 +11,7 @@ using ImoutoDesktop.Remoting;
 
 namespace ImoutoDesktop.Server
 {
-    public class RemoteServiceImpl : RemoteService.RemoteServiceBase
+    public abstract class RemoteServiceImpl : RemoteService.RemoteServiceBase
     {
         public override Task<GenericResponse> Login(LoginRequest request, ServerCallContext context)
         {
@@ -75,27 +75,6 @@ namespace ImoutoDesktop.Server
             Process.Start(request.Path);
 
             return Task.FromResult(new GenericResponse { Succeeded = true });
-        }
-
-        public override Task<RunShellResponse> RunShell(RunShellRequest request, ServerCallContext context)
-        {
-            var psi = new ProcessStartInfo
-            {
-                FileName = Environment.GetEnvironmentVariable("ComSpec"),
-                RedirectStandardInput = false,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WorkingDirectory = Environment.CurrentDirectory,
-                Arguments = $"/c {request.Command}"
-            };
-
-            var process = Process.Start(psi);
-            var result = process.StandardOutput.ReadToEnd();
-
-            process.WaitForExit();
-
-            return Task.FromResult(new RunShellResponse { Result = result });
         }
 
         public override Task<GetDirectoryPathResponse> GetDirectoryPath(GetDirectoryPathRequest request, ServerCallContext context)
