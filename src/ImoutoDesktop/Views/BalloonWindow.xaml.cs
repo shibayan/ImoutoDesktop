@@ -6,7 +6,7 @@ using System.Windows.Input;
 using ImoutoDesktop.Controls;
 using ImoutoDesktop.Models;
 
-namespace ImoutoDesktop.Windows
+namespace ImoutoDesktop.Views
 {
     /// <summary>
     /// BalloonWindow.xaml の相互作用ロジック
@@ -28,8 +28,8 @@ namespace ImoutoDesktop.Windows
 
         public Balloon Balloon
         {
-            get { return (Balloon)GetValue(BalloonProperty); }
-            set { SetValue(BalloonProperty, value); }
+            get => (Balloon)GetValue(BalloonProperty);
+            set => SetValue(BalloonProperty, value);
         }
 
         public static readonly DependencyProperty BalloonProperty =

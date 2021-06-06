@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 using ImoutoDesktop.Models;
 
-namespace ImoutoDesktop.Windows
+namespace ImoutoDesktop.Views
 {
     /// <summary>
     /// CharacterWindow.xaml の相互作用ロジック
@@ -26,8 +25,8 @@ namespace ImoutoDesktop.Windows
 
         public Surface Surface
         {
-            get { return (Surface)GetValue(SurfaceProperty); }
-            private set { SetValue(SurfacePropertyKey, value); }
+            get => (Surface)GetValue(SurfaceProperty);
+            private set => SetValue(SurfacePropertyKey, value);
         }
 
         private static readonly DependencyPropertyKey SurfacePropertyKey =

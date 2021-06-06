@@ -1,4 +1,4 @@
-﻿<Window x:Class="ImoutoDesktop.Windows.CharacterWindow"
+﻿<Window x:Class="ImoutoDesktop.Views.CharacterWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:input="clr-namespace:ImoutoDesktop.Input"

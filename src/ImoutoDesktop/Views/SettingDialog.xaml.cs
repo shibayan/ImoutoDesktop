@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ImoutoDesktop.Windows
+namespace ImoutoDesktop.Views
 {
     /// <summary>
     /// SettingDialog.xaml の相互作用ロジック
@@ -14,8 +14,8 @@ namespace ImoutoDesktop.Windows
 
         public int Age
         {
-            get { return (int)GetValue(AgeProperty); }
-            set { SetValue(AgeProperty, value); }
+            get => (int)GetValue(AgeProperty);
+            set => SetValue(AgeProperty, value);
         }
 
         public static readonly DependencyProperty AgeProperty =
@@ -23,8 +23,8 @@ namespace ImoutoDesktop.Windows
 
         public int TsundereLevel
         {
-            get { return (int)GetValue(TsundereLevelProperty); }
-            set { SetValue(TsundereLevelProperty, value); }
+            get => (int)GetValue(TsundereLevelProperty);
+            set => SetValue(TsundereLevelProperty, value);
         }
 
         public static readonly DependencyProperty TsundereLevelProperty =

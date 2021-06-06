@@ -10,7 +10,7 @@ using Google.Protobuf.WellKnownTypes;
 using ImoutoDesktop.Models;
 using ImoutoDesktop.Scripting;
 using ImoutoDesktop.Services;
-using ImoutoDesktop.Windows;
+using ImoutoDesktop.Views;
 
 namespace ImoutoDesktop
 {

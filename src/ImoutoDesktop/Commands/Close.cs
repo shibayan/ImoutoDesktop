@@ -1,6 +1,4 @@
-﻿using ImoutoDesktop.Services;
-
-namespace ImoutoDesktop.Commands
+﻿namespace ImoutoDesktop.Commands
 {
     public class Close : CommandBase
     {
