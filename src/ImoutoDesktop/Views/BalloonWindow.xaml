@@ -4,6 +4,7 @@
     xmlns:controls="clr-namespace:ImoutoDesktop.Controls"
     xmlns:models="clr-namespace:ImoutoDesktop.Models"
     Style="{StaticResource DefaultWindowStyleKey}"
+    Width="{Binding BaseImage.PixelWidth}" Height="{Binding BaseImage.PixelHeight}"
     Topmost="{Binding Path=Topmost, Source={x:Static models:Settings.Default}}"
     DataContext="{Binding RelativeSource={RelativeSource self}, Path=Balloon}" ShowActivated="False" SizeToContent="Manual"
     PreviewMouseLeftButtonDown="BalloonWindow_MouseLeftButtonDown" PreviewMouseLeftButtonUp="BalloonWindow_MouseLeftButtonUp"
@@ -35,7 +36,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Image x:Name="baseImage" Stretch="None" Source="{Binding Path=BaseImage}" SizeChanged="BaseImage_SizeChanged" />
+        <Image Stretch="None" Source="{Binding Path=BaseImage}" />
         <Grid Margin="15">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

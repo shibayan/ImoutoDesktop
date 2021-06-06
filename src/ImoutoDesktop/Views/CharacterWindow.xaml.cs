@@ -40,11 +40,15 @@ namespace ImoutoDesktop.Views
             if (id != -1)
             {
                 Surface = Context.SurfaceLoader.Load(id);
+
                 if (!_isInitialized)
                 {
                     Left = SystemParameters.WorkArea.Width - Surface.Image.PixelWidth - 1;
                     _isInitialized = true;
                 }
+
+                Top = SystemParameters.WorkArea.Height - Surface.Image.PixelHeight - 1;
+
                 Show();
             }
             else
@@ -95,11 +99,6 @@ namespace ImoutoDesktop.Views
                 Top = SystemParameters.WorkArea.Height - ActualHeight - 1;
                 _prevMousePosition = position;
             }
-        }
-
-        private void CharacterWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Top = SystemParameters.WorkArea.Height - e.NewSize.Height - 1;
         }
 
         private void CharacterWindow_LocationChanged(object sender, EventArgs e)

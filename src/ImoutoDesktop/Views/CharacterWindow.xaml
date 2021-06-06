@@ -56,6 +56,6 @@
         </ContextMenu>
     </Window.ContextMenu>
     <Grid>
-        <Image Stretch="None" Source="{Binding Path=Image}" SizeChanged="CharacterWindow_SizeChanged" />
+        <Image Stretch="None" Source="{Binding Path=Image}" />
     </Grid>
 </Window>
