@@ -10,6 +10,9 @@ env:
 jobs:
   build_client:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        rid: [ win-x64, win-x86 ]
     steps:
     - uses: actions/checkout@v2
 
@@ -23,11 +26,8 @@ jobs:
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
       shell: bash
 
-    - name: Restore NuGet packages
-      run: dotnet restore
-
     - name: Publish client application
-      run: dotnet publish -c Release -r win-x86 -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src\ImoutoDesktop
+      run: dotnet publish -c Release -r ${{ matrix.rid }} -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src/ImoutoDesktop
 
     - name: Copy client resource
       run: xcopy .\resource .\client /I /Y /E /H
@@ -35,7 +35,7 @@ jobs:
     - name: Upload client application
       uses: actions/upload-artifact@v2
       with:
-        name: client
+        name: client-${{ matrix.rid }}
         path: |
           client/
           !client/*.pdb
@@ -49,6 +49,8 @@ jobs:
             rid: linux-x64
           - os: windows-latest
             rid: win-x64
+          - os: windows-latest
+            rid: win-x86
     steps:
     - uses: actions/checkout@v2
 
@@ -62,11 +64,8 @@ jobs:
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
       shell: bash
 
-    - name: Restore NuGet packages
-      run: dotnet restore
-
     - name: Publish server application
-      run: dotnet publish -c Release -r ${{ matrix.rid }} -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src\ImoutoDesktop.Server
+      run: dotnet publish -c Release -r ${{ matrix.rid }} -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src/ImoutoDesktop.Server
 
     - name: Upload server application
       uses: actions/upload-artifact@v2
