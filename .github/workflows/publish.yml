@@ -27,7 +27,7 @@ jobs:
       shell: bash
 
     - name: Publish client application
-      run: dotnet publish -c Release -r ${{ matrix.rid }} -o ./client -p:Version=1.0.0 -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src/ImoutoDesktop
+      run: dotnet publish -c Release -r ${{ matrix.rid }} -o ./client -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src/ImoutoDesktop
 
     - name: Copy client resource
       run: xcopy .\resource .\client /I /Y /E /H
@@ -65,7 +65,7 @@ jobs:
       shell: bash
 
     - name: Publish server application
-      run: dotnet publish -c Release -r ${{ matrix.rid }} -o ./server -p:Version=1.0.0 -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src/ImoutoDesktop.Server
+      run: dotnet publish -c Release -r ${{ matrix.rid }} -o ./server -p:Version=${{ steps.setup_version.outputs.VERSION }} -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true src/ImoutoDesktop.Server
 
     - name: Upload server application
       uses: actions/upload-artifact@v2
