@@ -1,8 +1,8 @@
 name: Publish
 
 on:
-  pull_request:
-    branches: [ master ]
+  push:
+    tags: [ v* ]
 
 env:
   DOTNET_VERSION: 5.0.x
