@@ -43,19 +43,19 @@ namespace ImoutoDesktop.Server
             return Task.FromResult(response);
         }
 
-        public override async Task<ExistsResponse> Exists(ExistsRequest request, ServerCallContext context)
+        public override Task<ExistsResponse> Exists(ExistsRequest request, ServerCallContext context)
         {
             if (File.Exists(request.Path))
             {
-                return new ExistsResponse { Exists = true, Kind = Kind.File };
+                return Task.FromResult(new ExistsResponse { Exists = true, Kind = Kind.File });
             }
 
             if (Directory.Exists(request.Path))
             {
-                return new ExistsResponse { Exists = true, Kind = Kind.Directory };
+                return Task.FromResult(new ExistsResponse { Exists = true, Kind = Kind.Directory });
             }
 
-            return new ExistsResponse { Exists = false };
+            return Task.FromResult(new ExistsResponse { Exists = false });
         }
 
         public override Task<GenericResponse> Delete(DeleteRequest request, ServerCallContext context)

@@ -87,18 +87,24 @@ namespace ImoutoDesktop.Commands
 
                     var ret = new StringBuilder();
 
-                    ret.Append(@"■ディレクトリ\n");
-
-                    foreach (var item in directories.Files)
+                    if (directories.Files.Count > 0)
                     {
-                        ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
+                        ret.Append(@"■ ディレクトリ\n");
+
+                        foreach (var item in directories.Files)
+                        {
+                            ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
+                        }
                     }
 
-                    ret.Append(@"■ファイル\n");
-
-                    foreach (var item in files.Files)
+                    if (files.Files.Count > 0)
                     {
-                        ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
+                        ret.Append(@"■ ファイル\n");
+
+                        foreach (var item in files.Files)
+                        {
+                            ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
+                        }
                     }
 
                     return Succeeded(ret.ToString());
