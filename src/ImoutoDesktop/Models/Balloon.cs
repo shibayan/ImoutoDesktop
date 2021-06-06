@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace ImoutoDesktop.Models
 {
@@ -21,11 +23,11 @@ namespace ImoutoDesktop.Models
 
         public string UserColor { get; set; }
 
-        public string BaseImage => Path.Combine(Directory, "balloon.png");
+        public BitmapImage BaseImage => new(new Uri(Path.Combine(Directory, "balloon.png")));
 
-        public string ArrowUpImage => Path.Combine(Directory, "arrow0.png");
+        public BitmapImage ArrowUpImage => new(new Uri(Path.Combine(Directory, "arrow0.png")));
 
-        public string ArrowDownImage => Path.Combine(Directory, "arrow1.png");
+        public BitmapImage ArrowDownImage => new(new Uri(Path.Combine(Directory, "arrow1.png")));
 
         public string Directory { get; set; }
 

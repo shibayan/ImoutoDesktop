@@ -150,11 +150,5 @@ namespace ImoutoDesktop.Views
 
             Context.HistoryIndex = index;
         }
-
-        private void BaseImage_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Width = baseImage.ActualWidth;
-            Height = baseImage.ActualHeight;
-        }
     }
 }
