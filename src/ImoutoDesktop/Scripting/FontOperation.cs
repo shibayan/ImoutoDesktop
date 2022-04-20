@@ -1,10 +1,9 @@
-﻿namespace ImoutoDesktop.Scripting
+﻿namespace ImoutoDesktop.Scripting;
+
+public enum FontOperation
 {
-    public enum FontOperation
-    {
-        Color,
-        FontFamily,
-        Size,
-        Weight
-    }
+    Color,
+    FontFamily,
+    Size,
+    Weight
 }

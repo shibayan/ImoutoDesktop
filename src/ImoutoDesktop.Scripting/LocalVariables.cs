@@ -1,36 +1,29 @@
 ﻿using System.Collections.Generic;
 
-namespace ImoutoDesktop.Scripting
+namespace ImoutoDesktop.Scripting;
+
+internal class LocalVariables
 {
-    class LocalVariables
+    public void AddVariable(string name, Value value)
     {
-        public LocalVariables()
-        {
-            variables = new SortedList<string, Value>();
-        }
+        _variables.Add(name, value);
+    }
 
-        public void AddVariable(string name, Value value)
+    public Value GetVariable(string name)
+    {
+        if (_variables.TryGetValue(name, out var variable))
         {
-            variables.Add(name, value);
-        }
-
-        public Value GetVariable(string name)
-        {
-            Value variable;
-            if (variables.TryGetValue(name, out variable))
-            {
-                return variable;
-            }
-            variable = new Value();
-            variables.Add(name, variable);
             return variable;
         }
-
-        public static bool IsLocalVariable(string name)
-        {
-            return name.StartsWith("@");
-        }
-
-        private SortedList<string, Value> variables;
+        variable = Value.Empty;
+        _variables.Add(name, variable);
+        return variable;
     }
+
+    public static bool IsLocalVariable(string name)
+    {
+        return name.StartsWith("@");
+    }
+
+    private readonly SortedList<string, Value> _variables = new();
 }

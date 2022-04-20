@@ -2,87 +2,59 @@
 using System.IO;
 using System.Text;
 
-namespace ImoutoDesktop.Scripting
-{
-    class Settings
-    {
-        public Settings()
-        {
-            encoding = Encoding.UTF8;
-            dictionaries = new List<string>();
-        }
+namespace ImoutoDesktop.Scripting;
 
-        public void LoadSettings(string path)
+internal class Settings
+{
+    public void LoadSettings(string path)
+    {
+        using var reader = new StreamReader(path, Encoding.Default);
+        while (reader.Peek() != -1)
         {
-            using (var reader = new StreamReader(path, Encoding.Default))
+            var line = reader.ReadLine().Trim();
+            if (line.Length == 0)
+            {
+                continue;
+            }
+            var token = line.Split(',');
+            if (token[0] == "dictionary")
             {
                 while (reader.Peek() != -1)
                 {
-                    var line = reader.ReadLine().Trim();
-                    if (line.Length == 0)
+                    line = reader.ReadLine().Trim();
+                    if (line == "{")
                     {
-                        continue;
                     }
-                    var token = line.Split(',');
-                    if (token[0] == "dictionary")
+                    else if (line == "}")
                     {
-                        while (reader.Peek() != -1)
-                        {
-                            line = reader.ReadLine().Trim();
-                            if (line == "{")
-                            {
-                            }
-                            else if (line == "}")
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                dictionaries.Add(line);
-                            }
-                        }
+                        break;
                     }
-                    else if (token[0] == "charset")
+                    else
                     {
-                        encoding = Encoding.GetEncoding(token[1]);
-                    }
-                    else if (token[0] == "debug")
-                    {
-                        enableDebugLog = token[1] == "1";
-                    }
-                    else if (token[0] == "error")
-                    {
-                        enableErrorLog = token[1] == "1";
+                        Dictionaries.Add(line);
                     }
                 }
             }
-        }
-
-        private Encoding encoding;
-
-        public Encoding Encoding
-        {
-            get { return encoding; }
-        }
-        private bool enableErrorLog;
-
-        public bool EnableErrorLog
-        {
-            get { return enableErrorLog; }
-            set { enableErrorLog = value; }
-        }
-        private bool enableDebugLog;
-
-        public bool EnableDebugLog
-        {
-            get { return enableDebugLog; }
-            set { enableDebugLog = value; }
-        }
-        private List<string> dictionaries;
-
-        public List<string> Dictionaries
-        {
-            get { return dictionaries; }
+            else if (token[0] == "charset")
+            {
+                Encoding = Encoding.GetEncoding(token[1]);
+            }
+            else if (token[0] == "debug")
+            {
+                EnableDebugLog = token[1] == "1";
+            }
+            else if (token[0] == "error")
+            {
+                EnableErrorLog = token[1] == "1";
+            }
         }
     }
+
+    public Encoding Encoding { get; private set; } = Encoding.UTF8;
+
+    public bool EnableErrorLog { get; set; }
+
+    public bool EnableDebugLog { get; set; }
+
+    public List<string> Dictionaries { get; } = new();
 }

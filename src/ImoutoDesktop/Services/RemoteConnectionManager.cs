@@ -4,38 +4,37 @@ using Grpc.Core;
 
 using ImoutoDesktop.Remoting;
 
-namespace ImoutoDesktop.Services
+namespace ImoutoDesktop.Services;
+
+public class RemoteConnectionManager
 {
-    public class RemoteConnectionManager
+    private Channel _channel;
+    private RemoteService.RemoteServiceClient _remoteServiceClient;
+
+    public async Task ConnectAsync(string host, int port)
     {
-        private Channel _channel;
-        private RemoteService.RemoteServiceClient _remoteServiceClient;
+        _channel = new Channel(host, port, ChannelCredentials.Insecure);
 
-        public async Task ConnectAsync(string host, int port)
+        _remoteServiceClient = new RemoteService.RemoteServiceClient(_channel);
+
+        await _channel.ConnectAsync();
+    }
+
+    public async Task DisconnectAsync()
+    {
+        if (_channel == null)
         {
-            _channel = new Channel(host, port, ChannelCredentials.Insecure);
-
-            _remoteServiceClient = new RemoteService.RemoteServiceClient(_channel);
-
-            await _channel.ConnectAsync();
+            return;
         }
 
-        public async Task DisconnectAsync()
-        {
-            if (_channel == null)
-            {
-                return;
-            }
+        await _channel.ShutdownAsync();
 
-            await _channel.ShutdownAsync();
+        _remoteServiceClient = null;
+        _channel = null;
+    }
 
-            _remoteServiceClient = null;
-            _channel = null;
-        }
-
-        public RemoteService.RemoteServiceClient GetServiceClient()
-        {
-            return _remoteServiceClient;
-        }
+    public RemoteService.RemoteServiceClient GetServiceClient()
+    {
+        return _remoteServiceClient;
     }
 }

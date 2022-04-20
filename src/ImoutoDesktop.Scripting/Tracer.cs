@@ -2,48 +2,48 @@
 using System.IO;
 using System.Text;
 
-namespace ImoutoDesktop.Scripting
+namespace ImoutoDesktop.Scripting;
+
+internal class Tracer : IDisposable
 {
-    class Tracer : IDisposable
+    public Tracer(string path, bool isEnable)
     {
-        public Tracer(string path, bool isEnable)
+        _isEnable = isEnable;
+        if (isEnable)
         {
-            this.isEnable = isEnable;
-            if (isEnable)
-            {
-                writer = new StreamWriter(path, false, Encoding.UTF8);
-                // 時間を記録する
-                writer.WriteLine("{0}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-            }
+            _writer = new StreamWriter(path, false, Encoding.UTF8);
+
+            // 時間を記録する
+            _writer.WriteLine("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
         }
+    }
 
-        private bool isEnable;
-        private StreamWriter writer;
+    private readonly bool _isEnable;
+    private readonly StreamWriter _writer;
 
-        public void Dispose()
+    public void Dispose()
+    {
+        if (_isEnable)
         {
-            if (isEnable)
-            {
-                writer.Dispose();
-            }
+            _writer.Dispose();
         }
+    }
 
-        public void Close()
+    public void Close()
+    {
+        if (_isEnable)
         {
-            if (isEnable)
-            {
-                writer.Close();
-            }
+            _writer.Close();
         }
+    }
 
-        public void WriteLine(string value)
-        {
-            writer.WriteLine(value);
-        }
+    public void WriteLine(string value)
+    {
+        _writer.WriteLine(value);
+    }
 
-        public void WriteLine(string format, params object[] arg)
-        {
-            writer.WriteLine(format, arg);
-        }
+    public void WriteLine(string format, params object[] arg)
+    {
+        _writer.WriteLine(format, arg);
     }
 }

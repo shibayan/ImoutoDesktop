@@ -4,41 +4,40 @@ using System.Linq;
 
 using ImoutoDesktop.Models;
 
-namespace ImoutoDesktop.Services
+namespace ImoutoDesktop.Services;
+
+public static class BalloonManager
 {
-    public static class BalloonManager
+    public static string RootDirectory { get; private set; }
+
+    public static Dictionary<string, Balloon> Balloons { get; } = new();
+
+    public static Balloon GetValueOrDefault(string id) => id != null && Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
+
+    public static bool TryGetValue(string id, out Balloon balloon) => Balloons.TryGetValue(id, out balloon);
+
+    public static void Rebuild(string searchDirectory)
     {
-        public static string RootDirectory { get; private set; }
+        // ルートを保存する
+        RootDirectory = searchDirectory;
 
-        public static Dictionary<string, Balloon> Balloons { get; } = new();
+        // ディクショナリを削除する
+        Balloons.Clear();
 
-        public static Balloon GetValueOrDefault(string id) => id != null && Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
-
-        public static bool TryGetValue(string id, out Balloon balloon) => Balloons.TryGetValue(id, out balloon);
-
-        public static void Rebuild(string searchDirectory)
+        // ディレクトリを辿る
+        foreach (var directory in Directory.GetDirectories(searchDirectory))
         {
-            // ルートを保存する
-            RootDirectory = searchDirectory;
+            var path = Path.Combine(directory, "balloon.yml");
 
-            // ディクショナリを削除する
-            Balloons.Clear();
-
-            // ディレクトリを辿る
-            foreach (var directory in Directory.GetDirectories(searchDirectory))
+            if (!File.Exists(path))
             {
-                var path = Path.Combine(directory, "balloon.yml");
-
-                if (!File.Exists(path))
-                {
-                    // 定義ファイルがないので無効
-                    continue;
-                }
-
-                var balloon = Balloon.LoadFrom(path);
-
-                Balloons.Add(balloon.Id, balloon);
+                // 定義ファイルがないので無効
+                continue;
             }
+
+            var balloon = Balloon.LoadFrom(path);
+
+            Balloons.Add(balloon.Id, balloon);
         }
     }
 }
