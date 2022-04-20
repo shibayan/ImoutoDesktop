@@ -1,10 +1,9 @@
-﻿namespace ImoutoDesktop.Scripting
+﻿namespace ImoutoDesktop.Scripting;
+
+public enum MediaOperation
 {
-    public enum MediaOperation
-    {
-        Play,
-        Stop,
-        Pause,
-        Wait
-    }
+    Play,
+    Stop,
+    Pause,
+    Wait
 }

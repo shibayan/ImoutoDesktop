@@ -6,80 +6,79 @@ using System.Windows;
 using ImoutoDesktop.Models;
 using ImoutoDesktop.Services;
 
-namespace ImoutoDesktop
+namespace ImoutoDesktop;
+
+/// <summary>
+/// App.xaml の相互作用ロジック
+/// </summary>
+public partial class App
 {
-    /// <summary>
-    /// App.xaml の相互作用ロジック
-    /// </summary>
-    public partial class App
+    public App()
     {
-        public App()
-        {
 #if DEBUG
-            RootDirectory = Path.GetFullPath(Path.Combine(System.AppContext.BaseDirectory, @"../../../../../resource"));
 #else
-            RootDirectory = System.AppContext.BaseDirectory;
+        RootDirectory = System.AppContext.BaseDirectory;
 #endif
-        }
+    }
 
-        private readonly Mutex _mutex = new(false, "ImoutoDesktop");
-        private readonly string _default = "sakura";
+    private readonly Mutex _mutex = new(false, "ImoutoDesktop");
 
-        public string RootDirectory { get; }
+    private const string Default = "sakura";
 
-        private void App_Startup(object sender, StartupEventArgs e)
+    public string RootDirectory { get; } = Path.GetFullPath(Path.Combine(System.AppContext.BaseDirectory, @"../../../../../resource"));
+
+    private void App_Startup(object sender, StartupEventArgs e)
+    {
+        if (!_mutex.WaitOne(0, false))
         {
-            if (!_mutex.WaitOne(0, false))
-            {
-                MessageBox.Show("既に起動しています");
+            MessageBox.Show("既に起動しています");
 
-                Shutdown();
+            Shutdown();
 
-                return;
-            }
-
-            // 設定ファイルを読み込む
-            Settings.Load(Path.Combine(RootDirectory, "settings.yml"));
-
-            // インストールされているいもうとを読み込む
-            CharacterManager.Rebuild(Path.Combine(RootDirectory, "characters"));
-
-            // インストールされている吹き出しを読み込む
-            BalloonManager.Rebuild(Path.Combine(RootDirectory, "balloons"));
-
-            // 起動条件を満たしているか確認する
-            if (CharacterManager.Characters.Count == 0 || BalloonManager.Balloons.Count == 0)
-            {
-                // いもうと、吹き出しが存在しない
-                MessageBox.Show("いもうとや吹き出しがインストールされていません。");
-
-                // シャットダウン
-                Shutdown();
-
-                return;
-            }
-
-            // コンテキストを作成して、いもうとを起動
-            CharacterContext context = null;
-
-            if (Settings.Default.LastCharacter != null)
-            {
-                context = CharacterContext.Create(Settings.Default.LastCharacter);
-            }
-
-            context ??= CharacterContext.Create(_default) ?? CharacterContext.Create(CharacterManager.Characters.First().Key);
-
-            context.Start();
+            return;
         }
 
-        private void App_Exit(object sender, ExitEventArgs e)
+        // 設定ファイルを読み込む
+        Settings.Load(Path.Combine(RootDirectory, "settings.yml"));
+
+        // インストールされているいもうとを読み込む
+        CharacterManager.Rebuild(Path.Combine(RootDirectory, "characters"));
+
+        // インストールされている吹き出しを読み込む
+        BalloonManager.Rebuild(Path.Combine(RootDirectory, "balloons"));
+
+        // 起動条件を満たしているか確認する
+        if (CharacterManager.Characters.Count == 0 || BalloonManager.Balloons.Count == 0)
         {
-            if (!string.IsNullOrEmpty(RootDirectory))
-            {
-                Settings.Save(Path.Combine(RootDirectory, "settings.yml"));
-            }
+            // いもうと、吹き出しが存在しない
+            MessageBox.Show("いもうとや吹き出しがインストールされていません。");
 
-            _mutex.Close();
+            // シャットダウン
+            Shutdown();
+
+            return;
         }
+
+        // コンテキストを作成して、いもうとを起動
+        CharacterContext context = null;
+
+        if (Settings.Default.LastCharacter != null)
+        {
+            context = CharacterContext.Create(Settings.Default.LastCharacter);
+        }
+
+        context ??= CharacterContext.Create(Default) ?? CharacterContext.Create(CharacterManager.Characters.First().Key);
+
+        context.Start();
+    }
+
+    private void App_Exit(object sender, ExitEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(RootDirectory))
+        {
+            Settings.Save(Path.Combine(RootDirectory, "settings.yml"));
+        }
+
+        _mutex.Close();
     }
 }

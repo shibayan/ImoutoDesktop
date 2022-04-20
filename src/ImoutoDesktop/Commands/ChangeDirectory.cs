@@ -11,111 +11,110 @@ using ImoutoDesktop.Services;
 
 using Enum = System.Enum;
 
-namespace ImoutoDesktop.Commands
+namespace ImoutoDesktop.Commands;
+
+public class ChangeDirectory : RemoteCommandBase
 {
-    public class ChangeDirectory : RemoteCommandBase
+    public ChangeDirectory(RemoteConnectionManager remoteConnectionManager)
+        : base(@"^(.+?)[へに]移動", remoteConnectionManager)
     {
-        public ChangeDirectory(RemoteConnectionManager remoteConnectionManager)
-            : base(@"^(.+?)[へに]移動", remoteConnectionManager)
+    }
+
+    private string _directory;
+
+    private static readonly Dictionary<string, SpecialDirectory> s_table = new()
+    {
+        { "デスクトップ", SpecialDirectory.Desktop },
+        { "ミュージック", SpecialDirectory.MyMusic },
+        { "マイミュージック", SpecialDirectory.MyMusic },
+        { "ドキュメント", SpecialDirectory.MyDocuments },
+        { "マイドキュメント", SpecialDirectory.MyDocuments },
+        { "ピクチャ", SpecialDirectory.MyPictures },
+        { "マイピクチャ", SpecialDirectory.MyPictures }
+    };
+
+    protected override async Task<CommandResult> PreExecuteCore(string input)
+    {
+        var match = Pattern.Match(input);
+        var target = match.Groups[1].Value;
+
+        var serviceClient = RemoteConnectionManager.GetServiceClient();
+
+        _directory = (await serviceClient.GetCurrentDirectoryAsync(new Empty())).Path;
+
+        if (s_table.TryGetValue(target, out var specialDirectory))
         {
+            var response = await serviceClient.GetDirectoryPathAsync(new GetDirectoryPathRequest { SpecialDirectory = specialDirectory });
+
+            _directory = response.Path;
+        }
+        else
+        {
+            _directory = AbsolutePath(_directory, target);
         }
 
-        private string _directory;
+        var type = DirectoryType.Empty;
 
-        private static readonly Dictionary<string, SpecialDirectory> _table = new()
+        if (Settings.Default.AutoDetectDirectoryType)
         {
-            { "デスクトップ", SpecialDirectory.Desktop },
-            { "ミュージック", SpecialDirectory.MyMusic },
-            { "マイミュージック", SpecialDirectory.MyMusic },
-            { "ドキュメント", SpecialDirectory.MyDocuments },
-            { "マイドキュメント", SpecialDirectory.MyDocuments },
-            { "ピクチャ", SpecialDirectory.MyPictures },
-            { "マイピクチャ", SpecialDirectory.MyPictures }
-        };
+            var typeResponse = await serviceClient.GetDirectoryTypeAsync(new GetDirectoryTypeRequest { Path = _directory });
 
-        protected override async Task<CommandResult> PreExecuteCore(string input)
-        {
-            var match = Pattern.Match(input);
-            var target = match.Groups[1].Value;
-
-            var serviceClient = RemoteConnectionManager.GetServiceClient();
-
-            _directory = (await serviceClient.GetCurrentDirectoryAsync(new Empty())).Path;
-
-            if (_table.TryGetValue(target, out var specialDirectory))
-            {
-                var response = await serviceClient.GetDirectoryPathAsync(new GetDirectoryPathRequest { SpecialDirectory = specialDirectory });
-
-                _directory = response.Path;
-            }
-            else
-            {
-                _directory = AbsolutePath(_directory, target);
-            }
-
-            var type = DirectoryType.Empty;
-
-            if (Settings.Default.AutoDetectDirectoryType)
-            {
-                var typeResponse = await serviceClient.GetDirectoryTypeAsync(new GetDirectoryTypeRequest { Path = _directory });
-
-                type = typeResponse.DirectoryType;
-            }
-
-            return Succeeded(new[] { Escape(_directory), Enum.GetName(typeof(DirectoryType), type) });
+            type = typeResponse.DirectoryType;
         }
 
-        protected override async Task<CommandResult> ExecuteCore(string input)
+        return Succeeded(new[] { Escape(_directory), Enum.GetName(typeof(DirectoryType), type) });
+    }
+
+    protected override async Task<CommandResult> ExecuteCore(string input)
+    {
+        var serviceClient = RemoteConnectionManager.GetServiceClient();
+
+        var existResponse = serviceClient.Exists(new ExistsRequest { Path = _directory });
+
+        if (!existResponse.Exists)
         {
-            var serviceClient = RemoteConnectionManager.GetServiceClient();
+            return Failed(new[] { Escape(_directory), "not exist" });
+        }
 
-            var existResponse = serviceClient.Exists(new ExistsRequest { Path = _directory });
+        try
+        {
+            await serviceClient.SetCurrentDirectoryAsync(new SetCurrentDirectoryRequest { Path = _directory });
 
-            if (!existResponse.Exists)
+            if (Settings.Default.ShowFileList)
             {
-                return Failed(new[] { Escape(_directory), "not exist" });
-            }
+                var files = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.File });
+                var directories = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.Directory });
 
-            try
-            {
-                await serviceClient.SetCurrentDirectoryAsync(new SetCurrentDirectoryRequest { Path = _directory });
+                var ret = new StringBuilder();
 
-                if (Settings.Default.ShowFileList)
+                if (directories.Files.Count > 0)
                 {
-                    var files = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.File });
-                    var directories = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.Directory });
+                    ret.Append(@"■ ディレクトリ\n");
 
-                    var ret = new StringBuilder();
-
-                    if (directories.Files.Count > 0)
+                    foreach (var item in directories.Files)
                     {
-                        ret.Append(@"■ ディレクトリ\n");
-
-                        foreach (var item in directories.Files)
-                        {
-                            ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
-                        }
+                        ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
                     }
-
-                    if (files.Files.Count > 0)
-                    {
-                        ret.Append(@"■ ファイル\n");
-
-                        foreach (var item in files.Files)
-                        {
-                            ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
-                        }
-                    }
-
-                    return Succeeded(ret.ToString());
                 }
 
-                return Succeeded();
+                if (files.Files.Count > 0)
+                {
+                    ret.Append(@"■ ファイル\n");
+
+                    foreach (var item in files.Files)
+                    {
+                        ret.AppendFormat(@"{0}\n", Path.GetFileName(item));
+                    }
+                }
+
+                return Succeeded(ret.ToString());
             }
-            catch
-            {
-                return Failed(new[] { Escape(_directory), "unknown" });
-            }
+
+            return Succeeded();
+        }
+        catch
+        {
+            return Failed(new[] { Escape(_directory), "unknown" });
         }
     }
 }

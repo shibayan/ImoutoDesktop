@@ -2,37 +2,36 @@
 using System.Text;
 using System.Windows;
 
-namespace ImoutoDesktop.Models
+namespace ImoutoDesktop.Models;
+
+public class Profile
 {
-    public class Profile
+    public string LastBalloon { get; set; }
+
+    public Point BalloonOffset { get; set; }
+
+    public int? Age { get; set; }
+
+    public int? TsundereLevel { get; set; }
+
+    public void SaveTo(string path)
     {
-        public string LastBalloon { get; set; }
+        using var writer = new StreamWriter(path);
 
-        public Point BalloonOffset { get; set; }
+        Serializer.Serialize(writer, this);
+    }
 
-        public int? Age { get; set; }
-
-        public int? TsundereLevel { get; set; }
-
-        public void SaveTo(string path)
+    public static Profile LoadFrom(string path)
+    {
+        try
         {
-            using var writer = new StreamWriter(path);
+            using var reader = new StreamReader(path, Encoding.UTF8);
 
-            Serializer.Serialize(writer, this);
+            return Serializer.Deserialize<Profile>(reader);
         }
-
-        public static Profile LoadFrom(string path)
+        catch
         {
-            try
-            {
-                using var reader = new StreamReader(path, Encoding.UTF8);
-
-                return Serializer.Deserialize<Profile>(reader);
-            }
-            catch
-            {
-                return null;
-            }
+            return null;
         }
     }
 }
