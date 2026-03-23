@@ -5,7 +5,7 @@ namespace ImoutoDesktop.Models;
 
 public class Settings : PropertyChangedBase
 {
-    public string ServerAddress { get; set; }
+    public string? ServerAddress { get; set; }
 
     public int PortNumber { get; set; }
 
@@ -24,9 +24,9 @@ public class Settings : PropertyChangedBase
         }
     }
 
-    private string _userName;
+    private string? _userName;
 
-    public string UserName
+    public string? UserName
     {
         get => _userName;
         set
@@ -39,7 +39,7 @@ public class Settings : PropertyChangedBase
         }
     }
 
-    public string Honorific { get; set; }
+    public string? Honorific { get; set; }
 
     public bool AutoDetectDirectoryType { get; set; }
 
@@ -47,9 +47,9 @@ public class Settings : PropertyChangedBase
 
     public bool ShowFileList { get; set; }
 
-    public string LastCharacter { get; set; }
+    public string? LastCharacter { get; set; }
 
-    public static Settings Default { get; private set; }
+    public static Settings? Default { get; private set; }
 
     public static void Load(string path)
     {

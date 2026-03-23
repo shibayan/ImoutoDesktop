@@ -389,7 +389,7 @@ internal class Lexer
         return value.ToArray();
     }
 
-    public static string[] MakeFunctionArguments(string[] tokens)
+    public static string[]? MakeFunctionArguments(string[] tokens)
     {
         var length = tokens.Length;
         if (tokens[1] != "(")

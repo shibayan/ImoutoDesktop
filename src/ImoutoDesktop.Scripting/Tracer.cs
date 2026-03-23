@@ -19,13 +19,13 @@ internal class Tracer : IDisposable
     }
 
     private readonly bool _isEnable;
-    private readonly StreamWriter _writer;
+    private readonly StreamWriter? _writer;
 
     public void Dispose()
     {
         if (_isEnable)
         {
-            _writer.Dispose();
+            _writer!.Dispose();
         }
     }
 
@@ -33,17 +33,17 @@ internal class Tracer : IDisposable
     {
         if (_isEnable)
         {
-            _writer.Close();
+            _writer!.Close();
         }
     }
 
     public void WriteLine(string value)
     {
-        _writer.WriteLine(value);
+        _writer!.WriteLine(value);
     }
 
     public void WriteLine(string format, params object[] arg)
     {
-        _writer.WriteLine(format, arg);
+        _writer!.WriteLine(format, arg);
     }
 }

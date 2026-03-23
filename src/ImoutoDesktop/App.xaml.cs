@@ -60,16 +60,16 @@ public partial class App
         }
 
         // コンテキストを作成して、いもうとを起動
-        CharacterContext context = null;
+        CharacterContext? context = null;
 
-        if (Settings.Default.LastCharacter != null)
+        if (Settings.Default?.LastCharacter != null)
         {
             context = CharacterContext.Create(Settings.Default.LastCharacter);
         }
 
         context ??= CharacterContext.Create(Default) ?? CharacterContext.Create(CharacterManager.Characters.First().Key);
 
-        context.Start();
+        context!.Start();
     }
 
     private void App_Exit(object sender, ExitEventArgs e)

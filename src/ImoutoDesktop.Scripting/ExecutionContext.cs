@@ -13,8 +13,8 @@ internal class ExecutionContext
 
     public void EndTrace()
     {
-        ParseTracer.Close();
-        RuntimeTracer.Close();
+        ParseTracer?.Close();
+        RuntimeTracer?.Close();
     }
 
     public string ExecFunction(string name)
@@ -27,9 +27,9 @@ internal class ExecutionContext
         return retval.ToString();
     }
 
-    public string RootDirectory { get; set; }
+    public string RootDirectory { get; set; } = string.Empty;
 
-    public string[] Parameter { get; set; }
+    public string[]? Parameter { get; set; }
 
     public Random Random { get; } = new();
 
@@ -41,7 +41,7 @@ internal class ExecutionContext
 
     internal Variables Variables { get; } = new();
 
-    internal Tracer ParseTracer { get; private set; }
+    internal Tracer? ParseTracer { get; private set; }
 
-    internal Tracer RuntimeTracer { get; private set; }
+    internal Tracer? RuntimeTracer { get; private set; }
 }

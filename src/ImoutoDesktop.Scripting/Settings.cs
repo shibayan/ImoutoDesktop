@@ -11,7 +11,7 @@ internal class Settings
         using var reader = new StreamReader(path, Encoding.Default);
         while (reader.Peek() != -1)
         {
-            var line = reader.ReadLine().Trim();
+            var line = reader.ReadLine()?.Trim() ?? string.Empty;
             if (line.Length == 0)
             {
                 continue;
@@ -21,7 +21,7 @@ internal class Settings
             {
                 while (reader.Peek() != -1)
                 {
-                    line = reader.ReadLine().Trim();
+                    line = reader.ReadLine()?.Trim() ?? string.Empty;
                     if (line == "{")
                     {
                     }

@@ -22,7 +22,7 @@ public partial class BalloonWindow
     private Point _dragStartPosition;
     private Point _prevMousePosition;
 
-    public CharacterContext Context { get; set; }
+    public CharacterContext? Context { get; set; }
 
     public Point LocationOffset { get; set; }
 
@@ -94,7 +94,7 @@ public partial class BalloonWindow
             return;
         }
 
-        if (Context.CommandHistory.IndexOf(textBox.Text) != -1)
+        if (Context!.CommandHistory.IndexOf(textBox.Text) != -1)
         {
             Context.CommandHistory.Remove(textBox.Text);
         }
@@ -107,7 +107,7 @@ public partial class BalloonWindow
 
     private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        var index = Context.HistoryIndex;
+        var index = Context!.HistoryIndex;
         var count = Context.CommandHistory.Count;
         if (count == 0)
         {

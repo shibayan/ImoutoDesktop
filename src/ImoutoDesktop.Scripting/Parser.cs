@@ -27,7 +27,7 @@ internal class Parser
         var dicname = Path.GetFileName(path);
         using var reader = new DictionaryReader(path, Encoding);
         var isCommonBody = false;
-        Function function = null;
+        Function? function = null;
         var defines = new List<Define>();
         var commonExpressions = new List<IExpression>();
         while (reader.Peek() != -1)
@@ -189,16 +189,19 @@ internal class Parser
             else
             {
                 var expression = MakeExpression(statement[i]);
-                function.Expressions.Add(expression);
+                if (expression != null)
+                {
+                    function.Expressions.Add(expression);
+                }
             }
         }
         functions.AddFunction(statement[0].Substring(1), function);
         return function;
     }
 
-    public IExpression MakeExpression(string line)
+    public IExpression? MakeExpression(string line)
     {
-        IExpression statement = null;
+        IExpression? statement = null;
         var token = RemoveScope(line);
         // トークンに分解する
         var tokens = Lexer.SplitToken(token);
@@ -216,7 +219,7 @@ internal class Parser
                 {
                     var cells = Lexer.SplitToken(value[i + 1]);
                     IExpression[] statements;
-                    var expression = MakeExpression(cells);
+                    var expression = MakeExpression(cells) ?? new ValueExpression(Value.Empty);
                     if (i + 2 < length)
                     {
                         statements = MakeStatements(RemoveScope(value[i + 2]));
@@ -260,7 +263,7 @@ internal class Parser
             for (var i = 0; i < 3; i++)
             {
                 var cells = Lexer.SplitToken(value[i + 1]);
-                expressions[i] = MakeExpression(cells);
+                expressions[i] = MakeExpression(cells) ?? new ValueExpression(Value.Empty);
             }
             var statements = MakeStatements(RemoveScope(value[4]));
             statement = new ForExpression(expressions, statements);
@@ -273,7 +276,7 @@ internal class Parser
             for (var i = 0; i < 2; i++)
             {
                 var cells = Lexer.SplitToken(value[i + 1]);
-                expressions[i] = MakeExpression(cells);
+                expressions[i] = MakeExpression(cells) ?? new ValueExpression(Value.Empty);
             }
             var statements = MakeStatements(RemoveScope(value[3]));
             statement = new ForeachExpression(expressions, statements);
@@ -283,7 +286,7 @@ internal class Parser
             // while文
             var value = Lexer.MakeIfAndWhileStatement(tokens);
             var cells = Lexer.SplitToken(RemoveScope(value[1]));
-            var expression = MakeExpression(cells);
+            var expression = MakeExpression(cells) ?? new ValueExpression(Value.Empty);
             // ステートメントを作成する
             var statements = MakeStatements(RemoveScope(value[2]));
             statement = new WhileExpression(expression, statements);
@@ -307,7 +310,7 @@ internal class Parser
                     if (arguments[i].Length != 0)
                     {
                         var cells = Lexer.SplitToken(arguments[i]);
-                        expressions[i] = MakeExpression(cells);
+                        expressions[i] = MakeExpression(cells) ?? new ValueExpression(Value.Empty);
                     }
                     else
                     {
@@ -346,7 +349,7 @@ internal class Parser
             if (Lexer.IsEvaluate(statement[i]))
             {
                 // 括弧内を評価する
-                statements[i] = MakeExpression(statement[i]);
+                statements[i] = MakeExpression(statement[i]) ?? new TextExpression(statement[i]);
             }
             else if (Lexer.IsString(statement[i]))
             {
@@ -367,7 +370,7 @@ internal class Parser
     /// </summary>
     /// <param name="tokens">トークン列。</param>
     /// <returns>作成した式オブジェクト。</returns>
-    public IExpression MakeExpression(string[] tokens)
+    public IExpression? MakeExpression(string[] tokens)
     {
         var index = 0;
         return MakeExpression0(tokens, ref index);
@@ -379,7 +382,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression0(string[] tokens, ref int index)
+    private IExpression? MakeExpression0(string[] tokens, ref int index)
     {
         var lhs = MakeExpression1(tokens, ref index);
         if (lhs == null)
@@ -411,7 +414,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression1(string[] tokens, ref int index)
+    private IExpression? MakeExpression1(string[] tokens, ref int index)
     {
         var lhs = MakeExpression2(tokens, ref index);
         if (lhs == null)
@@ -443,7 +446,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression2(string[] tokens, ref int index)
+    private IExpression? MakeExpression2(string[] tokens, ref int index)
     {
         var lhs = MakeExpression3(tokens, ref index);
         if (lhs == null)
@@ -538,7 +541,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression3(string[] tokens, ref int index)
+    private IExpression? MakeExpression3(string[] tokens, ref int index)
     {
         var lhs = MakeExpression4(tokens, ref index);
         if (lhs == null)
@@ -590,7 +593,7 @@ internal class Parser
         return lhs;
     }
 
-    private IExpression MakeExpression4(string[] tokens, ref int index)
+    private IExpression? MakeExpression4(string[] tokens, ref int index)
     {
         var lhs = MakeExpression5(tokens, ref index);
         if (lhs == null)
@@ -646,7 +649,7 @@ internal class Parser
         }
     }
 
-    private IExpression MakeExpression5(string[] tokens, ref int index)
+    private IExpression? MakeExpression5(string[] tokens, ref int index)
     {
         var lhs = MakeExpression6(tokens, ref index);
         if (lhs == null)
@@ -678,7 +681,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression6(string[] tokens, ref int index)
+    private IExpression? MakeExpression6(string[] tokens, ref int index)
     {
         var lhs = MakeExpression7(tokens, ref index);
         if (lhs == null)
@@ -720,7 +723,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression7(string[] tokens, ref int index)
+    private IExpression? MakeExpression7(string[] tokens, ref int index)
     {
         var lhs = MakeExpression8(tokens, ref index);
         if (lhs == null)
@@ -772,7 +775,7 @@ internal class Parser
     /// <param name="tokens"></param>
     /// <param name="index"></param>
     /// <returns></returns>
-    private IExpression MakeExpression8(string[] tokens, ref int index)
+    private IExpression? MakeExpression8(string[] tokens, ref int index)
     {
         if (tokens[index] == "+")
         {
@@ -825,7 +828,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression9(string[] tokens, ref int index)
+    private IExpression? MakeExpression9(string[] tokens, ref int index)
     {
         var lhs = MakeExpression10(tokens, ref index);
         if (lhs == null)
@@ -857,7 +860,7 @@ internal class Parser
     /// <param name="tokens">セル</param>
     /// <param name="index">現在のセルのインデックス</param>
     /// <returns>作成したステートメント</returns>
-    private IExpression MakeExpression10(string[] tokens, ref int index)
+    private IExpression? MakeExpression10(string[] tokens, ref int index)
     {
         var lhs = MakeExpression11(tokens, ref index);
         if (lhs == null)
@@ -885,9 +888,9 @@ internal class Parser
         }
     }
 
-    private IExpression MakeExpression11(string[] tokens, ref int index)
+    private IExpression? MakeExpression11(string[] tokens, ref int index)
     {
-        IExpression expression;
+        IExpression? expression;
         if (tokens[index] == "(")
         {
             ++index;

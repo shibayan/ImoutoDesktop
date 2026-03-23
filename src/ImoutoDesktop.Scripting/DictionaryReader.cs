@@ -69,19 +69,19 @@ internal class DictionaryReader : IDisposable
     private readonly Stream _baseStream;
     private readonly Encoding _encoding;
     private readonly CryptType _cryptType;
-    private readonly BinaryReader _binaryReader;
-    private readonly StreamReader _streamReader;
+    private readonly BinaryReader? _binaryReader;
+    private readonly StreamReader? _streamReader;
 
     public void Dispose()
     {
         switch (_cryptType)
         {
             case CryptType.None:
-                _streamReader.Dispose();
+                _streamReader!.Dispose();
                 break;
             case CryptType.Original:
             case CryptType.Standard:
-                ((IDisposable)_binaryReader).Dispose();
+                ((IDisposable)_binaryReader!).Dispose();
                 break;
         }
         _baseStream.Dispose();
@@ -95,9 +95,9 @@ internal class DictionaryReader : IDisposable
     {
         return _cryptType switch
         {
-            CryptType.None => _streamReader.Peek(),
-            CryptType.Original => _binaryReader.PeekChar(),
-            CryptType.Standard => _binaryReader.PeekChar(),
+            CryptType.None => _streamReader!.Peek(),
+            CryptType.Original => _binaryReader!.PeekChar(),
+            CryptType.Standard => _binaryReader!.PeekChar(),
             _ => -1
         };
     }
@@ -112,13 +112,13 @@ internal class DictionaryReader : IDisposable
         switch (_cryptType)
         {
             case CryptType.None:
-                return _streamReader.ReadLine();
+                return _streamReader!.ReadLine() ?? string.Empty;
             case CryptType.Original:
             {
                 var bytes = new List<byte>();
                 while (true)
                 {
-                    var c = (byte)((int)_binaryReader.ReadByte() ^ 0xff);
+                    var c = (byte)((int)_binaryReader!.ReadByte() ^ 0xff);
                     if (c == '\n')
                     {
                         break;
@@ -132,7 +132,7 @@ internal class DictionaryReader : IDisposable
                 var bytes = new List<byte>();
                 while (true)
                 {
-                    var c = (byte)((int)_binaryReader.ReadByte() ^ _cryptKey);
+                    var c = (byte)((int)_binaryReader!.ReadByte() ^ _cryptKey);
                     // 復号キーの更新
                     _cryptKey = c;
                     // 改行の検出

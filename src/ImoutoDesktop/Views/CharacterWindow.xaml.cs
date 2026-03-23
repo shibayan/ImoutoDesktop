@@ -19,13 +19,13 @@ public partial class CharacterWindow
     private bool _isInitialized;
     private Point _prevMousePosition;
 
-    public CharacterContext Context { get; set; }
+    public CharacterContext? Context { get; set; }
 
-    public BalloonWindow BalloonWindow { get; set; }
+    public BalloonWindow? BalloonWindow { get; set; }
 
-    public Surface Surface
+    public Surface? Surface
     {
-        get => (Surface)GetValue(SurfaceProperty);
+        get => (Surface?)GetValue(SurfaceProperty);
         private set => SetValue(s_surfacePropertyKey, value);
     }
 
@@ -39,15 +39,15 @@ public partial class CharacterWindow
         // 表示・非表示の切り替え
         if (id != -1)
         {
-            Surface = Context.SurfaceLoader.Load(id);
+            Surface = Context!.SurfaceLoader.Load(id);
 
             if (!_isInitialized)
             {
-                Left = SystemParameters.WorkArea.Width - Surface.Image.PixelWidth - 1;
+                Left = SystemParameters.WorkArea.Width - Surface!.Image!.PixelWidth - 1;
                 _isInitialized = true;
             }
 
-            Top = SystemParameters.WorkArea.Height - Surface.Image.PixelHeight - 1;
+            Top = SystemParameters.WorkArea.Height - Surface!.Image!.PixelHeight - 1;
 
             Show();
         }
@@ -59,12 +59,12 @@ public partial class CharacterWindow
 
     private void CharacterWindow_Loaded(object sender, RoutedEventArgs e)
     {
-        BalloonWindow.SizeChanged += BalloonWindow_SizeChanged;
+        BalloonWindow!.SizeChanged += BalloonWindow_SizeChanged;
     }
 
     private void CharacterWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        BalloonWindow.SizeChanged -= BalloonWindow_SizeChanged;
+        BalloonWindow!.SizeChanged -= BalloonWindow_SizeChanged;
     }
 
     private void CharacterWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -81,7 +81,7 @@ public partial class CharacterWindow
         }
 
         // バルーンをアクティブにする
-        BalloonWindow.Activate();
+        BalloonWindow!.Activate();
     }
 
     private void CharacterWindow_MouseMove(object sender, MouseEventArgs e)
@@ -103,7 +103,7 @@ public partial class CharacterWindow
 
     private void CharacterWindow_LocationChanged(object sender, EventArgs e)
     {
-        if (BalloonWindow.IsVisible)
+        if (BalloonWindow!.IsVisible)
         {
             BalloonWindow.Left = Left - BalloonWindow.ActualWidth + BalloonWindow.LocationOffset.X;
             BalloonWindow.Top = Top + BalloonWindow.LocationOffset.Y;
@@ -112,7 +112,7 @@ public partial class CharacterWindow
 
     private void BalloonWindow_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        BalloonWindow.Left = Left - BalloonWindow.ActualWidth + BalloonWindow.LocationOffset.X;
+        BalloonWindow!.Left = Left - BalloonWindow.ActualWidth + BalloonWindow.LocationOffset.X;
         BalloonWindow.Top = Top + BalloonWindow.LocationOffset.Y;
     }
 }

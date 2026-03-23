@@ -39,7 +39,7 @@ public class SurfaceLoader
         }
     }
 
-    public Surface Load(int id)
+    public Surface? Load(int id)
     {
         if (!_surfaceTable.TryGetValue(id, out var surface))
         {

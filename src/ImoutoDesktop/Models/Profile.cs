@@ -6,7 +6,7 @@ namespace ImoutoDesktop.Models;
 
 public class Profile
 {
-    public string LastBalloon { get; set; }
+    public string? LastBalloon { get; set; }
 
     public Point BalloonOffset { get; set; }
 
@@ -21,7 +21,7 @@ public class Profile
         Serializer.Serialize(writer, this);
     }
 
-    public static Profile LoadFrom(string path)
+    public static Profile? LoadFrom(string path)
     {
         try
         {

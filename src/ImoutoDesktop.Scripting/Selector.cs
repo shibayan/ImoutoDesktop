@@ -24,7 +24,7 @@ internal class Selector
         _values[_blocknum].Add(line);
     }
 
-    public int[] Output(ExecutionContext vm)
+    public int[]? Output(ExecutionContext vm)
     {
         if (_blocknum == 0 && _values[0].Count == 0)
         {

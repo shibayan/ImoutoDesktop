@@ -7,11 +7,11 @@ namespace ImoutoDesktop.Services;
 
 public static class CharacterManager
 {
-    public static string RootDirectory { get; private set; }
+    public static string? RootDirectory { get; private set; }
 
     public static Dictionary<string, Character> Characters { get; } = new();
 
-    public static bool TryGetValue(string id, out Character character) => Characters.TryGetValue(id, out character);
+    public static bool TryGetValue(string id, out Character? character) => Characters.TryGetValue(id, out character);
 
     public static void Rebuild(string searchDirectory)
     {
@@ -34,7 +34,10 @@ public static class CharacterManager
 
             var character = Character.LoadFrom(path);
 
-            Characters.Add(character.Id, character);
+            if (character is not null)
+            {
+                Characters.Add(character.Id, character);
+            }
         }
     }
 }

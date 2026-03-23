@@ -8,13 +8,13 @@ namespace ImoutoDesktop.Services;
 
 public static class BalloonManager
 {
-    public static string RootDirectory { get; private set; }
+    public static string? RootDirectory { get; private set; }
 
     public static Dictionary<string, Balloon> Balloons { get; } = new();
 
-    public static Balloon GetValueOrDefault(string id) => id != null && Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
+    public static Balloon GetValueOrDefault(string? id) => id != null && Balloons.TryGetValue(id, out var balloon) ? balloon : Balloons.First().Value;
 
-    public static bool TryGetValue(string id, out Balloon balloon) => Balloons.TryGetValue(id, out balloon);
+    public static bool TryGetValue(string id, out Balloon? balloon) => Balloons.TryGetValue(id, out balloon);
 
     public static void Rebuild(string searchDirectory)
     {
@@ -37,7 +37,10 @@ public static class BalloonManager
 
             var balloon = Balloon.LoadFrom(path);
 
-            Balloons.Add(balloon.Id, balloon);
+            if (balloon is not null)
+            {
+                Balloons.Add(balloon.Id, balloon);
+            }
         }
     }
 }
