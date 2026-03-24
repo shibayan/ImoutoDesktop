@@ -6,19 +6,19 @@ namespace ImoutoDesktop.Scripting;
 
 public class Script : IEnumerable<Token>
 {
-    private string _script;
+    private string? _script;
 
     private readonly StringBuilder _buffer = new();
 
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 
-    public string ImoutoName { get; set; }
+    public string? ImoutoName { get; set; }
 
-    public string Honorific { get; set; }
+    public string? Honorific { get; set; }
 
-    public string UserColor { get; set; }
+    public string? UserColor { get; set; }
 
-    public string ImoutoColor { get; set; }
+    public string? ImoutoColor { get; set; }
 
     public void AppendLine() => _buffer.Append(@"\n");
 

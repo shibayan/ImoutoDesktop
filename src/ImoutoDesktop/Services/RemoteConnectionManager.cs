@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using Grpc.Core;
+﻿using Grpc.Net.Client;
 
 using ImoutoDesktop.Remoting;
 
@@ -8,16 +6,16 @@ namespace ImoutoDesktop.Services;
 
 public class RemoteConnectionManager
 {
-    private Channel _channel;
-    private RemoteService.RemoteServiceClient _remoteServiceClient;
+    private GrpcChannel? _channel;
+    private RemoteService.RemoteServiceClient? _remoteServiceClient;
 
-    public async Task ConnectAsync(string host, int port)
+    public Task ConnectAsync(string host, int port)
     {
-        _channel = new Channel(host, port, ChannelCredentials.Insecure);
+        _channel = GrpcChannel.ForAddress($"http://{host}:{port}");
 
         _remoteServiceClient = new RemoteService.RemoteServiceClient(_channel);
 
-        await _channel.ConnectAsync();
+        return Task.CompletedTask;
     }
 
     public async Task DisconnectAsync()
@@ -35,6 +33,6 @@ public class RemoteConnectionManager
 
     public RemoteService.RemoteServiceClient GetServiceClient()
     {
-        return _remoteServiceClient;
+        return _remoteServiceClient!;
     }
 }

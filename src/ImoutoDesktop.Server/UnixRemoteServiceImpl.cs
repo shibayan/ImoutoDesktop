@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 using Grpc.Core;
 
@@ -23,7 +21,7 @@ public class UnixRemoteServiceImpl : RemoteServiceImpl
             Arguments = $"-c \"{request.Command}\""
         };
 
-        var process = Process.Start(psi);
+        var process = Process.Start(psi)!;
         var result = process.StandardOutput.ReadToEnd();
 
         process.WaitForExit();

@@ -18,7 +18,7 @@ public static class Serializer
                                                            .WithNamingConvention(CamelCaseNamingConvention.Instance)
                                                            .Build();
 
-    public static T Deserialize<T>(TextReader textReader)
+    public static T? Deserialize<T>(TextReader textReader) where T : class
     {
         try
         {

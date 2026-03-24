@@ -26,5 +26,5 @@ public class RemoteCommandManager
 
     private readonly CommandBase[] _commands;
 
-    public CommandBase Get(string input) => _commands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.CanExecute(input));
+    public CommandBase? Get(string input) => _commands.OrderByDescending(p => p.Priority).FirstOrDefault(p => p.CanExecute(input));
 }

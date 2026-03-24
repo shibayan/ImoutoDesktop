@@ -16,16 +16,16 @@ public class Connect : RemoteCommandBase
 
     public override Task<CommandResult> PreExecute(string input)
     {
-        return Task.FromResult(Succeeded(new[] { Settings.Default.ServerAddress }));
+        return Task.FromResult(Succeeded(new[] { Settings.Default!.ServerAddress ?? string.Empty }));
     }
 
     public override async Task<CommandResult> Execute(string input)
     {
         if (RemoteConnectionManager.GetServiceClient() == null)
         {
-            await RemoteConnectionManager.ConnectAsync(Settings.Default.ServerAddress, Settings.Default.PortNumber);
+            await RemoteConnectionManager.ConnectAsync(Settings.Default!.ServerAddress!, Settings.Default.PortNumber);
         }
 
-        return Succeeded(new[] { Settings.Default.ServerAddress });
+        return Succeeded(new[] { Settings.Default!.ServerAddress ?? string.Empty });
     }
 }

@@ -14,7 +14,7 @@ public class OpenFile : RemoteCommandBase
     {
     }
 
-    private string _path;
+    private string _path = string.Empty;
 
     protected override async Task<CommandResult> PreExecuteCore(string input)
     {

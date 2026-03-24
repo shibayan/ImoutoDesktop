@@ -132,13 +132,13 @@ internal class Value
             switch (ValueType)
             {
                 case ValueType.String:
-                    if (_value.Length > index)
+                    if (_value!.Length > index)
                     {
                         return new Value((int)_value[index]);
                     }
                     break;
                 case ValueType.Array:
-                    if (_aValue.Count > index)
+                    if (_aValue!.Count > index)
                     {
                         return _aValue[index];
                     }
@@ -148,7 +148,7 @@ internal class Value
         }
         set
         {
-            _aValue[index] = value;
+            _aValue![index] = value;
         }
     }
 
@@ -197,7 +197,7 @@ internal class Value
                 ValueType.Int32 => 1,
                 ValueType.Double => 1,
                 ValueType.String => 1,
-                ValueType.Array => _aValue.Count,
+                ValueType.Array => _aValue!.Count,
                 ValueType.Void => 0,
                 _ => 0
             };
@@ -269,7 +269,7 @@ internal class Value
             ValueType.Boolean => _bValue ? "true" : "false",
             ValueType.Int32 => _iValue.ToString(),
             ValueType.Double => _dValue.ToString(),
-            ValueType.String => _value,
+            ValueType.String => _value ?? string.Empty,
             ValueType.Array => _aValue is not null ? string.Join(",", _aValue) : string.Empty,
             ValueType.Void => string.Empty,
             _ => string.Empty
@@ -302,7 +302,7 @@ internal class Value
                 _aValue.Add(new Value(_dValue));
                 break;
             case ValueType.String:
-                _aValue.Add(new Value(_value));
+                _aValue.Add(new Value(_value ?? string.Empty));
                 break;
         }
 
@@ -311,7 +311,7 @@ internal class Value
 
     private int _iValue;
     private bool _bValue;
-    private string _value;
+    private string? _value;
     private double _dValue;
-    private List<Value> _aValue;
+    private List<Value>? _aValue;
 }

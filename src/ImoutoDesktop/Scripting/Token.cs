@@ -7,13 +7,13 @@ public class Token
         Kind = kind;
     }
 
-    private Token(TokenKind kind, object value)
+    private Token(TokenKind kind, object? value)
     {
         Kind = kind;
         Value = value;
     }
 
-    private Token(TokenKind kind, object[] parameters)
+    private Token(TokenKind kind, object?[] parameters)
     {
         Kind = kind;
         Parameters = parameters;
@@ -24,12 +24,12 @@ public class Token
     /// <summary>
     /// タグが保持する値。
     /// </summary>
-    public object Value { get; }
+    public object? Value { get; }
 
     /// <summary>
     /// タグの引数。
     /// </summary>
-    public object[] Parameters { get; }
+    public object?[]? Parameters { get; }
 
     #region Token のファクトリ
 
@@ -43,7 +43,7 @@ public class Token
         return new Token(TokenKind.LineBreak);
     }
 
-    public static Token Font(FontOperation operation, object value)
+    public static Token Font(FontOperation operation, object? value)
     {
         return new Token(TokenKind.Font, new[] { operation, value });
     }

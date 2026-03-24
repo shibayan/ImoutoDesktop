@@ -41,7 +41,7 @@ public partial class TextViewer
 
     public static readonly DependencyProperty CanScrollDownProperty = s_canScrollDownPropertyKey.DependencyProperty;
 
-    private Brush _currentFontColor;
+    private Brush? _currentFontColor;
 
     public Brush CurrentFontColor
     {
@@ -55,7 +55,7 @@ public partial class TextViewer
         set { _currentFontSize = value; _run = null; }
     }
 
-    private FontFamily _currentFontFamily;
+    private FontFamily? _currentFontFamily;
 
     public FontFamily CurrentFontFamily
     {
@@ -69,15 +69,15 @@ public partial class TextViewer
         set { _currentFontWeight = value; _run = null; }
     }
 
-    private Run _run;
-    private Paragraph _paragraph;
+    private Run? _run;
+    private Paragraph? _paragraph;
 
     public void AddChar(char c)
     {
         if (_run == null)
         {
             _run = CreateRun();
-            _paragraph.Inlines.Add(_run);
+            _paragraph!.Inlines.Add(_run);
         }
         _run.Text += c;
         richTextBox.ScrollToEnd();
@@ -87,7 +87,7 @@ public partial class TextViewer
     {
         var run = CreateRun();
         run.Text = line;
-        _paragraph.Inlines.Add(run);
+        _paragraph!.Inlines.Add(run);
         richTextBox.ScrollToEnd();
     }
 
@@ -113,7 +113,7 @@ public partial class TextViewer
         image.Source = bitmap;
         image.EndInit();
 
-        _paragraph.Inlines.Add(image);
+        _paragraph!.Inlines.Add(image);
 
         // スクロール
         richTextBox.ScrollToEnd();
@@ -140,7 +140,7 @@ public partial class TextViewer
         image.Source = bitmap;
         image.EndInit();
 
-        _paragraph.Inlines.Add(image);
+        _paragraph!.Inlines.Add(image);
 
         // スクロール
         richTextBox.ScrollToEnd();
@@ -157,7 +157,7 @@ public partial class TextViewer
 
     public void LineBreak()
     {
-        _paragraph.Inlines.Add(new LineBreak());
+        _paragraph!.Inlines.Add(new LineBreak());
     }
 
     public void Clear()

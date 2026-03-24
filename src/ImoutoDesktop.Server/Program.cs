@@ -1,42 +1,39 @@
-﻿using System;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
-using Grpc.Core;
+using ImoutoDesktop.Server;
 
-namespace ImoutoDesktop.Server;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.DependencyInjection;
 
-static class Program
+var port = 1024;
+var ipAddress = (await Dns.GetHostAddressesAsync(Dns.GetHostName())).First(x => x.AddressFamily == AddressFamily.InterNetwork);
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddGrpc();
+
+builder.WebHost.UseKestrel(options =>
 {
-    static async Task Main()
+    options.ListenAnyIP(port, listenOptions =>
     {
-        var port = 1024;
-        var ipAddress = (await Dns.GetHostAddressesAsync(Dns.GetHostName())).First(x => x.AddressFamily == AddressFamily.InterNetwork);
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
 
-        RemoteServiceImpl serviceImpl;
+var app = builder.Build();
 
-        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-        {
-            serviceImpl = new WindowsRemoteServiceImpl();
-        }
-        else
-        {
-            serviceImpl = new UnixRemoteServiceImpl();
-        }
-
-        var server = new Grpc.Core.Server
-        {
-            Services = { Remoting.RemoteService.BindService(serviceImpl) },
-            Ports = { new ServerPort("0.0.0.0", port, ServerCredentials.Insecure) }
-        };
-
-        server.Start();
-
-        Console.WriteLine($"Started - {ipAddress}:{port}");
-        Console.ReadKey();
-
-        await server.ShutdownAsync();
-    }
+if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+{
+    app.MapGrpcService<WindowsRemoteServiceImpl>();
 }
+else
+{
+    app.MapGrpcService<UnixRemoteServiceImpl>();
+}
+
+Console.WriteLine($"Started - {ipAddress}:{port}");
+
+await app.RunAsync();

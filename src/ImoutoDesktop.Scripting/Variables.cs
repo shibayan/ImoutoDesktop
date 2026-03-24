@@ -36,6 +36,11 @@ internal class Variables
         while (reader.Peek() != -1)
         {
             var line = reader.ReadLine();
+            if (line == null)
+            {
+                continue;
+            }
+
             var token = line.Split(',');
             if (token.Length < 2)
             {

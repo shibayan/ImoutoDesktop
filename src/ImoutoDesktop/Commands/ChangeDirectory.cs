@@ -20,7 +20,7 @@ public class ChangeDirectory : RemoteCommandBase
     {
     }
 
-    private string _directory;
+    private string _directory = string.Empty;
 
     private static readonly Dictionary<string, SpecialDirectory> s_table = new()
     {
@@ -55,14 +55,14 @@ public class ChangeDirectory : RemoteCommandBase
 
         var type = DirectoryType.Empty;
 
-        if (Settings.Default.AutoDetectDirectoryType)
+        if (Settings.Default!.AutoDetectDirectoryType)
         {
             var typeResponse = await serviceClient.GetDirectoryTypeAsync(new GetDirectoryTypeRequest { Path = _directory });
 
             type = typeResponse.DirectoryType;
         }
 
-        return Succeeded(new[] { Escape(_directory), Enum.GetName(typeof(DirectoryType), type) });
+        return Succeeded(new[] { Escape(_directory), Enum.GetName(typeof(DirectoryType), type) ?? string.Empty });
     }
 
     protected override async Task<CommandResult> ExecuteCore(string input)
@@ -80,7 +80,7 @@ public class ChangeDirectory : RemoteCommandBase
         {
             await serviceClient.SetCurrentDirectoryAsync(new SetCurrentDirectoryRequest { Path = _directory });
 
-            if (Settings.Default.ShowFileList)
+            if (Settings.Default!.ShowFileList)
             {
                 var files = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.File });
                 var directories = await serviceClient.GrepAsync(new GrepRequest { Path = _directory, SearchPattern = "*", Kind = Kind.Directory });

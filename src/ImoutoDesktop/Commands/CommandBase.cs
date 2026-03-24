@@ -24,11 +24,11 @@ public abstract class CommandBase
 
     protected CommandResult Failed() => Failed(null, null);
 
-    protected CommandResult Failed(string message) => Failed(message, null);
+    protected CommandResult Failed(string? message) => Failed(message, null);
 
-    protected CommandResult Failed(string[] arguments) => Failed(null, arguments);
+    protected CommandResult Failed(string[]? arguments) => Failed(null, arguments);
 
-    protected CommandResult Failed(string message, string[] arguments)
+    protected CommandResult Failed(string? message, string[]? arguments)
     {
         return new CommandResult
         {
@@ -40,11 +40,11 @@ public abstract class CommandBase
 
     protected CommandResult Succeeded() => Succeeded(null, null);
 
-    protected CommandResult Succeeded(string message) => Succeeded(message, null);
+    protected CommandResult Succeeded(string? message) => Succeeded(message, null);
 
-    protected CommandResult Succeeded(string[] arguments) => Succeeded(null, arguments);
+    protected CommandResult Succeeded(string[]? arguments) => Succeeded(null, arguments);
 
-    protected CommandResult Succeeded(string message, string[] arguments)
+    protected CommandResult Succeeded(string? message, string[]? arguments)
     {
         return new CommandResult
         {

@@ -129,7 +129,7 @@ internal class Function : IFunction
     /// <summary>
     /// この関数が含まれている辞書のファイル名。
     /// </summary>
-    public string DictionaryName { get; set; }
+    public string? DictionaryName { get; set; }
 
     /// <summary>
     /// この関数の辞書内での位置。

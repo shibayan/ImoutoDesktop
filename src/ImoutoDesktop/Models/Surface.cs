@@ -14,7 +14,7 @@ public class Surface
 
     public string FileName { get; }
 
-    public BitmapImage Image { get; set; }
+    public BitmapImage? Image { get; set; }
 
     public override int GetHashCode() => Id.GetHashCode();
 }

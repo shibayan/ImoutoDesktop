@@ -22,7 +22,7 @@ public class CharacterContext
         Character = character;
 
         // ルートディレクトリ
-        BaseDirectory = character.Directory;
+        BaseDirectory = character.Directory!;
 
         // プロファイルを読み込む
         Profile = Profile.LoadFrom(Path.Combine(BaseDirectory, "profile.yml")) ?? new Profile { Age = Character.Age, TsundereLevel = Character.TsundereLevel };
@@ -69,14 +69,14 @@ public class CharacterContext
 
     private static readonly Dictionary<string, CharacterContext> s_activeContexts = new();
 
-    public static CharacterContext Create(string id)
+    public static CharacterContext? Create(string id)
     {
         if (!CharacterManager.TryGetValue(id, out var character))
         {
             return null;
         }
 
-        var context = new CharacterContext(character);
+        var context = new CharacterContext(character!);
 
         s_activeContexts.Add(id, context);
 
@@ -86,7 +86,7 @@ public class CharacterContext
     public static void Delete(CharacterContext context)
     {
         // 設定を保存
-        Settings.Default.LastCharacter = context.Character.Id;
+        Settings.Default!.LastCharacter = context.Character.Id;
 
         s_activeContexts.Remove(context.Character.Id);
 
@@ -198,7 +198,7 @@ public class CharacterContext
                 var canExecuteResult = await command.PreExecute(input);
 
                 // 事前イベントのスクリプトを実行
-                var preEventResult = ScriptEngine.Invoke($"OnPre{canExecuteResult.EventId}", canExecuteResult.Arguments);
+                var preEventResult = ScriptEngine.Invoke($"OnPre{canExecuteResult.EventId}", canExecuteResult.Arguments ?? []);
 
                 // スクリプトの実行結果を追加する
                 if (!string.IsNullOrEmpty(preEventResult))
@@ -213,7 +213,7 @@ public class CharacterContext
                     var executeResult = await command.Execute(input);
 
                     // イベントのスクリプトを実行
-                    var eventResult = ScriptEngine.Invoke($"On{executeResult.EventId}", executeResult.Arguments);
+                    var eventResult = ScriptEngine.Invoke($"On{executeResult.EventId}", executeResult.Arguments ?? []);
 
                     // スクリプトの実行結果を追加する
                     if (!string.IsNullOrEmpty(eventResult))
@@ -266,9 +266,9 @@ public class CharacterContext
     {
         var script = new Script
         {
-            UserName = Settings.Default.UserName,
+            UserName = Settings.Default!.UserName,
             ImoutoName = Character.Name,
-            Honorific = Settings.Default.Honorific,
+            Honorific = Settings.Default!.Honorific,
             UserColor = Balloon.UserColor,
             ImoutoColor = Balloon.ImoutoColor
         };
@@ -281,7 +281,7 @@ public class CharacterContext
         ScriptEngine.Age = Profile.Age ?? Character.Age;
         ScriptEngine.TsundereLevel = Profile.TsundereLevel ?? Character.TsundereLevel;
         ScriptEngine.Connecting = false;
-        ScriptEngine.AllowOperate = Settings.Default.AllowImoutoAllOperation;
+        ScriptEngine.AllowOperate = Settings.Default!.AllowImoutoAllOperation;
     }
 
     private void CharacterCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -319,8 +319,8 @@ public class CharacterContext
             return;
         }
 
-        Balloon = balloon;
-        BalloonWindow.Balloon = balloon;
+        Balloon = balloon!;
+        BalloonWindow.Balloon = balloon!;
     }
 
     private void OptionCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -345,7 +345,7 @@ public class CharacterContext
         var attribute = typeof(App).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
 
         MessageBox.Show(
-            $"いもうとデスクトップ v{attribute.InformationalVersion}",
+            $"いもうとデスクトップ v{attribute?.InformationalVersion}",
             "バージョン情報",
             MessageBoxButton.OK, MessageBoxImage.Information);
     }

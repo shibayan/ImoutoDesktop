@@ -16,7 +16,7 @@ internal class UnaryExpression : IExpression
         Expression = expression;
     }
 
-    public virtual Value Evaluate(ExecutionContext vm, LocalVariables lv) => null;
+    public virtual Value Evaluate(ExecutionContext vm, LocalVariables lv) => Value.Empty;
 
     protected IExpression Expression { get; init; }
 }
@@ -87,7 +87,7 @@ internal class BinaryExpression : IExpression
 
     public virtual Value Evaluate(ExecutionContext vm, LocalVariables lv)
     {
-        return null;
+        return Value.Empty;
     }
 
     public virtual bool IsOutputable => true;
@@ -674,7 +674,7 @@ internal class ValueExpression : IExpression
                 if (Lexer.IsEvaluate(statements[i]))
                 {
                     var expression = vm.Parser.MakeExpression(statements[i]);
-                    result.Append(expression.Evaluate(vm, lv));
+                    result.Append(expression?.Evaluate(vm, lv));
                 }
                 else
                 {
@@ -705,7 +705,7 @@ internal class EvaluateExpression : IExpression
             if (Lexer.IsEvaluate(_statements[i]))
             {
                 var expression = vm.Parser.MakeExpression(_statements[i]);
-                result.Append(expression.Evaluate(vm, lv));
+                result.Append(expression?.Evaluate(vm, lv));
             }
             else
             {
@@ -776,7 +776,7 @@ internal class VariableExpression : IExpression
             if (Lexer.IsEvaluate(_statements[i]))
             {
                 var expression = vm.Parser.MakeExpression(_statements[i]);
-                result.Append(expression.Evaluate(vm, lv));
+                result.Append(expression?.Evaluate(vm, lv));
             }
             else
             {
@@ -835,7 +835,7 @@ internal class FunctionExpression : IExpression
             if (Lexer.IsEvaluate(_statements[i]))
             {
                 var expression = vm.Parser.MakeExpression(_statements[i]);
-                result.Append(expression.Evaluate(vm, lv));
+                result.Append(expression?.Evaluate(vm, lv));
             }
             else
             {
