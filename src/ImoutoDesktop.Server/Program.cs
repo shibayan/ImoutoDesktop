@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
+using ImoutoDesktop.Server;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
-
-using ImoutoDesktop.Server;
 
 var port = 1024;
 var ipAddress = (await Dns.GetHostAddressesAsync(Dns.GetHostName())).First(x => x.AddressFamily == AddressFamily.InterNetwork);
