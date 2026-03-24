@@ -61,11 +61,7 @@ internal class Variables
                     array.Add(GetValue(token[i]));
                 }
             }
-            if (_variables.ContainsKey(name))
-            {
-                _variables.Remove(name);
-            }
-            _variables.Add(name, variable);
+            _variables[name] = variable;
         }
     }
 

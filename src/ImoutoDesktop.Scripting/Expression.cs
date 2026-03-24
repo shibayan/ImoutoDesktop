@@ -751,7 +751,7 @@ internal class EvaluateExpression : IExpression
         }
         if (value.ValueType == ValueType.Array)
         {
-            index = vm.Random.Next(value.ToArray().Count);
+            index = vm.Random.Next(value.Count);
             return value[index].Clone();
         }
         return value;
