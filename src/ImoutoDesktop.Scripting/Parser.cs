@@ -35,7 +35,7 @@ internal class Parser
             // 1行読み取ってインデントを削除
             var line = reader.ReadLine().Trim();
             // コメント、空白文字を処理する
-            if (string.Compare(line, 0, "//", 0, 2) == 0 || line.Length == 0)
+            if (string.IsNullOrEmpty(line) || line.StartsWith("//", StringComparison.Ordinal))
             {
                 continue;
             }
@@ -107,7 +107,7 @@ internal class Parser
             // 1行読み取ってインデントを削除
             var line = reader.ReadLine().Trim();
             // コメント、空白文字を処理する
-            if (string.Compare(line, 0, "//", 0, 2) == 0 || line.Length == 0)
+            if (string.IsNullOrEmpty(line) || line.StartsWith("//", StringComparison.Ordinal))
             {
                 continue;
             }
@@ -153,14 +153,14 @@ internal class Parser
     {
         if (Lexer.IsEvaluate(str))
         {
-            return str.Substring(1, str.Length - 2).Trim();
+            return str[1..^1].Trim();
         }
         return str;
     }
 
     private static string RemoveDoubleQuote(string str)
     {
-        return str.Substring(1, str.Length - 2);
+        return str[1..^1];
     }
 
     private Function MakeFunction(string line, Functions functions)
@@ -195,7 +195,7 @@ internal class Parser
                 }
             }
         }
-        functions.AddFunction(statement[0].Substring(1), function);
+        functions.AddFunction(statement[0][1..], function);
         return function;
     }
 
@@ -934,12 +934,12 @@ internal class Parser
             else if (Lexer.IsBinInt32(tokens[index]))
             {
                 // Bin Int32
-                expression = new ValueExpression(new Value(Convert.ToInt32(tokens[index].Substring(2), 2)));
+                expression = new ValueExpression(new Value(Convert.ToInt32(tokens[index][2..], 2)));
             }
             else if (Lexer.IsHexInt32(tokens[index]))
             {
                 // Hex Int32
-                expression = new ValueExpression(new Value(Convert.ToInt32(tokens[index].Substring(2), 16)));
+                expression = new ValueExpression(new Value(Convert.ToInt32(tokens[index][2..], 16)));
             }
             else if (Lexer.IsString(tokens[index]))
             {

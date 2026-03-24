@@ -25,7 +25,7 @@ builder.WebHost.UseKestrel(options =>
 
 var app = builder.Build();
 
-if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+if (OperatingSystem.IsWindows())
 {
     app.MapGrpcService<WindowsRemoteServiceImpl>();
 }

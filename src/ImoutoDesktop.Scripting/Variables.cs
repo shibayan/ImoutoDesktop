@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace ImoutoDesktop.Scripting;
@@ -19,9 +19,14 @@ internal class Variables
 
         using var writer = new StreamWriter(path, false, Encoding);
 
-        foreach (var variable in _variables.Where(variable => !variable.Value.IsEmpty))
+        foreach (var (name, value) in _variables)
         {
-            writer.WriteLine("${0},{1}", variable.Key, variable.Value);
+            if (value.IsEmpty)
+            {
+                continue;
+            }
+
+            writer.WriteLine("${0},{1}", name, value);
         }
     }
 
@@ -33,21 +38,15 @@ internal class Variables
         }
 
         using var reader = new StreamReader(path, Encoding);
-        while (reader.Peek() != -1)
+        while (reader.ReadLine() is { } line)
         {
-            var line = reader.ReadLine();
-            if (line == null)
-            {
-                continue;
-            }
-
             var token = line.Split(',');
             if (token.Length < 2)
             {
                 continue;
             }
             Value variable;
-            var name = token[0].Substring(1);
+            var name = token[0][1..];
             if (token.Length == 2)
             {
                 variable = GetValue(token[1]);
@@ -97,96 +96,40 @@ internal class Variables
         {
             return GetSystemVariable(name);
         }
+
         if (_variables.TryGetValue(name, out var variable))
         {
             return variable;
         }
-        variable = Value.Empty;
-        _variables.Add(name, variable);
-        return variable;
+
+        return _variables[name] = Value.Empty;
     }
 
     private Value GetSystemVariable(string name)
     {
-        Value variable;
-        switch (name)
+        var now = DateTime.Now;
+
+        return name switch
         {
-            case "age":
-                variable = new Value(Age);
-                break;
-            case "allowoperate":
-                variable = new Value(AllowRemoteOperate);
-                break;
-            case "connecting":
-                variable = new Value(Connecting);
-                break;
-            case "day":
-                variable = new Value(DateTime.Now.Day);
-                break;
-            case "dayofweek":
-                switch (DateTime.Now.DayOfWeek)
-                {
-                    case DayOfWeek.Sunday:
-                        variable = new Value(0);
-                        break;
-                    case DayOfWeek.Monday:
-                        variable = new Value(1);
-                        break;
-                    case DayOfWeek.Tuesday:
-                        variable = new Value(2);
-                        break;
-                    case DayOfWeek.Wednesday:
-                        variable = new Value(3);
-                        break;
-                    case DayOfWeek.Thursday:
-                        variable = new Value(4);
-                        break;
-                    case DayOfWeek.Friday:
-                        variable = new Value(5);
-                        break;
-                    case DayOfWeek.Saturday:
-                        variable = new Value(6);
-                        break;
-                    default:
-                        variable = Value.Empty;
-                        break;
-                }
-                break;
-            case "dayofyear":
-                variable = new Value(DateTime.Now.DayOfYear);
-                break;
-            case "hour":
-                variable = new Value(DateTime.Now.Hour);
-                break;
-            case "millisecond":
-                variable = new Value(DateTime.Now.Millisecond);
-                break;
-            case "minute":
-                variable = new Value(DateTime.Now.Minute);
-                break;
-            case "month":
-                variable = new Value(DateTime.Now.Month);
-                break;
-            case "second":
-                variable = new Value(DateTime.Now.Second);
-                break;
-            case "tsunderelevel":
-                variable = new Value(TsundereLevel);
-                break;
-            case "year":
-                variable = new Value(DateTime.Now.Year);
-                break;
-            case "reject":
-                variable = _reject;
-                break;
-            default:
-                variable = Value.Empty;
-                break;
-        }
-        return variable;
+            "age" => new Value(Age),
+            "allowoperate" => new Value(AllowRemoteOperate),
+            "connecting" => new Value(Connecting),
+            "day" => new Value(now.Day),
+            "dayofweek" => new Value((int)now.DayOfWeek),
+            "dayofyear" => new Value(now.DayOfYear),
+            "hour" => new Value(now.Hour),
+            "millisecond" => new Value(now.Millisecond),
+            "minute" => new Value(now.Minute),
+            "month" => new Value(now.Month),
+            "reject" => _reject,
+            "second" => new Value(now.Second),
+            "tsunderelevel" => new Value(TsundereLevel),
+            "year" => new Value(now.Year),
+            _ => Value.Empty
+        };
     }
 
-    public bool IsSystemVariable(string name) => Array.BinarySearch(_systemVariables, name) >= 0;
+    public bool IsSystemVariable(string name) => s_systemVariables.Contains(name);
 
     private Value _reject = new(false);
 
@@ -206,7 +149,7 @@ internal class Variables
     }
 
     private readonly SortedList<string, Value> _variables = new();
-    private readonly string[] _systemVariables =
+    private static readonly FrozenSet<string> s_systemVariables = new[]
     {
         "age",
         "allowoperate",
@@ -222,5 +165,5 @@ internal class Variables
         "second",
         "tsunderelevel",
         "year"
-    };
+    }.ToFrozenSet(StringComparer.Ordinal);
 }
