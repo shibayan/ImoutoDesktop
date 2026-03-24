@@ -716,7 +716,7 @@ internal class EvaluateExpression : IExpression
         Value value;
         var name = result.ToString();
         var array = Lexer.SplitArrayIndexer(name);
-        var statement = array[0].Substring(1);
+        var statement = array[0][1..];
         if (LocalVariables.IsLocalVariable(name))
         {
             if (array.Length > 1)
@@ -786,7 +786,7 @@ internal class VariableExpression : IExpression
         var index = 0;
         var name = result.ToString();
         var array = Lexer.SplitArrayIndexer(name);
-        var statement = array[0].Substring(1);
+        var statement = array[0][1..];
         if (LocalVariables.IsLocalVariable(name))
         {
             if (array.Length > 1)
@@ -823,7 +823,7 @@ internal class FunctionExpression : IExpression
     public FunctionExpression(string statement, IExpression[] expressions)
     {
         _expressions = expressions;
-        _statements = Lexer.SplitStatement(statement.Substring(1));
+        _statements = Lexer.SplitStatement(statement[1..]);
     }
 
     public Value Evaluate(ExecutionContext vm, LocalVariables lv)

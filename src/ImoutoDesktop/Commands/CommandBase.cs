@@ -60,16 +60,9 @@ public abstract class CommandBase
     {
         if (Path.IsPathRooted(path))
         {
-            directory = path;
-        }
-        else
-        {
-            var u1 = new Uri(directory.EndsWith(@"\") ? directory : directory + @"\");
-            var u2 = new Uri(u1, path);
-
-            directory = u2.LocalPath;
+            return path;
         }
 
-        return directory;
+        return Path.GetFullPath(path, directory);
     }
 }

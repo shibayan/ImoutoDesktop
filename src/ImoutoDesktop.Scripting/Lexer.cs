@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace ImoutoDesktop.Scripting;
@@ -9,34 +10,34 @@ internal class Lexer
     {
     }
 
-    private static readonly char[] s_opcode =
+    private static readonly FrozenSet<char> s_opcode = new[]
     {
         '!', '%', '&', '(', ')', '*', '+', ',',
         '-', '/', ';', '<', '=', '>', '^', '|'
-    };
+    }.ToFrozenSet();
 
-    private static readonly string[] s_opstring =
+    private static readonly FrozenSet<string> s_opstring = new[]
     {
         "--", "!=", "&&", "*=", "/=", "||", "++",
         "+=", "<<", "<=", "-=", "==", ">=", ">>"
-    };
+    }.ToFrozenSet(StringComparer.Ordinal);
 
-    private static readonly string[] s_opsubst =
+    private static readonly FrozenSet<string> s_opsubst = new[]
     {
         "*=", "/=", "+=", "=", "-="
-    };
+    }.ToFrozenSet(StringComparer.Ordinal);
 
-    private static readonly string[] s_keyword =
+    private static readonly FrozenSet<string> s_keyword = new[]
     {
         "break", "case", "default", "else", "elseif",
         "for", "foreach", "if", "switch", "while"
-    };
+    }.ToFrozenSet(StringComparer.Ordinal);
 
-    public static bool IsOperator(char c) => Array.BinarySearch(s_opcode, c) >= 0;
+    public static bool IsOperator(char c) => s_opcode.Contains(c);
 
-    public static bool IsOperator(string str) => Array.BinarySearch(s_opstring, str) >= 0;
+    public static bool IsOperator(string str) => s_opstring.Contains(str);
 
-    public static bool IsKeyword(string str) => Array.BinarySearch(s_keyword, str) >= 0;
+    public static bool IsKeyword(string str) => s_keyword.Contains(str);
 
     public static bool IsEvaluate(string str) => str.StartsWith("{") && str.EndsWith("}");
 
@@ -51,12 +52,12 @@ internal class Lexer
         var length = tokens.Length;
         for (var i = 0; i < length; i++)
         {
-            if (Array.BinarySearch(s_opsubst, tokens[i]) >= 0)
+            if (s_opsubst.Contains(tokens[i]))
             {
                 return true;
             }
 
-            if (Array.BinarySearch(s_opstring, tokens[i]) >= 0)
+            if (s_opstring.Contains(tokens[i]))
             {
                 return true;
             }
