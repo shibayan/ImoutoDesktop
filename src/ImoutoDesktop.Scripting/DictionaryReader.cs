@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace ImoutoDesktop.Scripting;
@@ -125,7 +126,7 @@ internal class DictionaryReader : IDisposable
                     }
                     bytes.Add(c);
                 }
-                return _encoding.GetString(bytes.ToArray());
+                return _encoding.GetString(CollectionsMarshal.AsSpan(bytes));
             }
             case CryptType.Standard:
             {
@@ -142,7 +143,7 @@ internal class DictionaryReader : IDisposable
                     }
                     bytes.Add(c);
                 }
-                return _encoding.GetString(bytes.ToArray());
+                return _encoding.GetString(CollectionsMarshal.AsSpan(bytes));
             }
         }
         return string.Empty;
